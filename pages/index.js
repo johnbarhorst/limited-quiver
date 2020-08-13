@@ -1,14 +1,15 @@
-import Head from 'next/head'
+import Head from 'next/head';
+import { Nav } from '../components';
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>Limited Quiver</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+      <Nav />
       <main className={styles.main}>
         <h1 className={styles.title}>
           Limited Quiver Archery League
