@@ -3,15 +3,22 @@ import Link from 'next/link';
 export const Nav = () => {
   return (
     <nav>
-      <h3>Limited Quiver</h3>
+      <Link href="/">
+        <h3>Limited Quiver</h3>
+      </Link>
       <li>
         <Link href="/">
           <a>Home</a>
         </Link>
       </li>
       <li>
-        <Link href="/shooters" >
-          <a>Shooters</a>
+        <Link href="/leagues" >
+          <a>Leagues</a>
+        </Link>
+      </li>
+      <li>
+        <Link href="/contact">
+          <a>Contact</a>
         </Link>
       </li>
     </nav>

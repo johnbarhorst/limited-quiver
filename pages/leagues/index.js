@@ -1,11 +1,10 @@
-import React from 'react';
 import { Nav } from '../../components';
 
 const index = () => {
   return (
     <div>
       <Nav />
-      <h1>Shooters</h1>
+      <h1>Leagues</h1>
     </div>
   )
 }
