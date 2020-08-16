@@ -12,6 +12,11 @@ export const Nav = () => {
         </Link>
       </li>
       <li>
+        <Link href="/profiles">
+          <a>Profiles</a>
+        </Link>
+      </li>
+      <li>
         <Link href="/leagues" >
           <a>Leagues</a>
         </Link>
