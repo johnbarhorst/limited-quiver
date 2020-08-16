@@ -2,14 +2,23 @@ import { useInput } from 'hooks';
 
 
 const NewUser = () => {
-  const [userName, resetUserName] = useInput('');
+  const [username, resetUserName] = useInput('');
   const [email, resetEmail] = useInput('');
   const [firstname, resetFirstName] = useInput('');
   const [lastname, resetLastName] = useInput('');
 
   const handleSubmit = e => {
     e.preventDefault();
-
+    const data = {
+      username: username.value,
+      email: email.value,
+      firstname: firstname.value,
+      lastname: lastname.value
+    }
+    fetch('/api/users/newuser', {
+      method: "POST",
+      body: JSON.stringify(data),
+    })
   }
 
   const handleReset = e => {
@@ -21,10 +30,10 @@ const NewUser = () => {
 
   return (
     <div>
-      <form action={handleSubmit} onReset={handleReset}>
+      <form onSubmit={handleSubmit} onReset={handleReset}>
         <div>
           <label htmlFor="username">User Name:</label>
-          <input type="text" placeholder="User Name" name="username" {...userName} />
+          <input type="text" placeholder="User Name" name="username" {...username} />
         </div>
         <div>
           <label htmlFor="email">Email:</label>
