@@ -1,12 +1,11 @@
-import { Nav } from '../../components';
 
-const index = () => {
+
+const LeagueHome = () => {
   return (
     <div>
-      <Nav />
       <h1>Leagues</h1>
     </div>
   )
 }
 
-export default index;
+export default LeagueHome;
