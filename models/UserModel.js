@@ -9,9 +9,22 @@ const UserSchema = new Schema({
     minlength: [4, 'User name must be between 4 and 16 characters'],
     maxlength: [16, 'User name must be between 4 and 16 characters']
   },
-  firstname: String,
-  lastname: String,
-  email: String,
+  name: {
+    first: String,
+    last: String
+  },
+  email: {
+    type: String,
+    required: [true, "Email address must be provided"],
+    select: false
+  },
+  password: {
+    type: String,
+    required: [true, "Don't leave the door unlocked."],
+    select: false
+  },
+  leagues: [{ type: Schema.Types.ObjectId, ref: "League" }],
+  events: [{ type: Schema.Types.ObjectId, ref: "Event" }]
 
 }, { timestamps: { createdAt: 'created_at' } })
 
