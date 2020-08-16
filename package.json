@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "framer-motion": "^2.4.1",
     "mongoose": "^5.9.29",
     "next": "9.5.2",
