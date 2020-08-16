@@ -6,14 +6,22 @@ const NewUser = () => {
   const [email, resetEmail] = useInput('');
   const [firstname, resetFirstName] = useInput('');
   const [lastname, resetLastName] = useInput('');
+  const [password, resetPassword] = useInput('');
+  const [passwordMatch, resetPasswordMatch] = useInput('');
 
   const handleSubmit = e => {
     e.preventDefault();
+    // TODO: UI for password match, and actual pw regex reqs
+    if (password.value !== passwordMatch.value) return console.log('Passwords need to match');
+
     const data = {
       username: username.value,
       email: email.value,
-      firstname: firstname.value,
-      lastname: lastname.value
+      name: {
+        first: firstname.value,
+        last: lastname.value
+      },
+      password: password.value
     }
     fetch('/api/users/newuser', {
       method: "POST",
@@ -26,6 +34,8 @@ const NewUser = () => {
     resetEmail();
     resetFirstName();
     resetLastName();
+    resetPassword();
+    resetPasswordMatch();
   }
 
   return (
@@ -33,7 +43,7 @@ const NewUser = () => {
       <form onSubmit={handleSubmit} onReset={handleReset}>
         <div>
           <label htmlFor="username">User Name:</label>
-          <input type="text" placeholder="User Name" name="username" {...username} />
+          <input type="text" placeholder="User Name" name="username" {...username} required />
         </div>
         <div>
           <label htmlFor="email">Email:</label>
@@ -46,6 +56,14 @@ const NewUser = () => {
         <div>
           <label htmlFor="lastname">Last Name:</label>
           <input type="text" name="lastname" {...lastname} />
+        </div>
+        <div>
+          <label htmlFor="password">Password:</label>
+          <input type="password" name="password" {...password} />
+        </div>
+        <div>
+          <label htmlFor="password">Verify Password:</label>
+          <input type="password" name="password" {...passwordMatch} />
         </div>
         <button type="submit">Register</button><button type="reset">Clear Form</button>
       </form>
