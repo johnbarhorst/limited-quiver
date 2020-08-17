@@ -6,6 +6,7 @@ const UserProfile = () => {
   const { username } = useRouter().query;
   const { user, isLoading, isError } = useGetUser(username);
 
+  // TODO: Make better
   if (isLoading) return (
     <div>
       <h1>Loading...</h1>
@@ -18,12 +19,12 @@ const UserProfile = () => {
     </div>
   )
 
-  // TODO: Make better
   if (!user.success) return (
     <div>
       <h1>{user.message}</h1>
     </div>
   )
+
   return (
     <div>
       <h1>{user.data.username}</h1>

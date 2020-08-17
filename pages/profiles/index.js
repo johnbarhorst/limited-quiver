@@ -2,7 +2,7 @@ const ProfilesHome = () => {
   return (
     <div>
       <h1>
-        User Profiles
+        User Profile
       </h1>
     </div>
   )

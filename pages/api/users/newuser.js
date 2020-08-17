@@ -8,9 +8,9 @@ handler.use(middleware);
 
 handler.post(async (req, res) => {
   const data = JSON.parse(req.body);
-  const userExists = await User.findOne({ username: data.username });
+  const userExists = await User.findOne({ username_lower: data.username.toLowerCase });
   if (userExists) {
-    return res.status(409).send({ success: false, message: `${data.username} already exists.` });
+    return res.status(409).json({ success: false, message: `${data.username} already exists.` });
   }
 
   try {
@@ -18,6 +18,7 @@ handler.post(async (req, res) => {
       if (err) return res.status(500).send({ success: false, message: err });
       const newUser = new User({
         ...data,
+        username_lower: data.username.toLowerCase(),
         password: hash
       });
 
@@ -27,14 +28,14 @@ handler.post(async (req, res) => {
         // TODO: Save errors aren't really handled by this. Preventing submission on front end for now.
         if (saveErr) {
           console.log('Save error: ', saveErr);
-          return res.status(409).send({ success: false, message: saveErr });
+          return res.status(409).json({ success: false, message: saveErr });
         }
-        res.status(201).send({ success: true, data: userData });
+        res.status(201).json({ success: true, data: userData });
       })
     });
   } catch (e) {
     console.log('Catch caught ERROR: ', e);
-    res.status(404).send({ success: false, message: e });
+    res.status(404).json({ success: false, message: e });
   }
 
 })

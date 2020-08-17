@@ -9,6 +9,11 @@ const UserSchema = new Schema({
     minlength: [4, 'User name must be between 4 and 16 characters'],
     maxlength: [16, 'User name must be between 4 and 16 characters']
   },
+  username_lower: {
+    type: String,
+    required: true,
+    unique: true
+  },
   name: {
     first: String,
     last: String
