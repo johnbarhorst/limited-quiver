@@ -9,11 +9,6 @@ const UserSchema = new Schema({
     minlength: [4, 'User name must be between 4 and 16 characters'],
     maxlength: [16, 'User name must be between 4 and 16 characters']
   },
-  username_lower: {
-    type: String,
-    required: true,
-    unique: true
-  },
   name: {
     first: String,
     last: String
@@ -31,7 +26,11 @@ const UserSchema = new Schema({
   leagues: [{ type: Schema.Types.ObjectId, ref: "League" }],
   events: [{ type: Schema.Types.ObjectId, ref: "Event" }]
 
-}, { timestamps: { createdAt: 'created_at' } })
+}, { timestamps: { createdAt: 'created_at' } });
+
+UserSchema.virtual('fullname').get(function () {
+  return `${this.name.first || ''} ${this.name.last || ''}`;
+});
 
 const User = mongoose.models.User || mongoose.model('User', UserSchema);
 

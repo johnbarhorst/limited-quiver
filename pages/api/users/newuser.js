@@ -11,20 +11,22 @@ handler.post(async (req, res) => {
 
   // Check DB for existing user before we try to save.
   // TODO: Is it ok to just let error handling catch this one during the save op?
-  const userExists = await User.exists({ username_lower: data.username.toLowerCase() });
+  const regex = new RegExp(data.username, "i");
+  const userExists = await User.exists({ username: { $regex: regex } });
   if (userExists) {
     return res.status(409).json({ success: false, message: `${data.username} already exists.` });
   }
 
   try {
+    // Hash out the password for safety.
     hash(data.password, 10, function (err, hash) {
       if (err) return res.status(500).send({ success: false, message: err });
       const newUser = new User({
         ...data,
-        username_lower: data.username.toLowerCase(),
         password: hash
       });
 
+      // Barring incident, save the user.
       newUser.save((saveErr) => {
         if (saveErr) {
           console.log('Save error: ', saveErr);
