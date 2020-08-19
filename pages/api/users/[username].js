@@ -9,7 +9,8 @@ handler.use(middleware);
 
 handler.get(async (req, res) => {
   const { username } = req.query;
-  const result = await User.findOne({ username_lower: username.toLowerCase() });
+  const regex = new RegExp(username, "i");
+  const result = await User.findOne({ username: { $regex: regex } });
   if (!result) {
     return res.status(404).send({ success: false, message: `No ${username} found in database.` })
   }
