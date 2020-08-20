@@ -13,6 +13,7 @@ const EventSchema = {
   active: Boolean,
   private: Boolean,
   rounds: Number,
+  shotsPer: Number,
   participantCap: Number,
   scores: [{ type: Schema.Types.ObjectId, ref: "Scores" }],
   startDate: Date,
