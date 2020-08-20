@@ -34,11 +34,15 @@ export const Calendar = () => {
     setYear(nextMonthYear);
   }
 
+  const getMonthName = month => Object.keys(CALENDAR_MONTHS)[
+    Math.max(0, Math.min(month - 1, 11))
+  ]
+
   return (
     <div>
       <h3>Calendar</h3>
-      <div>{Object.keys(WEEK_DAYS).map(day => <span key={day}>{WEEK_DAYS[day]}</span>)}</div>
-      <div>{month} {year}</div>
+      <div>{Object.keys(WEEK_DAYS).map(day => <span key={day}>{WEEK_DAYS[day]} </span>)}</div>
+      <div>{getMonthName(month)} {year}</div>
       <div><button onClick={() => goToPrevMonth()} >Prev</button><button onClick={() => goToNextMonth()}>Next</button></div>
 
     </div>
