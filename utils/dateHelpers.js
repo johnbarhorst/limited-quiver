@@ -146,18 +146,19 @@ export const calendarBuilder = (month = THIS_MONTH, year = THIS_YEAR) => {
   const monthDays = getMonthDays(month, year);
   const monthFirstDay = getMonthFirstDay(month, year);
 
+
   // Get number of days to be displayed from previous and next months
   // These ensure a total of 42 days (6 weeks) displayed on the calendar
 
   const daysFromPrevMonth = monthFirstDay - 1;
   const daysFromNextMonth = (CALENDAR_WEEKS * 7) - (daysFromPrevMonth + monthDays);
 
-  // Get the previous and next months and years
+  // Get the previous and next months and years 
 
-  const { month: prevMonth, year: prevMonthYear } = getPreviousMonth(month, year);
-  const { month: nextMonth, year: nextMonthYear } = getNextMonth(month, year);
-
-  // Get number of days in previous month
+  const { prevMonth, prevMonthYear } = getPreviousMonth(month, year);
+  const { nextMonth, nextMonthYear } = getNextMonth(month, year);
+  console.log("p m y", prevMonthYear)
+  // Get number of days in previous monthDays
   const prevMonthDays = getMonthDays(prevMonth, prevMonthYear);
 
   // Builds dates to be displayed from previous month
@@ -180,6 +181,8 @@ export const calendarBuilder = (month = THIS_MONTH, year = THIS_YEAR) => {
     const day = index + 1;
     return [nextMonthYear, zeroPad(nextMonth, 2), zeroPad(day, 2)];
   });
+
+  console.log(prevMonthDates)
 
   // Combines all dates from previous, current and next months
   return [...prevMonthDates, ...thisMonthDates, ...nextMonthDates];
