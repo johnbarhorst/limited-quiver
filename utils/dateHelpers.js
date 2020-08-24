@@ -1,9 +1,9 @@
 // (int) The current year
-export const THIS_YEAR = +(new Date().getFullYear());
+export const THIS_YEAR = (new Date().getFullYear());
 
 // (int) The current month starting from 1 - 12
 // 1 => January, 12 => December
-export const THIS_MONTH = +(new Date().getMonth()) + 1;
+export const THIS_MONTH = (new Date().getMonth()) + 1;
 
 // Week days names and shortnames
 export const WEEK_DAYS = {
@@ -58,7 +58,8 @@ export const getMonthDays = (month = THIS_MONTH, year = THIS_YEAR) => {
 // (int) First day of the month for a given year from 1 - 7
 // 1 => Sunday, 7 => Saturday
 export const getMonthFirstDay = (month = THIS_MONTH, year = THIS_YEAR) => {
-  return +(new Date(`${year}-${zeroPad(month, 2)}-01`).getDay()) + 1;
+  const firstOfMonth = (new Date(year, month - 1, 1).getDay()) + 1;
+  return firstOfMonth;
 }
 
 // (bool) Checks if a value is a date - this is just a simple check
