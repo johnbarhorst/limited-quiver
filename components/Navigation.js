@@ -1,32 +1,39 @@
 import Link from 'next/link';
+import styled from 'styled-components';
 
-export const Nav = () => {
+export const Navigation = () => {
   return (
-    <nav>
+    <Nav>
       <Link href="/">
         <h3>Limited Quiver</h3>
       </Link>
-      <li>
+      <div>
         <Link href="/">
           <a>Home</a>
         </Link>
-      </li>
-      <li>
         <Link href="/profiles">
           <a>Profiles</a>
         </Link>
-      </li>
-      <li>
         <Link href="/leagues" >
           <a>Leagues</a>
         </Link>
-      </li>
-      <li>
         <Link href="/contact">
           <a>Contact</a>
         </Link>
-      </li>
-    </nav>
+      </div>
+    </Nav>
   )
 }
 
+const Nav = styled.nav`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 2rem;
+  a:not(:last-child) {
+    padding: 0 2rem;
+  }
+  a:last-child {
+    padding-left: 2rem;
+  }
+`;

@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { Nav } from '../components';
+import { Navigation } from '../components';
 import 'styles/globals.css';
 
 function MyApp({ Component, pageProps }) {
@@ -9,7 +9,7 @@ function MyApp({ Component, pageProps }) {
         <title>Limited Quiver</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Nav />
+      <Navigation />
       <Component {...pageProps} />
     </>
   )
