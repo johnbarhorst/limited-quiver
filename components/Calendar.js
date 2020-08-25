@@ -55,41 +55,47 @@ export const Calendar = () => {
     setYear(year => year - 1);
   }
 
-  const getMonthName = month => CALENDAR_MONTHS[month]
-
-  const selectCurrent = (date) => {
-    setCurrent(date.join("-"));
+  const selectCurrent = ([y, m, d]) => {
+    setCurrent(new Date(y, m, d));
   }
 
   return (
     <div>
       <h3>Calendar</h3>
-      <div>{getMonthName(month)} {year}</div>
+      <div>
+        <button onClick={() => goToPrevMonth()} >Prev</button>
+        {CALENDAR_MONTHS[month]}
+        <button onClick={() => goToNextMonth()}>Next</button>
+      </div>
+      <div><button onClick={() => goToPrevYear()}>Prev Year</button>{year}<button onClick={() => goToNextYear()} >Next Year</button></div>
       <DaysContainer>
         <>
           {WEEK_DAYS.map(day => <div key={day}><p>{day}</p></div>)}
         </>
         <>
-          {calendar.map((day, i) => <CalendarDay key={i} index={i} date={day} month={month} year={year} handleClick={selectCurrent} current={current} />)}
+          {calendar.map((date, i) =>
+            <CalendarDay
+              key={i}
+              index={i}
+              date={date}
+              handleClick={selectCurrent}
+              isCurrent={isSameDay(new Date(...date), current)}
+              isToday={isSameDay(new Date(...date), today)}
+              inSameMonth={isSameMonth(new Date(...date), new Date(year, month, 1))}
+            />)}
         </>
       </DaysContainer>
-      <div><button onClick={() => goToPrevMonth()} >Prev</button><button onClick={() => goToNextMonth()}>Next</button></div>
-      <div><button onClick={() => goToPrevYear()}>Prev Year</button><button onClick={() => goToNextYear()} >Next Year</button></div>
     </div>
   )
 }
 
 
-const CalendarDay = ({ date, index, today, current, month, year, handleClick = f => f }) => {
-  const [, , d] = date;
-  const _date = new Date(year, month, d);
-  const isToday = isSameDay(_date, today);
-  const isCurrent = current && isSameDay(_date, current);
-  const inSameMonth = month && year && isSameMonth(_date, new Date([year, month].join("-")));
+const CalendarDay = ({ date, index, inSameMonth, isToday, isCurrent, handleClick = f => f }) => {
+  const [y, m, day] = date;
 
   return (
-    <Day isToday={isToday} isCurrent={isCurrent} inSameMonth={inSameMonth} >
-      <button onClick={() => { console.log("is today", _date); handleClick(date) }} >{d}</button>
+    <Day className={`${isToday ? 'isToday' : ''} ${isCurrent ? 'isCurrent' : ''} ${inSameMonth ? '' : 'diff-month'}`} >
+      <button onClick={() => handleClick(date)} >{day}</button>
     </Day>
   )
 }
@@ -97,10 +103,19 @@ const CalendarDay = ({ date, index, today, current, month, year, handleClick = f
 const DaysContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  justify-content: center;
-  align-items: center;
+  text-align: center;
+  gap: 1em;
 `;
 
 const Day = styled.div`
-  border: ${props => props.isToday ? '2px solid red' : '2px solid black'};
+  border: 2px solid black;
+  &.isToday {
+    border: 2px solid red;
+  }
+  &.isCurrent {
+    background-color: yellow;
+  }
+  &.diff-month {
+    background-color: paleturquoise;
+  }
 `;
