@@ -128,7 +128,7 @@ export const getPreviousMonth = (month, year) => {
 
 // ({month, year}) Gets the month and year after the given month and year
 // For example: getNextMonth(1, 2000) => {month: 2, year: 2000}
-// while: getNextMonth(12, 2000) => {month: 1, year: 2001}
+// while: getNextMonth(11, 2000) => {month: 1, year: 2001}
 export const getNextMonth = (month, year) => {
   const nextMonth = month < 11 ? month + 1 : 1;
   const nextMonthYear = month < 11 ? year : year + 1;
@@ -170,19 +170,17 @@ export const calendarBuilder = (month = THIS_MONTH, year = THIS_YEAR) => {
 
   // Builds dates to be displayed from current month
 
-  const thisMonthDates = [...new Array(monthDays)].map((n, index) => {
+  const thisMonthDates = [...new Array(monthDays)].map((_, index) => {
     const day = index + 1;
     return [year, zeroPad(month, 2), zeroPad(day, 2)];
   });
 
   // Builds dates to be displayed from next month
 
-  const nextMonthDates = [...new Array(daysFromNextMonth)].map((n, index) => {
+  const nextMonthDates = [...new Array(daysFromNextMonth)].map((_, index) => {
     const day = index + 1;
     return [nextMonthYear, zeroPad(nextMonth, 2), zeroPad(day, 2)];
   });
-
-  console.log(prevMonthDates)
 
   // Combines all dates from previous, current and next months
   return [...prevMonthDates, ...thisMonthDates, ...nextMonthDates];
