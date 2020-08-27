@@ -17,6 +17,9 @@ export const Navigation = () => {
         <Link href="/leagues" >
           <a>Leagues</a>
         </Link>
+        <Link href="/events">
+          <a>Events</a>
+        </Link>
         <Link href="/contact">
           <a>Contact</a>
         </Link>
