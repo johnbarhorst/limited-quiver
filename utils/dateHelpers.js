@@ -1,3 +1,8 @@
+
+
+// Remember: Values from and Date.getDay() and .getMonth() are array style.
+// Years are not. 
+
 // (int) The current year
 export const THIS_YEAR = new Date().getFullYear();
 
@@ -5,8 +10,8 @@ export const THIS_YEAR = new Date().getFullYear();
 // 1 => January, 12 => December
 export const THIS_MONTH = new Date().getMonth();
 
-// Week days names and shortnames
-export const WEEK_DAYS = [
+// Week days short names in an array.
+export const WEEK_DAYS_SHORT = [
   "Sun",
   "Mon",
   "Tue",
@@ -14,10 +19,37 @@ export const WEEK_DAYS = [
   "Thu",
   "Fri",
   "Sat"
-]
+];
 
-// Calendar months names and shortnames
-export const CALENDAR_MONTHS = [
+// Week days full names in an array.
+export const WEEK_DAYS_FULL = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday"
+];
+
+
+// Calendar months short names in an array.
+export const CALENDAR_MONTHS_SHORT = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec"
+];
+// Calendar months names in an array.
+export const CALENDAR_MONTHS_FULL = [
   "January",
   "February",
   "March",
@@ -55,8 +87,8 @@ export const getMonthDays = (month = THIS_MONTH, year = THIS_YEAR) => {
       : 31;
 }
 
-// (int) First day of the month for a given year from 1 - 7
-// 1 => Sunday, 7 => Saturday
+// (int) First day of the month for a given year from 0 - 6
+// 0 => Sunday, 6 => Saturday
 export const getMonthFirstDay = (month = THIS_MONTH, year = THIS_YEAR) => {
   const firstOfMonth = new Date(year, month, 1).getDay();
   return firstOfMonth;
