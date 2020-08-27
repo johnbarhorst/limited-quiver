@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { CalendarDay } from 'components';
 import {
   isDate,
   isSameDay,
@@ -7,18 +8,27 @@ import {
   getDateISO,
   getNextMonth,
   getPreviousMonth,
-  WEEK_DAYS,
-  CALENDAR_MONTHS,
+  WEEK_DAYS_SHORT,
+  CALENDAR_MONTHS_FULL,
   calendarBuilder
 } from 'utils/dateHelpers';
 
 export const Calendar = () => {
+  // Remember: Values from and Date.getDay() and .getMonth() are array style.
+  // Years are not. 
+
+  // Init with current date
   const [today, setToday] = useState(new Date());
+
+  // Init current selection with todays date.
   const [current, setCurrent] = useState(today);
+
+  // Init month and year on todays month and year.
   const [month, setMonth] = useState(today.getMonth());
   const [year, setYear] = useState(today.getFullYear());
-  const [calendar, setCalendar] = useState(calendarBuilder(month, year));
+
   // Build calendar based on selected month/year (init w/ today)
+  const [calendar, setCalendar] = useState(calendarBuilder(month, year));
   useEffect(() => {
     setCalendar(calendarBuilder(month, year));
   }, [month, year]);
@@ -34,7 +44,7 @@ export const Calendar = () => {
     }
   })
 
-
+  // Click handlers
   const goToPrevMonth = () => {
     const { prevMonth, prevMonthYear } = getPreviousMonth(month, year);
     setMonth(prevMonth);
@@ -60,17 +70,22 @@ export const Calendar = () => {
   }
 
   return (
-    <div>
-      <h3>Calendar</h3>
-      <div>
-        <button onClick={() => goToPrevMonth()} >Prev</button>
-        {CALENDAR_MONTHS[month]}
-        <button onClick={() => goToNextMonth()}>Next</button>
-      </div>
-      <div><button onClick={() => goToPrevYear()}>Prev Year</button>{year}<button onClick={() => goToNextYear()} >Next Year</button></div>
+    <CalendarContainer>
+      <ControlsContainer>
+        <Controls>
+          <button onClick={() => goToPrevMonth()}>&#9664;</button>
+          <h3>{CALENDAR_MONTHS_FULL[month]}</h3>
+          <button onClick={() => goToNextMonth()}>&#9654;</button>
+        </Controls>
+        <Controls>
+          <button onClick={() => goToPrevYear()}>&#9664;</button>
+          <h3>{year}</h3>
+          <button onClick={() => goToNextYear()}>&#9654;</button>
+        </Controls>
+      </ControlsContainer>
       <DaysContainer>
         <>
-          {WEEK_DAYS.map(day => <div key={day}><p>{day}</p></div>)}
+          {WEEK_DAYS_SHORT.map(day => <div key={day}><p>{day}</p></div>)}
         </>
         <>
           {calendar.map((date, i) =>
@@ -85,37 +100,36 @@ export const Calendar = () => {
             />)}
         </>
       </DaysContainer>
-    </div>
+    </CalendarContainer>
   )
 }
 
+const CalendarContainer = styled.div`
+  max-width: 30rem;
+`;
 
-const CalendarDay = ({ date, index, inSameMonth, isToday, isCurrent, handleClick = f => f }) => {
-  const [y, m, day] = date;
+const ControlsContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 
-  return (
-    <Day className={`${isToday ? 'isToday' : ''} ${isCurrent ? 'isCurrent' : ''} ${inSameMonth ? '' : 'diff-month'}`} >
-      <button onClick={() => handleClick(date)} >{day}</button>
-    </Day>
-  )
-}
+const Controls = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  button {
+    border: none;
+    background: none;
+  }
+  p {
+    margin: 0;
+  }
+
+`;
 
 const DaysContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, 4rem);
   text-align: center;
-  gap: 1em;
-`;
-
-const Day = styled.div`
-  border: 2px solid black;
-  &.isToday {
-    border: 2px solid red;
-  }
-  &.isCurrent {
-    background-color: yellow;
-  }
-  &.diff-month {
-    background-color: paleturquoise;
-  }
+  gap: .25rem;
 `;
