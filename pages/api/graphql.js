@@ -4,6 +4,11 @@ import { GraphQLScalarType } from 'graphql';
 import { Kind } from 'graphql/language';
 import User from 'models/UserModel';
 
+const db = mongoose.connect(process.env.MONGO_DB, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}, () => console.log('DB CONNECT'));
+
 const typeDefs = gql`
 
   # type Example {
@@ -23,6 +28,7 @@ const typeDefs = gql`
     id: ID!
     username: String!
     name: Name
+    email: String
   }
 
   type Name {
@@ -30,22 +36,104 @@ const typeDefs = gql`
     last: String
   }
 
+  type Event {
+    name: String!
+    admin: [User!]
+    participants: [User]
+    active: Boolean
+    private: Boolean
+    rounds: Int
+    shotsPer: Int
+    participantCap: Int
+
+  }
+
   type Query {
+    sayHello: String
     users: [User]
     userByUsername(username: String!): User
   }
+
+  type Mutation {
+    newUser(
+      id: ID
+      username: String
+      email: String
+    ): [User]
+    
+  }
+
+
 `;
+
+const users = [
+  {
+    id: '12345',
+    username: 'CrashXVII',
+    email: "crashdsinc@comcast.net",
+    name: {
+      id: '12345'
+    }
+  },
+  {
+    id: '54321',
+    username: 'Maximoose',
+    email: "moose@thegoose.com",
+    name: {
+      id: '54321'
+    }
+  },
+  {
+    id: '333333',
+    username: 'LisaAAAAAAAN',
+    email: 'lisaDont@me.bro',
+    name: {
+      id: '333333'
+    }
+  }
+];
+
+const names = [
+  {
+    id: '12345',
+    first: 'John',
+    last: 'Barhorst'
+  },
+  {
+    id: '54321',
+    first: 'Max',
+    last: 'Anastasi'
+  },
+  {
+    id: '333333',
+    first: 'Lisa',
+    last: 'Anastasi'
+  }
+]
 
 const resolvers = {
   Query: {
-    userByUsername(parent, { username }, context, info) {
-      console.log(context.db)
-      // const regex = new RegExp(username, "i");
-      // const result = await User.findOne({ username: { $regex: regex } });
-      return context.db;
+    sayHello(parent, args, context, info) {
+      return "Test Passed"
     },
-    users() {
-      return
+    async userByUsername(parent, { username }, context, info) {
+      console.log('query fired')
+      console.log(context.db)
+      const regex = new RegExp(username, "i");
+      const result = await context.db.Mongoose.models.User.findOne({ username: { $regex: regex } });
+      return result
+    },
+    users(parent, args, context, info) {
+
+      return [...users]
+    }
+  },
+  Mutation: {
+    newUser(parent, args, context, info) {
+      console.log(args);
+      console.log(info);
+      return [...users, { ...args }]
+
     }
   },
   Date: new GraphQLScalarType({
@@ -65,7 +153,22 @@ const resolvers = {
       }
       return null
     }
-  })
+  }),
+  // Resolve nested schemas from within a parent object
+  User: {
+    name: (parent, args, context, info) => {
+      // parent here is the User object.
+      console.log(parent);
+      // Do JS stuff to get what you want. In a DB, do DB things.
+      const { first, last } = names.filter(name => name.id === parent.id)[0];
+
+      return {
+        first,
+        last
+      }
+    }
+  }
+
 }
 
 export const config = {
@@ -73,26 +176,11 @@ export const config = {
     bodyParser: false
   }
 }
-let db;
+
 
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
-  context: async () => {
-    if (!db) {
-      try {
-        const connection = {};
-        mongoose.connect(process.env.MONGO_DB, {
-          useNewUrlParser: true,
-          useUnifiedTopology: true
-        }, () => console.log('DB CONNECT'));
-        // connection.isConnected = db.connections[0].readyState;
-        db = mongoose.connection;
-      } catch (e) {
-        console.log("ctx mdb catch error", e)
-      }
-      return { db }
-    }
-  }
+  context: { db }
 });
 export default apolloServer.createHandler({ path: '/api/graphql' })
