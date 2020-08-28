@@ -55,6 +55,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
+    # Make sure you have the required fields from the schema when you're testing
     newUser(
       id: ID
       username: String
@@ -130,6 +131,7 @@ const resolvers = {
   },
   Mutation: {
     newUser(parent, args, context, info) {
+      // Do JS/DB stuff inside here
       console.log(args);
       console.log(info);
       return [...users, { ...args }]
