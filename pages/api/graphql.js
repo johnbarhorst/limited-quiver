@@ -4,11 +4,6 @@ import { GraphQLScalarType } from 'graphql';
 import { Kind } from 'graphql/language';
 import User from 'models/UserModel';
 
-const db = mongoose.connect(process.env.MONGO_DB, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}, () => console.log('DB CONNECT'));
-
 const typeDefs = gql`
 
   # type Example {
@@ -53,14 +48,25 @@ const typeDefs = gql`
     users: [User]
     userByUsername(username: String!): User
   }
+# Use inputs to cleanly define args for mutations. Just remember it adds an object layer
+  input UserInput {
+    id: ID
+    username: String
+    email: String
+    name: NameInput
+  }
+
+  input NameInput {
+    id: String
+    first: String
+    last: String
+  }
 
   type Mutation {
     # Make sure you have the required fields from the schema when you're testing
-    newUser(
-      id: ID
-      username: String
-      email: String
-    ): [User]
+    # Using an input puts the data into args.key
+    # ex. newUser(user: UserInput) data is found in args.user within the mutation resolver
+    newUser(user: UserInput): [User]
     
   }
 
@@ -114,14 +120,13 @@ const names = [
 
 const resolvers = {
   Query: {
+    //  Quick test function.
     sayHello(parent, args, context, info) {
       return "Test Passed"
     },
     async userByUsername(parent, { username }, context, info) {
-      console.log('query fired')
-      console.log(context.db)
       const regex = new RegExp(username, "i");
-      const result = await context.db.Mongoose.models.User.findOne({ username: { $regex: regex } });
+      const result = await User.findOne({ username: { $regex: regex } });
       return result
     },
     users(parent, args, context, info) {
@@ -130,13 +135,13 @@ const resolvers = {
     }
   },
   Mutation: {
+    // When using inputs up in typeDefs gql, it adds an object layer. Keep that in mind.
     newUser(parent, args, context, info) {
       // Do JS/DB stuff inside here
-      console.log(args);
-      console.log(info);
-      return [...users, { ...args }]
 
-    }
+
+
+    },
   },
   Date: new GraphQLScalarType({
     name: "Date",
@@ -156,13 +161,15 @@ const resolvers = {
       return null
     }
   }),
-  // Resolve nested schemas from within a parent object
+  // Resolve nested schemas from within the parent object
   User: {
     name: (parent, args, context, info) => {
       // parent here is the User object.
-      console.log(parent);
       // Do JS stuff to get what you want. In a DB, do DB things.
-      const { first, last } = names.filter(name => name.id === parent.id)[0];
+
+      // In my mongo schema, first and last name are just nested in the name property.
+      // MDB sends that along normally, but we have to manually assign it here since GQL doesn't nest.
+      const { first, last } = parent.name;
 
       return {
         first,
@@ -173,16 +180,37 @@ const resolvers = {
 
 }
 
+// This disables automatic json parsing. I think graphql data doesn't come in as JSON.
 export const config = {
   api: {
     bodyParser: false
   }
 }
 
+// Declare the db outside. If you do it all inside the context function,
+// you end up refreshing the connection every few seconds.
+// That's probably bad, I'm thinking.
+let db;
 
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
-  context: { db }
+  context: async ({ req }) => {
+    // Check if db is already connected before trying to connect.
+    if (!db) {
+      // connnect to db if no connection exists.
+      try {
+        db = await mongoose.connect(process.env.MONGO_DB, {
+          useNewUrlParser: true,
+          useUnifiedTopology: true
+        }, () => console.log('DB CONNECT'));
+      } catch (e) {
+        // TODO: Get some error handling here in case db connection fails.
+        console.log("DB Connection fail", e);
+      }
+    }
+    return { db }
+  }
 });
+
 export default apolloServer.createHandler({ path: '/api/graphql' })
