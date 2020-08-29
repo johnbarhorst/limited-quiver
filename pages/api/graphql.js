@@ -8,10 +8,18 @@ const typeDefs = gql`
 
   # type Example {
   #   id: ID!                      Bang behind item makes it required.
-  #   reqArray: [SOMETYPE]!        Bang behind array means either [] or [...withData] may be returned.
-  #   reqArrWItems: [SOMETYPE!]!   Bang behind both means only [...withData] can be returned
+  #   reqArray: [SOMETYPE]!        Bang behind array means either [] or [...withData] may be requested.
+  #   reqArrWItems: [SOMETYPE!]!   Bang behind both means only [...withData] can be requested.
   # }
 
+  # Note that required here means required to send with every query.
+  # I do not believe it is the same as required fields in the MDB schema/models
+  # So while every User we create may need a username at creation, we don't exactly
+  # have to send that along with every single data query. (but maybe we want to?)
+
+
+  # scalars are custom data types. Somehow GQL didn't think Date made the cut.
+  # Declare scalars in the typeDefs, and create a resolver for it.
   scalar Date
   
   enum EventStatus {
@@ -20,8 +28,8 @@ const typeDefs = gql`
   }
 
   type User {
-    id: ID!
-    username: String!
+    id: ID
+    username: String
     name: Name
     email: String
   }
@@ -32,8 +40,8 @@ const typeDefs = gql`
   }
 
   type Event {
-    name: String!
-    admin: [User!]
+    name: String
+    admin: [User]
     participants: [User]
     active: Boolean
     private: Boolean
@@ -56,6 +64,8 @@ const typeDefs = gql`
     name: NameInput
   }
 
+# If you have nested/custom fields in your type def, and you want to use inputs with your mutations
+# you need to have an input for the nested/custom field as well. Populate that data in the resolver
   input NameInput {
     id: String
     first: String
@@ -64,7 +74,7 @@ const typeDefs = gql`
 
   type Mutation {
     # Make sure you have the required fields from the schema when you're testing
-    # Using an input puts the data into args.key
+    # Using an input puts the data into args.key, instead of just args.
     # ex. newUser(user: UserInput) data is found in args.user within the mutation resolver
     newUser(user: UserInput): [User]
     
@@ -119,6 +129,7 @@ const names = [
 ]
 
 const resolvers = {
+  // Query Resolvers:
   Query: {
     //  Quick test function.
     sayHello(parent, args, context, info) {
@@ -134,6 +145,7 @@ const resolvers = {
       return [...users]
     }
   },
+  // Mutation Resolvers:
   Mutation: {
     // When using inputs up in typeDefs gql, it adds an object layer. Keep that in mind.
     newUser(parent, args, context, info) {
@@ -143,6 +155,7 @@ const resolvers = {
 
     },
   },
+  //  Scalar resolvers
   Date: new GraphQLScalarType({
     name: "Date",
     description: "Date",
@@ -151,17 +164,19 @@ const resolvers = {
       return new Date(value);
     },
     serialize(value) {
-      // value sent to client
+      // value to be sent to client
       return value.getTime();
     },
     parseLiteral(ast) {
+      // gets invoked to parse client input that was passed inline in the query.
       if (ast.kind === Kind.INT) {
         return new Date(ast.value);
       }
       return null
     }
   }),
-  // Resolve nested schemas from within the parent object
+
+  // Nested typeDef resolvers:
   User: {
     name: (parent, args, context, info) => {
       // parent here is the User object.
@@ -169,7 +184,7 @@ const resolvers = {
 
       // In my mongo schema, first and last name are just nested in the name property.
       // MDB sends that along normally, but we have to manually assign it here since GQL doesn't nest.
-      const { first, last } = parent.name;
+      const { first, last } = parent.name || { first: null, last: null };
 
       return {
         first,
@@ -189,7 +204,7 @@ export const config = {
 
 // Declare the db outside. If you do it all inside the context function,
 // you end up refreshing the connection every few seconds.
-// That's probably bad, I'm thinking.
+// That's probably bad.
 let db;
 
 const apolloServer = new ApolloServer({
