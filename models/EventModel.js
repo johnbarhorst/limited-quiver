@@ -20,6 +20,6 @@ const EventSchema = {
   endDate: Date
 }
 
-const Event = mongoose.model.Event || mongoose.model('Event', EventSchema);
+const Event = mongoose.models.Event || mongoose.model('Event', EventSchema);
 
 export default Event;
