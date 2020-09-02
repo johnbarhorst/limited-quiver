@@ -1,5 +1,5 @@
 import { ApolloServer } from 'apollo-server-micro';
-import mongoose from 'mongoose';
+import connectDB from 'utils/connectDB';
 import typeDefs from 'typeDefs';
 import resolvers from 'resolvers';
 
@@ -10,30 +10,34 @@ export const config = {
   }
 }
 
-// Declare the db outside. If you do it all inside the context function,
-// you end up refreshing the connection every few seconds.
-// That's probably bad.
-let db;
-
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
   context: async ({ req }) => {
-    // Check if db is already connected before trying to connect.
-    if (!db) {
-      // connnect to db if no connection exists.
-      try {
-        db = await mongoose.connect(process.env.MONGO_DB, {
-          useNewUrlParser: true,
-          useUnifiedTopology: true
-        }, () => console.log('DB CONNECT'));
-      } catch (e) {
-        // TODO: Get some error handling here in case db connection fails.
-        console.log("DB Connection fail", e);
-      }
-    }
+    const { cookies, headers } = req;
+    const db = await connectDB();
+    const token = headers.authorization || '';
+
     return { db }
   }
 });
 
-export default apolloServer.createHandler({ path: '/api/graphql' })
+export default apolloServer.createHandler({ path: '/api/graphql' });
+
+// req object keys from context:
+// [
+    //   '_readableState',   'readable',
+    //   '_events',          '_eventsCount',
+    //   '_maxListeners',    'socket',
+    //   'httpVersionMajor', 'httpVersionMinor',
+    //   'httpVersion',      'complete',
+    //   'headers',          'rawHeaders',
+    //   'trailers',         'rawTrailers',
+    //   'aborted',          'upgrade',
+    //   'url',              'method',
+    //   'statusCode',       'statusMessage',
+    //   'client',           '_consuming',
+    //   '_dumped',          'cookies',
+    //   'query',            'previewData',
+    //   'preview'
+    // ]
