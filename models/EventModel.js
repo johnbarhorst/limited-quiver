@@ -16,8 +16,8 @@ const EventSchema = {
   shotsPer: Number,
   participantCap: Number,
   scores: [{ type: Schema.Types.ObjectId, ref: "Scores" }],
-  startDate: Date,
-  endDate: Date
+  startDate: Number,
+  endDate: Number
 }
 
 const Event = mongoose.models.Event || mongoose.model('Event', EventSchema);
