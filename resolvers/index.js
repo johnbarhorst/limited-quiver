@@ -1,26 +1,16 @@
 import { GraphQLScalarType } from 'graphql';
 import { Kind } from 'graphql/language';
-import { userMutations, userNestedResolvers, userQueries } from './userResolvers';
-import { eventMutations, eventQueries } from './eventResolvers';
+import { userResolvers } from './userResolvers';
+import { eventResolvers } from './eventResolvers';
 
 
-const resolvers = {
+
+const scalars = {
   Query: {
-    ...userQueries,
-    ...eventQueries,
     sayHello(parent, args, context, info) {
       return "Test Passed"
     },
   },
-  Mutation: {
-    ...userMutations,
-    ...eventMutations,
-  },
-  User: {
-    ...userNestedResolvers
-  },
-
-
   //   # scalars are custom data types. Somehow GQL didn't think Date made the cut.
   //   # Declare scalars in the typeDefs, and create a resolver for it.
   // scalars
@@ -43,8 +33,14 @@ const resolvers = {
       }
       return null
     }
-  }),
-
+  })
 }
+
+
+
+
+
+
+const resolvers = [userResolvers, eventResolvers, scalars]
 
 export default resolvers;
