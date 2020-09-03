@@ -12,6 +12,7 @@
     "bcrypt": "^5.0.0",
     "framer-motion": "^2.4.1",
     "graphql": "^15.3.0",
+    "graphql-tools": "^6.2.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.29",
     "next": "9.5.2",
