@@ -15,6 +15,6 @@ const LeagueSchema = new Schema({
 
 });
 
-const League = mongoose.models.League || mongoose.model('Leagues', LeagueSchema);
+const League = mongoose.models.League || mongoose.model('League', LeagueSchema);
 
 export default League;
