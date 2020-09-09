@@ -2,6 +2,11 @@ import { ApolloServer } from 'apollo-server-micro';
 import connectDB from 'utils/connectDB';
 import typeDefs from 'typeDefs';
 import resolvers from 'resolvers';
+// See models for my reasoning on this chunk here.
+import Users from 'datasources/Users';
+import models from 'models';
+import { users } from 'utils/sampleStaticData';
+
 
 // This disables automatic json parsing. I think graphql data doesn't come in as JSON.
 export const config = {
@@ -10,16 +15,23 @@ export const config = {
   }
 }
 
+
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
-  context: async ({ req }) => {
-    const { cookies, headers } = req;
+  context: async ({ req, res }) => {
     const db = await connectDB();
+    const { cookies, headers } = req;
     const token = headers.authorization || '';
+    const currentUser = {
+      roles: 'EDITOR'
+    }
 
-    return { db }
-  }
+    return { currentUser, token }
+  },
+  dataSources: () => ({
+    users: new Users(models.User)
+  })
 });
 
 export default apolloServer.createHandler({ path: '/api/graphql' });
@@ -40,4 +52,44 @@ export default apolloServer.createHandler({ path: '/api/graphql' });
     //   '_dumped',          'cookies',
     //   'query',            'previewData',
     //   'preview'
+    // ]
+
+    // res object keys from context:
+    // [
+    //   '_events',
+    //   '_eventsCount',
+    //   '_maxListeners',
+    //   'outputData',
+    //   'outputSize',
+    //   'writable',
+    //   '_last',
+    //   'chunkedEncoding',
+    //   'shouldKeepAlive',
+    //   'useChunkedEncodingByDefault',
+    //   'sendDate',
+    //   '_removedConnection',
+    //   '_removedContLen',
+    //   '_removedTE',
+    //   '_contentLength',
+    //   '_hasBody',
+    //   '_trailer',
+    //   'finished',
+    //   '_headerSent',
+    //   'socket',
+    //   '_header',
+    //   '_onPendingData',
+    //   '_sent100',
+    //   '_expect_continue',
+    //   'statusCode',
+    //   'flush',
+    //   'write',
+    //   'end',
+    //   'on',
+    //   'writeHead',
+    //   'status',
+    //   'send',
+    //   'json',
+    //   'redirect',
+    //   'setPreviewData',
+    //   'clearPreviewData'
     // ]

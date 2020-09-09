@@ -7,6 +7,7 @@ export const root = gql`
     root: String
     # gql test query:
     sayHello: String
+    myQuery: Boolean
   }
 
   type Mutation {
