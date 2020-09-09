@@ -13,6 +13,7 @@ async function connectDB() {
         useNewUrlParser: true,
         useUnifiedTopology: true
       }, () => console.log('DB CONNECT'));
+      return connection
     } catch (e) {
       // TODO: Get some error handling here in case db connection fails.
       console.log("DB Connection fail", e);
