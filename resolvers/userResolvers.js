@@ -9,6 +9,10 @@ const userResolvers = {
       const result = await User.findOne({ username: { $regex: regex } });
       return result
     },
+    async allUsers(parent, args, context, info) {
+      const users = await User.find();
+      return users;
+    }
   },
   Mutation: {
     async newUser(parent, args, context, info) {
@@ -19,8 +23,7 @@ const userResolvers = {
       const userExists = await User.exists({ username: { $regex: regex } });
       if (userExists) {
         return new ApolloError(
-          `A user with username ${data.username} already exists.`,
-          "Code RED!",
+          `A user with username ${data.username} already exists.`
         )
       }
       try {
