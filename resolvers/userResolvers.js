@@ -2,7 +2,7 @@ import { ApolloError } from 'apollo-server-micro';
 import User from 'models/UserModel';
 import { hash } from 'bcrypt';
 
-export const userResolvers = {
+const userResolvers = {
   Query: {
     async userByUsername(parent, { username }, context, info) {
       const regex = new RegExp(username, "i");
@@ -58,4 +58,4 @@ export const userResolvers = {
   }
 }
 
-
+export default userResolvers;
