@@ -2,7 +2,7 @@ import { ApolloError } from 'apollo-server-micro';
 import logKeys from 'utils/logKeys';
 import Event from 'models/EventModel';
 
-export const eventResolvers = {
+const eventResolvers = {
   Query: {
     async findEvent(parent, { name }, context, info) {
       const regex = new RegExp(name, "i");
@@ -10,6 +10,7 @@ export const eventResolvers = {
       return result;
     },
     async allEvents(parent, args, context, info) {
+      console.log(context);
       const results = await Event.find({});
       return results;
     }
@@ -45,3 +46,5 @@ export const eventResolvers = {
     }
   }
 }
+
+export default eventResolvers;
