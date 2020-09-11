@@ -23,9 +23,28 @@ const NewUser = () => {
       },
       password: password.value
     }
-    fetch('/api/users/newuser', {
+
+    // create queries/mutations as a string.
+    // declare variables in the string by naming the query/mutation
+    const mutation = `mutation CreateUser($user: UserInput) {
+      newUser(user: $user) {
+        id
+        username
+      }
+    }`;
+
+    fetch('/api/graphql', {
       method: "POST",
-      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({
+        query: mutation,
+        variables: {
+          user: { ...data }
+        }
+      })
     })
   }
 
