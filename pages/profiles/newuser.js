@@ -42,7 +42,7 @@ const NewUser = () => {
       body: JSON.stringify({
         query: mutation,
         variables: {
-          user: { ...data }
+          user: data
         }
       })
     })
