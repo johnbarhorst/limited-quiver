@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { Navigation } from '../components';
+import 'styles/normalize.css';
 import 'styles/globals.css';
 
 function MyApp({ Component, pageProps }) {
