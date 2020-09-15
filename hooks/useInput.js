@@ -14,12 +14,9 @@ export const useMatchingInput = (initialValue, matchValue) => {
   const [isMatching, setIsMatching] = useState(false);
 
   useEffect(() => {
-    console.log("v", value);
-    console.log("mv", matchValue)
     if (value === matchValue) {
       setIsMatching(true);
-    }
-    if (value !== matchValue) {
+    } else {
       setIsMatching(false);
     }
   }, [value, matchValue]);
