@@ -24,7 +24,5 @@ export const Form = styled(motion.form)`
     border-radius: 5px;
     padding: 4px 6px;
     font-size: 1.25rem;
-
-
   }
 `;
