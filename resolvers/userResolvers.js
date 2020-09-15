@@ -1,6 +1,7 @@
-import { ApolloError } from 'apollo-server-micro';
+import { ApolloError, AuthenticationError } from 'apollo-server-micro';
+import { hash, compare } from 'bcrypt';
+import { sign } from 'jsonwebtoken';
 import User from 'models/UserModel';
-import { hash } from 'bcrypt';
 
 const userResolvers = {
   Query: {
@@ -16,9 +17,9 @@ const userResolvers = {
   },
   Mutation: {
     async newUser(parent, args, context, info) {
-      // Do JS/DB stuff inside here
 
       const data = args.user;
+      // RegExp for insensitive case, and exact matching
       const regex = new RegExp(`^${data.username}$`, "i");
       const userExists = await User.exists({ username: { $regex: regex } });
       if (userExists) {
@@ -43,11 +44,30 @@ const userResolvers = {
         return new ApolloError(err, "catch caught error.")
       }
     },
+    async loginUser(parents, { credentials }, context, info) {
+      console.log(context);
+      const regex = new RegExp(`^${credentials.email}$`, "i");
+      const user = await User.findOne({ email: { $regex: regex } }).select("+password +email");
+      const pwConfirm = await compare(credentials.password, user.password);
+      if (pwConfirm) {
+        const payload = {
+          id: user.id,
+          username: user.username
+        }
+        const jwt = sign(payload, process.env.GUID, { expiresIn: "10h" });
+        return {
+          token: jwt,
+          id: user.id
+        }
+      } else {
+        return new AuthenticationError("Failed to Authorize");
+      }
+
+    }
   },
   User: {
     name: (parent, args, context, info) => {
       // parent here is the User object.
-      // Do JS stuff to get what you want. In a DB, do DB things.
 
       // In my mongo schema, first and last name are just nested in the name property.
       // MDB sends that along normally, but we have to manually assign it here since GQL doesn't nest.
