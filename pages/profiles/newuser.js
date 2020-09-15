@@ -1,5 +1,5 @@
 import { useInput, useMatchingInput } from 'hooks';
-import { TextInput, Form } from 'elements';
+import { TextInput, Form, Button } from 'elements';
 
 const NewUser = () => {
   const [username, resetUserName] = useInput('');
@@ -96,7 +96,9 @@ const NewUser = () => {
       <div>
         {isMatching ? <p>Matches</p> : <p>Doesn't Match</p>}
       </div>
-      <button type="submit">Register</button>
+      <div>
+        <Button type="submit">Register</Button>
+      </div>
     </Form>
 
   )
