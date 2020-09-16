@@ -5,7 +5,7 @@ import resolvers from 'resolvers';
 // See models for my reasoning on this chunk here.
 import Users from 'datasources/Users';
 import models from 'models';
-import { users } from 'utils/sampleStaticData';
+
 
 
 // This disables automatic json parsing. I think graphql data doesn't come in as JSON.
@@ -15,19 +15,16 @@ export const config = {
   }
 }
 
-
+connectDB();
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
   context: async ({ req, res }) => {
-    const db = await connectDB();
+
     const { cookies, headers } = req;
     const token = headers.authorization || '';
-    const currentUser = {
-      roles: 'EDITOR'
-    }
-
-    return { currentUser, token }
+    const currentUser = {};
+    return { currentUser, token, res, req };
   },
   dataSources: () => ({
     users: new Users(models.User)

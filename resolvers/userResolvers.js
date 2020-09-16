@@ -1,6 +1,7 @@
 import { ApolloError, AuthenticationError } from 'apollo-server-micro';
 import { hash, compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
+import { setTokenCookie } from 'utils/cookie';
 import User from 'models/UserModel';
 
 const userResolvers = {
@@ -45,16 +46,17 @@ const userResolvers = {
       }
     },
     async loginUser(parents, { credentials }, context, info) {
-      console.log(context);
       const regex = new RegExp(`^${credentials.email}$`, "i");
-      const user = await User.findOne({ email: { $regex: regex } }).select("+password +email");
+      const user = await User.findOne({ email: { $regex: regex } }).select("+password");
       const pwConfirm = await compare(credentials.password, user.password);
       if (pwConfirm) {
+
         const payload = {
           id: user.id,
           username: user.username
         }
-        const jwt = sign(payload, process.env.GUID, { expiresIn: "10h" });
+        const jwt = sign(payload, process.env.GUID, { expiresIn: "8h" });
+        setTokenCookie(context.res, jwt);
         return {
           token: jwt,
           id: user.id

@@ -16,7 +16,7 @@ const Login = () => {
     const mutation = `mutation LoginUser($credentials: CredentialsInput) {
       loginUser(credentials: $credentials) {
         id
-        username
+        token
       }
     }
     `;
