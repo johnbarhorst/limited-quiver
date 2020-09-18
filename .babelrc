@@ -1,3 +1,4 @@
+// Styled Components config for SSR
 {
   "presets": [
     "next/babel"
