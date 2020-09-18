@@ -1,7 +1,9 @@
 import Link from 'next/link';
 import styled from 'styled-components';
+import { useUserContext } from 'state';
 
 export const Navigation = () => {
+  const { isLoggedIn, user } = useUserContext();
   return (
     <Nav>
       <Link href="/">
@@ -23,6 +25,17 @@ export const Navigation = () => {
         <Link href="/contact">
           <a>Contact</a>
         </Link>
+        {isLoggedIn ?
+          (
+            <Link href={`/profiles/user/${user.username}`}>
+              <a>{user.username}</a>
+            </Link>
+          ) : (
+            <Link href="/profiles/login">
+              <a>Login</a>
+            </Link>
+          )
+        }
       </div>
     </Nav>
   )
