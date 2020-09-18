@@ -1,3 +1,5 @@
+// Models Index
+
 import User from './UserModel';
 import Event from './EventModel';
 import League from './LeagueModel';
