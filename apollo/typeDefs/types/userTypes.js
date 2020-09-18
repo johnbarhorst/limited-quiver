@@ -6,11 +6,16 @@ export const userTypeDefs = gql`
     username: String
     name: Name
     email: String
+    events: [Event]
   }
 
   type Name {
     first: String
     last: String
+  }
+
+  type Authorization {
+    id: ID!
   }
 
   # Use inputs to cleanly define args for mutations. Just remember it adds an object layer
@@ -30,6 +35,11 @@ export const userTypeDefs = gql`
     last: String
   }
 
+  input CredentialsInput {
+    email: String!
+    password: String!
+  }
+
   extend type Query {
     userByUsername(username: String!): User
     allUsers: [User]
@@ -38,6 +48,7 @@ export const userTypeDefs = gql`
 
   extend type Mutation {
     newUser(user: UserInput): User
+    loginUser(credentials: CredentialsInput): Authorization!
   }
 
 `;

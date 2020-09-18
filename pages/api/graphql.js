@@ -1,9 +1,9 @@
 import { ApolloServer } from 'apollo-server-micro';
 import connectDB from 'utils/connectDB';
-import typeDefs from 'typeDefs';
-import resolvers from 'resolvers';
+import typeDefs from 'apollo/typeDefs';
+import resolvers from 'apollo/resolvers';
 // See models for my reasoning on this chunk here.
-import Users from 'datasources/Users';
+import Users from 'apollo/datasources/Users';
 import models from 'models';
 
 
@@ -22,9 +22,10 @@ const apolloServer = new ApolloServer({
   context: async ({ req, res }) => {
 
     const { cookies, headers } = req;
+
     const token = headers.authorization || '';
     const currentUser = {};
-    return { currentUser, token, res, req };
+    return { currentUser, token, req, res };
   },
   dataSources: () => ({
     users: new Users(models.User)

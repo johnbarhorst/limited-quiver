@@ -58,7 +58,6 @@ const userResolvers = {
         const jwt = sign(payload, process.env.GUID, { expiresIn: "8h" });
         setTokenCookie(context.res, jwt);
         return {
-          token: jwt,
           id: user.id
         }
       } else {
