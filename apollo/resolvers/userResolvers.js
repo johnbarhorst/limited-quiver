@@ -42,26 +42,37 @@ const userResolvers = {
         })
         return newUser;
       } catch (err) {
-        return new ApolloError(err, "catch caught error.")
+        return new ApolloError(err, "catch caught error, new user resolver.")
       }
     },
     async loginUser(parents, { credentials }, context, info) {
-      const regex = new RegExp(`^${credentials.email}$`, "i");
-      const user = await User.findOne({ email: { $regex: regex } }).select("+password");
-      const pwConfirm = await compare(credentials.password, user.password);
-      if (pwConfirm) {
 
+      // case insensitive exact search criteria
+      const regex = new RegExp(`^${credentials.email}$`, "i");
+      // By default, we don't send the password along with user data. .select() to get it for this use.
+      const user = await User.findOne({ email: { $regex: regex } }).select("+password");
+
+      // verify email address is on file, error out if not.
+      if (!user) { return new ApolloError("No account associated with that email address in our records.") }
+
+      // verify passwords match
+      const pwConfirm = await compare(credentials.password, user.password);
+
+      if (pwConfirm) {
+        // TODO Look into what all I should be putting into this token.
         const payload = {
           id: user.id,
-          username: user.username
         }
+        // create the JWT.
         const jwt = sign(payload, process.env.GUID, { expiresIn: "8h" });
+        // set a cookie. Preferably Apple Cinnamon.
         setTokenCookie(context.res, jwt);
-        return {
-          id: user.id
-        }
+        // So far, we can just return the user here, without worrying about the password.
+        // The GQL type has no option to query for the password. So I think it's safe
+        return user;
       } else {
-        return new AuthenticationError("Failed to Authorize");
+
+        return new AuthenticationError("Password and email address does not match.");
       }
 
     }

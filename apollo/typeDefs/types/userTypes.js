@@ -7,6 +7,7 @@ export const userTypeDefs = gql`
     name: Name
     email: String
     events: [Event]
+    # leagues: [League]
   }
 
   type Name {
@@ -14,17 +15,13 @@ export const userTypeDefs = gql`
     last: String
   }
 
-  type Authorization {
-    id: ID!
-  }
-
   # Use inputs to cleanly define args for mutations. Just remember it adds an object layer
   
   input UserInput {
     username: String
-    email: String
+    email: String!
     name: NameInput
-    password: String
+    password: String!
    }
 
   # If you have nested/custom fields in your type def, and you want to use inputs with your mutations
@@ -48,7 +45,7 @@ export const userTypeDefs = gql`
 
   extend type Mutation {
     newUser(user: UserInput): User
-    loginUser(credentials: CredentialsInput): Authorization!
+    loginUser(credentials: CredentialsInput): User!
   }
 
 `;
