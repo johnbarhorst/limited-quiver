@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useUserContext } from 'state';
 
 export const Navigation = () => {
-  const { isLoggedIn, user } = useUserContext();
+  const { user } = useUserContext();
   return (
     <Nav>
       <Link href="/">
@@ -12,9 +12,6 @@ export const Navigation = () => {
       <div>
         <Link href="/">
           <a>Home</a>
-        </Link>
-        <Link href="/profiles">
-          <a>Profiles</a>
         </Link>
         <Link href="/leagues" >
           <a>Leagues</a>
@@ -25,9 +22,9 @@ export const Navigation = () => {
         <Link href="/contact">
           <a>Contact</a>
         </Link>
-        {isLoggedIn ?
+        {user ?
           (
-            <Link href={`/profiles/user/${user.username}`}>
+            <Link href={`/profiles/`}>
               <a>{user.username}</a>
             </Link>
           ) : (

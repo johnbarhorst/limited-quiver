@@ -13,7 +13,7 @@ export const UserContextWrapper = ({ children }) => {
       value={{
         isLoggedIn: isLoggedIn,
         user: user,
-        setUser: data => setUser(data),
+        setUserContext: data => setUser(data),
         setIsLoggedIn: bool => setIsLoggedIn(bool)
       }}
     >

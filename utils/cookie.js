@@ -1,6 +1,6 @@
 import { serialize, parse } from 'cookie';
 
-const TOKEN_NAME = 'LimQuiv';
+const TOKEN_NAME = 'Limited-Quiver';
 
 export const MAX_AGE = 60 * 60 * 8; // 8 hours
 
@@ -32,10 +32,11 @@ export function parseCookies(req) {
 
   // For pages we do need to parse the cookies.
   const cookie = req.headers?.cookie
-  return parse(cookie || '')
+  return parse(cookie || '');
 }
 
 export function getTokenCookie(req) {
   const cookies = parseCookies(req)
   return cookies[TOKEN_NAME]
 }
+

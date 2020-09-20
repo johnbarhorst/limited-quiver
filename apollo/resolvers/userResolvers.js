@@ -1,7 +1,6 @@
 import { ApolloError, AuthenticationError } from 'apollo-server-micro';
 import { hash, compare } from 'bcrypt';
-import { sign } from 'jsonwebtoken';
-import { setTokenCookie } from 'utils/cookie';
+import { setLoginSession } from 'utils/sessions';
 import User from 'models/UserModel';
 
 const userResolvers = {
@@ -45,11 +44,13 @@ const userResolvers = {
         return new ApolloError(err, "catch caught error, new user resolver.")
       }
     },
+
+    // User Login:
     async loginUser(parents, { credentials }, context, info) {
 
       // case insensitive exact search criteria
       const regex = new RegExp(`^${credentials.email}$`, "i");
-      // By default, we don't send the password along with user data. .select() to get it for this use.
+      // By default, we don't send the password along with user data from DB. .select() to get it for this use.
       const user = await User.findOne({ email: { $regex: regex } }).select("+password");
 
       // verify email address is on file, error out if not.
@@ -60,15 +61,14 @@ const userResolvers = {
 
       if (pwConfirm) {
         // TODO Look into what all I should be putting into this token.
-        const payload = {
+        const session = {
           id: user.id,
+          email: user.email
         }
-        // create the JWT.
-        const jwt = sign(payload, process.env.GUID, { expiresIn: "8h" });
-        // set a cookie. Preferably Apple Cinnamon.
-        setTokenCookie(context.res, jwt);
+        setLoginSession(context.res, session);
         // So far, we can just return the user here, without worrying about the password.
-        // The GQL type has no option to query for the password. So I think it's safe
+        // The GQL type has no option to query for the password. So it's safe.
+        // If we ever switch back to a standard REST endpoint, this would be a no-no.
         return user;
       } else {
 

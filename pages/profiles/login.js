@@ -1,4 +1,4 @@
-
+import { useUserContext } from 'state';
 import { Form, TextInput, Button } from 'elements';
 import { useInput } from 'hooks';
 
@@ -6,6 +6,7 @@ import { useInput } from 'hooks';
 const Login = () => {
   const [email, resetEmail] = useInput('');
   const [password, resetPassword] = useInput('');
+  const { setIsLoggedIn, setUserContext } = useUserContext();
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -16,6 +17,14 @@ const Login = () => {
     const mutation = `mutation LoginUser($credentials: CredentialsInput) {
       loginUser(credentials: $credentials) {
         id
+        username
+        name {
+          first
+          last
+        }
+        events {
+          id 
+        }
       }
     }
     `;
@@ -35,7 +44,11 @@ const Login = () => {
       })
     });
     const response = await request.json();
-    console.log(response);
+    if (response.data) {
+      setUserContext(response.data.loginUser);
+      resetEmail();
+      resetPassword();
+    }
   }
 
   return (

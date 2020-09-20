@@ -4,19 +4,27 @@ import { Navigation } from '../components';
 import 'styles/normalize.css';
 import 'styles/globals.css';
 
-function MyApp({ Component, pageProps }) {
+const AppToWrap = ({ Component, pageProps }) => {
+  return (
+    <>
+      <Head>
+        <title>Limited Quiver</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Navigation />
+      <Component {...pageProps} />
+    </>
+  )
+}
+
+function MyApp(props) {
   return (
     <>
       <UserContextWrapper>
-        <Head>
-          <title>Limited Quiver</title>
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <Navigation />
-        <Component {...pageProps} />
+        <AppToWrap {...props} />
       </UserContextWrapper>
     </>
   )
 }
 
-export default MyApp
+export default MyApp;
