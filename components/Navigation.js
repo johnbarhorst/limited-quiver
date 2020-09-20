@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import styled from 'styled-components';
-import { useUserContext } from 'state';
+import { useAppContext } from 'state';
 
 export const Navigation = () => {
-  const { user } = useUserContext();
+  const { user } = useAppContext();
   return (
     <Nav>
       <Link href="/">
@@ -13,6 +13,7 @@ export const Navigation = () => {
         <Link href="/">
           <a>Home</a>
         </Link>
+
         <Link href="/leagues" >
           <a>Leagues</a>
         </Link>

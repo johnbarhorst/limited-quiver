@@ -1,7 +1,7 @@
-import { useUserContext } from 'state';
+import { useAppContext } from 'state';
 
 const ProfilesHome = () => {
-  const { user } = useUserContext()
+  const { user } = useAppContext()
   return (
     <div>
       <h1>

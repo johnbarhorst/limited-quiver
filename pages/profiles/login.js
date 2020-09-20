@@ -1,4 +1,4 @@
-import { useUserContext } from 'state';
+import { useAppContext } from 'state';
 import { Form, TextInput, Button } from 'elements';
 import { useInput } from 'hooks';
 
@@ -6,7 +6,7 @@ import { useInput } from 'hooks';
 const Login = () => {
   const [email, resetEmail] = useInput('');
   const [password, resetPassword] = useInput('');
-  const { setIsLoggedIn, setUserContext } = useUserContext();
+  const { setIsLoggedIn, setUser } = useAppContext();
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -45,7 +45,7 @@ const Login = () => {
     });
     const response = await request.json();
     if (response.data) {
-      setUserContext(response.data.loginUser);
+      setUser(response.data.loginUser);
       resetEmail();
       resetPassword();
     }
