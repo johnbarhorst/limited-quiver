@@ -22,3 +22,20 @@ a {
   --elevate_1: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   --elevate_2: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
+
+/* Modal Animations */
+
+/* Default classes, can assign different animations if you apply a different afterOpen/beforeClose prop to a modal */
+
+.ReactModal__Overlay {
+  opacity: 0;
+  transition: opacity .3s ease-in-out;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+}

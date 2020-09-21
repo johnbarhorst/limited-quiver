@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useAppContext } from 'state';
 
 export const Navigation = () => {
-  const { user } = useAppContext();
+  const { user, setIsLoginOpen } = useAppContext();
   return (
     <Nav>
       <Link href="/">
@@ -29,9 +29,7 @@ export const Navigation = () => {
               <a>{user.username}</a>
             </Link>
           ) : (
-            <Link href="/profiles/login">
-              <a>Login</a>
-            </Link>
+            <a onClick={() => setIsLoginOpen(true)} >Login</a>
           )
         }
       </div>

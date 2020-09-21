@@ -3,10 +3,10 @@ import { Form, TextInput, Button } from 'elements';
 import { useInput } from 'hooks';
 
 
-const Login = () => {
+export const LoginForm = () => {
   const [email, resetEmail] = useInput('');
   const [password, resetPassword] = useInput('');
-  const { setIsLoggedIn, setUser } = useAppContext();
+  const { setIsLoginOpen, setUser } = useAppContext();
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -46,6 +46,7 @@ const Login = () => {
     const response = await request.json();
     if (response.data) {
       setUser(response.data.loginUser);
+      setIsLoginOpen(false);
       resetEmail();
       resetPassword();
     }
@@ -67,5 +68,3 @@ const Login = () => {
     </Form>
   )
 }
-
-export default Login;

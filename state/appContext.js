@@ -16,6 +16,7 @@ export const AppContextWrapper = ({ children }) => {
         user: user,
         setUser: data => setUser(data),
         toggleLogin: () => toggleLogin(),
+        setIsLoginOpen: bool => setIsLoginOpen(bool),
       }}
     >
       {children}
