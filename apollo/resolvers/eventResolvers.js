@@ -17,10 +17,9 @@ const eventResolvers = {
   },
   Mutation: {
     async newEvent(parent, args, context, info) {
-      logKeys(context);
       const data = args.event;
       const regex = new RegExp(`^${data.name}$`, "i");
-      const eventExists = await Event.exists({ username: { $regex: regex } });
+      const eventExists = await Event.exists({ name: { $regex: regex } });
       if (eventExists) {
         return new ApolloError(
           `An event called ${data.name} already exists.`,
