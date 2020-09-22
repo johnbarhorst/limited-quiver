@@ -1,6 +1,7 @@
 import { ApolloError, AuthenticationError } from 'apollo-server-micro';
 import { hash, compare } from 'bcrypt';
-import { setLoginSession } from 'utils/sessions';
+import { setLoginSession, getLoginSession } from 'utils/sessions';
+import { removeTokenCookie } from 'utils/cookie';
 import User from 'models/UserModel';
 
 const userResolvers = {
@@ -11,6 +12,8 @@ const userResolvers = {
       return result
     },
     async allUsers(parent, args, context, info) {
+      const session = await getLoginSession(context.req);
+      console.log("session", session);
       const users = await User.find();
       return users;
     }
@@ -75,8 +78,24 @@ const userResolvers = {
         return new AuthenticationError("Password and email address does not match.");
       }
 
+    },
+    // Logout User:
+    async logoutUser(parents, args, context, info) {
+      removeTokenCookie(context.res);
+      return true;
+    },
+    async validateUser(parents, args, context, info) {
+      const session = await getLoginSession(context.req);
+      if (session) {
+        console.log(session);
+        return true;
+      } else {
+        return new AuthenticationError("Not Authenticated");
+      }
+
     }
-  },
+  }, // <----- Put new mutations above this bracket.
+  // END OF MUTATIONS
   User: {
     name: (parent, args, context, info) => {
       // parent here is the User object.
