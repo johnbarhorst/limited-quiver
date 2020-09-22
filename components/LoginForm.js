@@ -46,9 +46,9 @@ export const LoginForm = () => {
     const response = await request.json();
     if (response.data) {
       setUser(response.data.loginUser);
-      setIsLoginOpen(false);
       resetEmail();
       resetPassword();
+      setIsLoginOpen(false);
     }
   }
 
