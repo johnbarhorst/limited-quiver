@@ -46,6 +46,8 @@ export const userTypeDefs = gql`
   extend type Mutation {
     newUser(user: UserInput): User
     loginUser(credentials: CredentialsInput): User!
+    logoutUser: Boolean!
+    validateUser: Boolean
   }
 
 `;
