@@ -2,6 +2,8 @@ import ReactModal from 'react-modal';
 import { LoginForm } from 'components';
 import { useAppContext } from 'state';
 
+
+ReactModal.setAppElement("#__next")
 export const LoginModal = () => {
   const { isLoginOpen, setIsLoginOpen } = useAppContext();
 
