@@ -1,5 +1,6 @@
 import { useMutation, gql } from '@apollo/client';
 import { useInput, useMatchingInput } from 'hooks';
+import { ErrorDisplay } from 'components'
 import { TextInput, Form, Button } from 'elements';
 
 
@@ -19,7 +20,7 @@ mutation CreateUser($user: UserInput) {
 }`;
 
 const NewUser = () => {
-  const [createUser, { data }] = useMutation(CREATE_USER);
+  const [createUser, { data, error, loading }] = useMutation(CREATE_USER, { onError: err => console.log(err) });
   const [username, resetUserName] = useInput('');
   const [email, resetEmail] = useInput('');
   const [firstname, resetFirstName] = useInput('');
@@ -41,9 +42,9 @@ const NewUser = () => {
       },
       password: password.value
     }
-    createUser({ variables: { user: formData } });
-
-
+    createUser({
+      variables: { user: formData }
+    });
   }
 
   const formReset = () => {
@@ -84,6 +85,10 @@ const NewUser = () => {
       </div>
       <div>
         {isMatching ? <p>Matches</p> : <p>Doesn't Match</p>}
+
+      </div>
+      <div>
+        {error && <ErrorDisplay message={error.message} />}
       </div>
       <div>
         <Button type="submit">Register</Button>
