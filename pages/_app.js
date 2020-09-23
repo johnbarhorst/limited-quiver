@@ -12,31 +12,25 @@ const client = new ApolloClient({
   cache,
 });
 
-// const IS_LOGGED_IN = gql`
-//   query IsUserLoggedIn {
-//     isLoggedIn @client
-//   }
-// `;
+const AppToWrap = ({ Component, pageProps }) => {
+  return (
+    <>
+      <Head>
+        <title>Limited Quiver</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Navigation />
+      <LoginModal />
+      <Component {...pageProps} />
+    </>
+  )
+}
 
-// cache.writeQuery({
-//   query: IS_LOGGED_IN,
-//   data: {
-//     isLoggedIn: !!localStorage.getItem("user"),
-//   }
-// })
-
-const MyApp = ({ Component, pageProps }) => {
-
+const MyApp = props => {
   return (
     <ApolloProvider client={client} >
       <AppContextWrapper>
-        <Head>
-          <title>Limited Quiver</title>
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <Navigation />
-        <LoginModal />
-        <Component {...pageProps} />
+        <AppToWrap {...props} />
       </AppContextWrapper>
     </ApolloProvider>
   )
