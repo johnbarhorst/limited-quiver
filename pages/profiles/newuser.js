@@ -1,7 +1,25 @@
+import { useMutation, gql } from '@apollo/client';
 import { useInput, useMatchingInput } from 'hooks';
 import { TextInput, Form, Button } from 'elements';
 
+
+// Create queries/mutations as a string.
+// Declare variables in the string by naming the query/mutation
+// UserInput is declared in the GQL schema type for user,
+//  not just some willy nilly name
+// CreateUser though, is just the name we decided on here for this operation.
+// Naming operations is helpful for debugging, and necessary if you're going to do more than
+//  one of the same operation
+const CREATE_USER = gql`
+mutation CreateUser($user: UserInput) {
+  newUser(user: $user) {
+    id
+    username
+  }
+}`;
+
 const NewUser = () => {
+  const [createUser, { data }] = useMutation(CREATE_USER);
   const [username, resetUserName] = useInput('');
   const [email, resetEmail] = useInput('');
   const [firstname, resetFirstName] = useInput('');
@@ -13,9 +31,8 @@ const NewUser = () => {
     e.preventDefault();
     // TODO: UI for password match, and actual pw regex reqs
     if (password.value !== passwordMatch.value) return console.log('Passwords need to match');
-
     // get user data from the form states
-    const data = {
+    const formData = {
       username: username.value,
       email: email.value,
       name: {
@@ -24,37 +41,9 @@ const NewUser = () => {
       },
       password: password.value
     }
+    createUser({ variables: { user: formData } });
 
-    // Create queries/mutations as a string.
-    // Declare variables in the string by naming the query/mutation
-    // UserInput is declared in the GQL schema type for user,
-    //  not just some willy nilly name
-    // CreateUser though, is just the name we decided on here for this operation.
-    // Naming operations is helpful for debugging, and necessary if you're going to do more than
-    //  one of the same operation
-    const mutation = `mutation CreateUser($user: UserInput) {
-      newUser(user: $user) {
-        id
-        username
-      }
-    }`;
 
-    const fetchRes = await fetch('/api/graphql', {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      // Pass mutation string along with user
-      body: JSON.stringify({
-        query: mutation,
-        variables: {
-          user: data
-        }
-      })
-    });
-    const responseData = await fetchRes.json();
-    console.log(responseData)
   }
 
   const formReset = () => {
