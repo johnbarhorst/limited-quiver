@@ -1,17 +1,10 @@
 import Link from 'next/link';
 import styled from 'styled-components';
-import { gql, useQuery } from '@apollo/client';
 import { useAppContext } from 'state';
-
-// const IS_LOGGED_IN = gql`
-//   query IsUserLoggedIn {
-//     isLoggedIn @client
-//   }
-// `;
 
 export const Navigation = () => {
   const { user, setIsLoginOpen } = useAppContext();
-  // const { data, error, loading } = useQuery(IS_LOGGED_IN);
+
   return (
     <Nav>
       <Link href="/">
