@@ -1,5 +1,6 @@
 import ReactModal from 'react-modal';
 import { LoginForm } from 'components';
+import { CloseButton } from 'elements';
 import { useAppContext } from 'state';
 
 
@@ -11,10 +12,8 @@ export const LoginModal = () => {
     <ReactModal
       isOpen={isLoginOpen}
     >
-      <h2>Login Modal</h2>
-      <button
-        onClick={() => setIsLoginOpen(false)}
-      >X</button>
+
+      <CloseButton clickHandler={() => setIsLoginOpen(false)} />
       <LoginForm />
     </ReactModal>
   )
