@@ -1,12 +1,39 @@
 import { useAppContext } from 'state';
+import { gql, useMutation } from '@apollo/client';
 import { Form, TextInput, Button } from 'elements';
 import { useInput } from 'hooks';
 
+const LOGIN_USER = gql`
+mutation LoginUser($credentials: CredentialsInput) {
+  loginUser(credentials: $credentials) {
+    id
+    username
+    name {
+      first
+      last
+    }
+    events {
+      id 
+    }
+  }
+}
+`;
 
 export const LoginForm = () => {
+  const { setIsLoginOpen, setUser } = useAppContext();
   const [email, resetEmail] = useInput('');
   const [password, resetPassword] = useInput('');
-  const { setIsLoginOpen, setUser } = useAppContext();
+  const [loginUser, { data, loading, error }] = useMutation(LOGIN_USER,
+    {
+      onError: err => console.log(err),
+      onCompleted: data => {
+        setUser(data.loginUser);
+        resetEmail();
+        resetPassword();
+        setIsLoginOpen(false);
+      }
+    });
+
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -14,42 +41,10 @@ export const LoginForm = () => {
       email: email.value,
       password: password.value
     }
-    const mutation = `mutation LoginUser($credentials: CredentialsInput) {
-      loginUser(credentials: $credentials) {
-        id
-        username
-        name {
-          first
-          last
-        }
-        events {
-          id 
-        }
-      }
-    }
-    `;
 
-    const request = await fetch('/api/graphql', {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      // Pass mutation string along with user
-      body: JSON.stringify({
-        query: mutation,
-        variables: {
-          credentials
-        }
-      })
+    loginUser({
+      variables: { credentials },
     });
-    const response = await request.json();
-    if (response.data) {
-      setUser(response.data.loginUser);
-      resetEmail();
-      resetPassword();
-      setIsLoginOpen(false);
-    }
   }
 
   return (
