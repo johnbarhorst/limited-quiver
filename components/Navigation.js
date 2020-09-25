@@ -2,6 +2,9 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { useAppContext } from 'state';
 
+// TODO: If we use styled components for the anchor tags, be sure to add the passHref to each Link.
+// This is a requirement with HOCs within Link tags, for SEO purposes.
+
 export const Navigation = () => {
   const { user, setIsLoginOpen } = useAppContext();
 
