@@ -16,6 +16,13 @@ const userResolvers = {
       console.log("session", session);
       const users = await User.find();
       return users;
+    },
+    async userById(parent, { id }, context, info) {
+      const result = await User.findById(id);
+      if (result) {
+        return result;
+      }
+      return new ApolloError("Couldn't find a user with that id");
     }
   },
   Mutation: {
