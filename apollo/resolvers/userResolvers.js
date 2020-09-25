@@ -69,7 +69,12 @@ const userResolvers = {
           email: user.email
         }
         setLoginSession(context.res, session);
+
+        // Do not send full user here. This cookie is public, and the password would be sent out.
+        // We can modify the user._doc or user.toObject or something. But for now I like fetching
+        // fresh user data instead of using stale stuff.
         setUserCookie(context.res, user.id);
+
         // So far, we can just return the user here, without worrying about the password.
         // The GQL type has no option to query for the password. So it's safe.
         // If we ever switch back to a standard REST endpoint, this would be a no-no.
