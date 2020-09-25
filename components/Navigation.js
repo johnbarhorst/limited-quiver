@@ -14,10 +14,10 @@ export const Navigation = () => {
         <Link href="/">
           <a>Home</a>
         </Link>
-
-        <Link href="/leagues" >
+        {/* TODO: add leagues later */}
+        {/* <Link href="/leagues" >
           <a>Leagues</a>
-        </Link>
+        </Link> */}
         <Link href="/events">
           <a>Events</a>
         </Link>
