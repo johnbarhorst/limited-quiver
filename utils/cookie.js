@@ -45,8 +45,8 @@ export function getTokenCookie(req) {
 
 // USER COOKIES::
 
-export function setUserCookie(res, user) {
-  const cookie = serialize(USER_COOKIE_NAME, JSON.stringify(user), {
+export function setUserCookie(res, userID) {
+  const cookie = serialize(USER_COOKIE_NAME, userID, {
     maxAge: MAX_AGE,
     expires: new Date(Date.now() + MAX_AGE * 1000),
     httpOnly: false,
