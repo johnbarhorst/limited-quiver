@@ -1,7 +1,7 @@
 import { ApolloError, AuthenticationError } from 'apollo-server-micro';
 import { hash, compare } from 'bcrypt';
 import { setLoginSession, getLoginSession } from 'utils/sessions';
-import { removeTokenCookie } from 'utils/cookie';
+import { removeTokenCookie, setUserCookie, removeUserCookie } from 'utils/cookie';
 import User from 'models/UserModel';
 
 const userResolvers = {
@@ -69,6 +69,7 @@ const userResolvers = {
           email: user.email
         }
         setLoginSession(context.res, session);
+        setUserCookie(context.res, user.id);
         // So far, we can just return the user here, without worrying about the password.
         // The GQL type has no option to query for the password. So it's safe.
         // If we ever switch back to a standard REST endpoint, this would be a no-no.
@@ -82,6 +83,7 @@ const userResolvers = {
     // Logout User:
     async logoutUser(parents, args, context, info) {
       removeTokenCookie(context.res);
+      removeUserCookie(context.res);
       return true;
     },
     async validateUser(parents, args, context, info) {
