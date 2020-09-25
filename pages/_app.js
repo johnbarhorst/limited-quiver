@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
 import { AppContextWrapper } from 'state';
-import { Navigation, LoginModal } from '../components';
+import { Navigation, LoginModal, SignUpModal } from '../components';
 import 'styles/normalize.css';
 import 'styles/globals.css';
 
@@ -22,6 +22,7 @@ const AppToWrap = ({ Component, pageProps }) => {
       </Head>
       <Navigation />
       <LoginModal />
+      <SignUpModal />
       <Component {...pageProps} />
     </>
   )

@@ -1,6 +1,6 @@
 import { useMutation, gql } from '@apollo/client';
 import { useInput, useMatchingInput } from 'hooks';
-import { ErrorDisplay } from 'components'
+import { ErrorDisplay, Modal } from 'components'
 import { TextInput, Form, Button } from 'elements';
 import { useAppContext } from 'state';
 
@@ -20,7 +20,7 @@ mutation CreateUser($user: UserInput) {
   }
 }`;
 
-const NewUser = () => {
+export const NewUser = () => {
   const [createUser, { data, error, loading }] = useMutation(CREATE_USER, { onError: err => console.log(err) });
   const { setUser } = useAppContext();
   const [username, resetUserName] = useInput('');
@@ -100,5 +100,3 @@ const NewUser = () => {
 
   )
 }
-
-export default NewUser;

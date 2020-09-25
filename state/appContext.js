@@ -9,14 +9,18 @@ const AppContext = createContext({
 export const AppContextWrapper = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoginOpen, setIsLoginOpen, toggleLogin] = useToggle(false, true);
+  const [isSignUpOpen, setIsSignUpOpen, toggleSignUp] = useToggle(false, true);
   return (
     <AppContext.Provider
       value={{
         isLoginOpen,
+        setIsLoginOpen: bool => setIsLoginOpen(bool),
+        toggleLogin: () => toggleLogin(),
+        isSignUpOpen,
+        setIsSignUpOpen: bool => setIsSignUpOpen(bool),
+        toggleSignUp: () => toggleSignUp(),
         user: user,
         setUser: data => setUser(data),
-        toggleLogin: () => toggleLogin(),
-        setIsLoginOpen: bool => setIsLoginOpen(bool),
       }}
     >
       {children}

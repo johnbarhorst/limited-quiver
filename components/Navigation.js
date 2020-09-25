@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useAppContext } from 'state';
@@ -6,7 +7,7 @@ import { useAppContext } from 'state';
 // This is a requirement with HOCs within Link tags, for SEO purposes.
 
 export const Navigation = () => {
-  const { user, setIsLoginOpen } = useAppContext();
+  const { user, setIsLoginOpen, isSignUpOpen, setIsSignUpOpen } = useAppContext();
 
   return (
     <Nav>
@@ -33,7 +34,10 @@ export const Navigation = () => {
               <a>{user.username}</a>
             </Link>
           ) : (
-            <a onClick={() => setIsLoginOpen(true)} >Login</a>
+            <>
+              <a onClick={() => setIsLoginOpen(true)} >Login</a>
+              <a onClick={() => setIsSignUpOpen(true)} >Sign Up</a>
+            </>
           )
         }
       </div>
@@ -46,6 +50,9 @@ const Nav = styled.nav`
   justify-content: space-between;
   align-items: center;
   margin: 0 2rem;
+  a {
+    cursor: pointer;
+  }
   a:not(:last-child) {
     padding: 0 2rem;
   }
