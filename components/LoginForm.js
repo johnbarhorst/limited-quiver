@@ -1,5 +1,6 @@
 import { useAppContext } from 'state';
 import { gql, useMutation } from '@apollo/client';
+import { ErrorDisplay } from 'components';
 import { Form, TextInput, Button } from 'elements';
 import { useInput } from 'hooks';
 
@@ -58,7 +59,10 @@ export const LoginForm = () => {
         <TextInput type="password" name="password" {...password} />
       </div>
       <div>
-        <Button type="submit">Log In</Button>
+        <Button type="submit">{loading ? 'Signing In' : 'Sign in'}</Button>
+      </div>
+      <div>
+        {error && <ErrorDisplay message={error.message} />}
       </div>
     </Form>
   )
