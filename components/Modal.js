@@ -13,6 +13,7 @@ export const Modal = ({ isModalOpen, children, closeModal = f => f }) => {
           background: 'rgba(0, 0, 0, 0.75)',
         }
       }}
+      onRequestClose={closeModal}
     >
       <CloseButton clickHandler={closeModal} />
       {children}
