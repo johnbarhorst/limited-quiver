@@ -7,6 +7,12 @@ export const Modal = ({ isModalOpen, children, closeModal = f => f }) => {
   return (
     <ReactModal
       isOpen={isModalOpen}
+      closeTimeoutMS={300}
+      style={{
+        overlay: {
+          background: 'rgba(0, 0, 0, 0.75)',
+        }
+      }}
     >
       <CloseButton clickHandler={closeModal} />
       {children}
