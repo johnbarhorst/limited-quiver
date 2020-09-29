@@ -1,4 +1,3 @@
-
 import { LoginForm, Modal } from 'components';
 import { useAppContext } from 'state';
 

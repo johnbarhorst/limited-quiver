@@ -19,16 +19,16 @@ query GetAllUsers {
 const AllUsers = () => {
   const { loading, error, data } = useQuery(query);
   return (
-    <div>
+    <main>
       <h2>All Users</h2>
       {loading && <h2>Loading</h2>}
       {error && <h2>Error</h2>}
       {data && data.allUsers.map(user => (
-        <div key={user.id} >
+        <main key={user.id} >
           <h5>{user.username}</h5>
-        </div>
+        </main>
       ))}
-    </div>
+    </main>
   )
 }
 

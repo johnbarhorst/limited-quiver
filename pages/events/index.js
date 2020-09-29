@@ -1,10 +1,10 @@
 import { Calendar } from 'components';
 
 const EventsHome = () => (
-  <div>
+  <main>
     <h1>Events!</h1>
     <Calendar />
-  </div>
+  </main>
 );
 
 export default EventsHome;

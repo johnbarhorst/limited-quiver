@@ -16,7 +16,7 @@ const CreateEvent = () => {
   }
 
   return (
-    <div>
+    <main>
       <form onSubmit={handleSubmit} >
         <div>
           <label htmlFor="eventName">Event Name:</label>
@@ -42,7 +42,7 @@ const CreateEvent = () => {
           <button type="submit">Create Event</button>
         </div>
       </form>
-    </div>
+    </main>
   )
 }
 

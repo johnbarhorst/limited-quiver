@@ -2,9 +2,9 @@
 
 const LeagueHome = () => {
   return (
-    <div>
+    <main>
       <h1>Leagues</h1>
-    </div>
+    </main>
   )
 }
 

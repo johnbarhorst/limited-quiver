@@ -1,7 +1,7 @@
-import { useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useAppContext } from 'state';
+import { GiArcher } from 'react-icons/gi';
 
 // TODO: If we use styled components for the anchor tags, be sure to add the passHref to each Link.
 // This is a requirement with HOCs within Link tags, for SEO purposes.
@@ -28,18 +28,9 @@ export const Navigation = () => {
         <Link href="/contact">
           <a>Contact</a>
         </Link>
-        {user ?
-          (
-            <Link href={`/profiles/`}>
-              <a>{user.username}</a>
-            </Link>
-          ) : (
-            <>
-              <a onClick={() => setIsLoginOpen(true)} >Login</a>
-              <a onClick={() => setIsSignUpOpen(true)} >Sign Up</a>
-            </>
-          )
-        }
+        <Link href="/profiles">
+          <a><GiArcher /></a>
+        </Link>
       </div>
     </Nav>
   )
@@ -47,6 +38,7 @@ export const Navigation = () => {
 
 const Nav = styled.nav`
   display: flex;
+  position: relative;
   justify-content: space-between;
   align-items: center;
   margin: 0 2rem;

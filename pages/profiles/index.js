@@ -16,7 +16,7 @@ const ProfilesHome = () => {
     setUser(null);
   }
   return (
-    <div>
+    <main>
       <h1>
         {user ? user.username : "User Profiles"}
       </h1>
@@ -24,7 +24,7 @@ const ProfilesHome = () => {
         <button onClick={() => handleLogout()} >Logout!</button>
         :
         <button onClick={() => setIsLoginOpen(true)} >Login</button>}
-    </div>
+    </main>
   )
 }
 

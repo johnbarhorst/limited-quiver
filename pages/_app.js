@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 import cookie from 'cookie';
 import Head from 'next/head';
+import styled from 'styled-components';
 import { ApolloClient, InMemoryCache, ApolloProvider, gql, useLazyQuery } from '@apollo/client';
 import { AppContextWrapper, useAppContext } from 'state';
-import { Navigation, LoginModal, SignUpModal } from '../components';
+import { Navigation, LoginModal, SignUpModal, FooterComponent } from '../components';
 import 'styles/normalize.css';
 import 'styles/globals.css';
 
@@ -52,10 +53,13 @@ const AppToWrap = ({ Component, pageProps }) => {
         <meta name="description" content="Score keeping resource for archery leagues of all skill levels." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navigation />
       <LoginModal />
       <SignUpModal />
-      <Component {...pageProps} />
+      <LayoutWrapper>
+        <Navigation />
+        <Component {...pageProps} />
+        <FooterComponent />
+      </LayoutWrapper>
     </>
   )
 }
@@ -72,3 +76,18 @@ const MyApp = props => {
 }
 
 export default MyApp;
+
+const LayoutWrapper = styled.div`
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  main {
+    flex-grow: 1;
+  }
+
+  nav,
+  footer {
+    flex-shrink: 0;
+  }
+`;
