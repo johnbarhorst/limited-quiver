@@ -40,10 +40,11 @@ const userResolvers = {
       try {
         // Hash out the password for safety.
         const password = await hash(data.password, 10);
-        const newUser = await User.create({
+        const newUser = new User({
           ...data,
           password,
         });
+
         await newUser.save((saveErr) => {
           if (saveErr) {
             return new ApolloError(saveErr, "New User Save Error");
