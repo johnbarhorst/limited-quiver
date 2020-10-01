@@ -1,9 +1,12 @@
-import { Calendar } from 'components';
+import { EventInstantForm } from 'components';
 
 const EventsHome = () => (
   <main>
     <h1>Events!</h1>
-    <Calendar />
+    <section>
+      <h3>Create an Event</h3>
+      <EventInstantForm />
+    </section>
   </main>
 );
 

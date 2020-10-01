@@ -10,8 +10,7 @@ const eventResolvers = {
       return result;
     },
     async allEvents(parent, args, context, info) {
-      console.log(context);
-      const results = await Event.find({});
+      const results = await Event.find().populate('admin');
       return results;
     }
   },
@@ -20,6 +19,7 @@ const eventResolvers = {
       const data = args.event;
       const regex = new RegExp(`^${data.name}$`, "i");
       const eventExists = await Event.exists({ name: { $regex: regex } });
+
       if (eventExists) {
         return new ApolloError(
           `An event called ${data.name} already exists.`,
@@ -27,7 +27,7 @@ const eventResolvers = {
         )
       }
       try {
-        const newEvent = await Event.create({
+        const newEvent = new Event({
           ...data
         });
 

@@ -2,6 +2,7 @@
 
 export * from './Calendar';
 export * from './CalendarDay';
+export * from './EventInstantForm';
 export * from './ErrorDisplay';
 export * from './Footer';
 export * from './LoginForm';
