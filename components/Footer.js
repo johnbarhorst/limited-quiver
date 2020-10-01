@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const FooterComponent = () => {
   return (
     <Footer>
-      <p>&#169; John Barhorst</p>
+      <p>&#169; Limited Quiver</p>
     </Footer>
   )
 }
