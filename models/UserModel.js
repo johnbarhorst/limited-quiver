@@ -24,7 +24,8 @@ const UserSchema = new Schema({
     select: false
   },
   leagues: [{ type: Schema.Types.ObjectId, ref: "League" }],
-  events: [{ type: Schema.Types.ObjectId, ref: "Event" }]
+  events: [{ type: Schema.Types.ObjectId, ref: "Event" }],
+  friends: [{ type: Schema.Types.ObjectId, ref: "User" }],
 
 }, { timestamps: { createdAt: 'created_at' } });
 

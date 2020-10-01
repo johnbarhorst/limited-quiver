@@ -7,6 +7,7 @@ export const userTypeDefs = gql`
     name: Name
     email: String
     events: [Event]
+    friends: [User]
     # leagues: [League]
   }
 
@@ -17,7 +18,7 @@ export const userTypeDefs = gql`
 
   # Use inputs to cleanly define args for mutations. Just remember it adds an object layer
   
-  input UserInput {
+  input NewUserInput {
     username: String
     email: String!
     name: NameInput
@@ -44,7 +45,7 @@ export const userTypeDefs = gql`
   }
 
   extend type Mutation {
-    newUser(user: UserInput): User
+    newUser(user: NewUserInput): User
     loginUser(credentials: CredentialsInput): User!
     logoutUser: Boolean!
     validateUser: Boolean
