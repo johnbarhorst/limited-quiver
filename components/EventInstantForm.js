@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { gql, useMutation } from '@apollo/client';
 import { useAppContext } from 'state';
 import { useInput } from 'hooks';
-import { Form, TextInput, Button } from 'elements';
+import { ErrorDisplay } from 'components'
+import { Form, TextInput, Button, CheckboxLabel } from 'elements';
 
 
 // type Event {
@@ -35,8 +36,9 @@ export const EventInstantForm = () => {
     onError: err => console.log(err),
     onCompleted: data => console.log(data)
   });
-  const [eventName, resetEventName] = useInput('');
   const [date, setDate] = useState();
+  const [isPrivateEvent, resetIsPrivateEvent] = useInput(true);
+  const [eventName, resetEventName] = useInput('');
   const [participantCap, resetParticipantCap] = useInput(1);
   const [rounds, resetRounds] = useInput(1);
   const [shotsPer, resetShotsPer] = useInput(1);
@@ -50,7 +52,7 @@ export const EventInstantForm = () => {
       shotsPer: parseInt(shotsPer.value),
       startDate: new Date(),
       participantCap: parseInt(participantCap.value),
-      // TODO: add participants ids
+
     }
     createEvent({
       variables: {
@@ -90,7 +92,17 @@ export const EventInstantForm = () => {
         <TextInput type="number" name="shotsPer" {...shotsPer} />
       </div>
       <div>
-        <Button type="submit">Create Event</Button>
+        <span>Private Event</span>
+        <CheckboxLabel>
+          <input type="checkbox" name="privateEvent" onChange={isPrivateEvent.onChange} checked={isPrivateEvent.value} />
+          <span></span>
+        </CheckboxLabel>
+      </div>
+      <div>
+        {error && <ErrorDisplay message={error.message} />}
+      </div>
+      <div>
+        <Button type="submit">{loading ? "Creating Event" : "Create Event"}</Button>
       </div>
     </Form>
   )
