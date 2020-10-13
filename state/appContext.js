@@ -10,6 +10,8 @@ export const AppContextWrapper = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoginOpen, setIsLoginOpen, toggleLogin] = useToggle(false, true);
   const [isSignUpOpen, setIsSignUpOpen, toggleSignUp] = useToggle(false, true);
+  const [toasts, setToasts] = useState([]);
+
   return (
     <AppContext.Provider
       value={{
@@ -21,6 +23,8 @@ export const AppContextWrapper = ({ children }) => {
         toggleSignUp: () => toggleSignUp(),
         user: user,
         setUser: data => setUser(data),
+        toasts,
+        addToast: newToast => setToasts([newToast, ...toasts])
       }}
     >
       {children}

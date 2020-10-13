@@ -11,3 +11,4 @@ export * from './Modal';
 export * from './Navigation';
 export * from './NewUser';
 export * from './SignUpModal';
+export * from './Toasts';
