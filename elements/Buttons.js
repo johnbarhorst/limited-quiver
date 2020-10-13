@@ -22,7 +22,7 @@ const CloseButtonStyle = styled(motion.button)`
   justify-content: center;
 `;
 
-export const CloseButton = ({ clickHandler }) => {
+export const CloseButton = ({ clickHandler = f => f }) => {
   return (
     <CloseButtonStyle onClick={clickHandler} >
       <MdClear />
