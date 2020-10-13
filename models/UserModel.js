@@ -29,6 +29,8 @@ const UserSchema = new Schema({
 
 }, { timestamps: { createdAt: 'created_at' } });
 
+
+// Just leaving this here so I remember about virtuals
 UserSchema.virtual('fullname').get(function () {
   return `${this.name.first || ''} ${this.name.last || ''}`;
 });

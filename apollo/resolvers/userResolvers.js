@@ -4,11 +4,13 @@ import { setLoginSession, getLoginSession } from 'utils/sessions';
 import { removeTokenCookie, setUserCookie, removeUserCookie } from 'utils/cookie';
 import User from 'models/UserModel';
 
+
 const userResolvers = {
   Query: {
     async userByUsername(parent, { username }, context, info) {
       const regex = new RegExp(username, "i");
       const result = await User.findOne({ username: { $regex: regex } });
+
       return result
     },
     async allUsers(parent, args, context, info) {
@@ -23,6 +25,10 @@ const userResolvers = {
         return result;
       }
       return new ApolloError("Couldn't find a user with that id");
+    },
+    async fullname(parent, args, context, info) {
+      const testUser = await User.findById("5f4d7f398881791ff29e878c");
+      return testUser.fullname;
     }
   },
   Mutation: {
@@ -124,6 +130,10 @@ const userResolvers = {
         last
       }
     },
+    fullname: (parent, args, context, info) => {
+      const { first, last } = parent.name;
+      return first + ' ' + last;
+    }
   }
 }
 

@@ -4,6 +4,7 @@ export const userTypeDefs = gql`
   type User {
     id: ID
     username: String
+    fullname: String
     name: Name
     email: String
     events: [Event]
@@ -42,6 +43,7 @@ export const userTypeDefs = gql`
     userByUsername(username: String!): User
     allUsers: [User]
     userById(id: ID): User!
+    fullname: String
   }
 
   extend type Mutation {
