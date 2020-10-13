@@ -34,7 +34,10 @@ export const EventInstantForm = () => {
   const { user } = useAppContext();
   const [createEvent, { data, loading, error }] = useMutation(CREATE_INSTANT_EVENT, {
     onError: err => console.log(err),
-    onCompleted: data => console.log(data)
+    onCompleted: data => {
+      console.log(data);
+      resetFormState();
+    }
   });
   const [date, setDate] = useState();
   const [isPrivateEvent, resetIsPrivateEvent] = useInput(true);
@@ -52,6 +55,7 @@ export const EventInstantForm = () => {
       shotsPer: parseInt(shotsPer.value),
       startDate: new Date(),
       participantCap: parseInt(participantCap.value),
+      private: isPrivateEvent.value
 
     }
     createEvent({
@@ -59,6 +63,14 @@ export const EventInstantForm = () => {
         event: eventData
       }
     })
+  }
+
+  function resetFormState() {
+    resetEventName();
+    resetIsPrivateEvent();
+    resetParticipantCap();
+    resetRounds();
+    resetShotsPer();
   }
 
   if (!user) {
