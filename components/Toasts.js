@@ -6,11 +6,10 @@ import { CloseButton } from 'elements';
 const Toast = ({ position, title = "Toast!", message = "Message", closeToast = f => f, id }) => {
   return (
     <ToastContainer
-      variants={TOAST_VARIANTS[position]}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      positionTransition
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.2 } }}
+      layout
       key={id}
     >
       <CloseButton clickHandler={closeToast} />
@@ -44,11 +43,13 @@ export const ToastModule = ({ position = "BOTTOM_RIGHT", toastList = [], removeT
   )
 }
 
-const NotificationWrapper = styled(motion.div)`
+const NotificationWrapper = styled(motion.ul)`
   font-size: 14px;
   position: fixed;
   display: flex;
   flex-direction: column-reverse;
+  list-style: none;
+  padding: 0;
   ${props => {
     switch (props.position) {
       case "CENTER":
@@ -69,7 +70,7 @@ const NotificationWrapper = styled(motion.div)`
   }};
 `;
 
-const ToastContainer = styled(motion.div)`
+const ToastContainer = styled(motion.li)`
   position: relative;
 `;
 
