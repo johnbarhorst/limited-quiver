@@ -3,7 +3,13 @@ import cookie from 'cookie';
 import Head from 'next/head';
 import { ApolloClient, InMemoryCache, ApolloProvider, gql, useLazyQuery } from '@apollo/client';
 import { AppContextWrapper, useAppContext } from 'state';
-import { Navigation, LoginModal, SignUpModal, FooterComponent } from 'components';
+import {
+  Navigation,
+  LoginModal,
+  SignUpModal,
+  FooterComponent,
+  ToastModule
+} from 'components';
 import { LayoutWrapper } from 'elements'
 import 'styles/normalize.css';
 import 'styles/globals.css';
@@ -34,7 +40,7 @@ const client = new ApolloClient({
 // Normally I name these things differently. But I wasted 15 minutes looking for where to rename
 // the app that Next is going to render, before I decided it wasn't worth the time.
 const AppToWrap = ({ Component, pageProps }) => {
-  const { user, setUser } = useAppContext();
+  const { user, setUser, toasts, addToast, removeToast } = useAppContext();
   const [getUser, { data, loading, error }] = useLazyQuery(REFRESH_USER, {
     onError: err => console.log(err),
     onCompleted: () => setUser(data.userById)
@@ -55,6 +61,7 @@ const AppToWrap = ({ Component, pageProps }) => {
       </Head>
       <LoginModal />
       <SignUpModal />
+      <ToastModule toastList={toasts} removeToast={removeToast} position={"BOTTOM_RIGHT"} />
       <LayoutWrapper>
         <Navigation />
         <Component {...pageProps} />

@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CloseButton } from 'elements';
 
-const Toast = ({ position, title = "Toast!", message = "Message", closeToast = f => f, id }) => {
+const Toast = ({ title = "Toast!", message = "Message", closeToast = f => f, id }) => {
   return (
     <ToastContainer
       initial={{ opacity: 0, y: 50 }}
@@ -24,16 +23,14 @@ const Toast = ({ position, title = "Toast!", message = "Message", closeToast = f
 
 export const ToastModule = ({ position = "BOTTOM_RIGHT", toastList = [], removeToast = f => f }) => {
 
-
   return (
     <NotificationWrapper position={position}>
       <AnimatePresence>
         {toastList.map((item, i) =>
           <Toast
-            position={position}
             title={item.title}
             message={item.message}
-            closeToast={() => removeToast(i)}
+            closeToast={() => removeToast(item.id)}
             key={item.id}
             id={item.id}
           />
