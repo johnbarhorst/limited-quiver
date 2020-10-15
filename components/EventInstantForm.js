@@ -31,11 +31,15 @@ const CREATE_INSTANT_EVENT = gql`
 `;
 
 export const EventInstantForm = () => {
-  const { user } = useAppContext();
+  const { user, addToast } = useAppContext();
   const [createEvent, { data, loading, error }] = useMutation(CREATE_INSTANT_EVENT, {
     onError: err => console.log(err),
     onCompleted: data => {
       console.log(data);
+      addToast({
+        title: "Event Created!",
+        message: `Event ${eventName.value} has been created.`
+      });
       resetFormState();
     }
   });
