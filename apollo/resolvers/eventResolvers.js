@@ -12,7 +12,8 @@ const eventResolvers = {
       return await Event.find().populate('admin');
     },
     async eventById(parent, args, context, info) {
-      return await Event.findById(args.id).populate('admin');
+      const results = await Event.findById(args.id).populate('admin');
+      return results ? results : new ApolloError("No results on file for that event.");
 
     }
   },
