@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { gql, useMutation } from '@apollo/client';
+import { useRouter } from 'next/router';
 import { useAppContext } from 'state';
 import { useInput } from 'hooks';
 import { ErrorDisplay } from 'components'
@@ -25,12 +26,12 @@ const CREATE_INSTANT_EVENT = gql`
   mutation createInstantEvent($event: EventInput) {
     newEvent(event: $event) {
       id
-
     }
   }
 `;
 
 export const EventInstantForm = () => {
+  const router = useRouter();
   const { user, addToast } = useAppContext();
   const [createEvent, { data, loading, error }] = useMutation(CREATE_INSTANT_EVENT, {
     onError: err => console.log(err),
@@ -41,6 +42,7 @@ export const EventInstantForm = () => {
         message: `Event ${eventName.value} has been created.`
       });
       resetFormState();
+      router.push(`/events/${data.newEvent.id}`)
     }
   });
   const [date, setDate] = useState();
