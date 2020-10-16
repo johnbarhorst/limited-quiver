@@ -1,5 +1,4 @@
 import { ApolloError } from 'apollo-server-micro';
-import logKeys from 'utils/logKeys';
 import Event from 'models/EventModel';
 
 const eventResolvers = {
@@ -10,8 +9,11 @@ const eventResolvers = {
       return result;
     },
     async allEvents(parent, args, context, info) {
-      const results = await Event.find().populate('admin');
-      return results;
+      return await Event.find().populate('admin');
+    },
+    async eventById(parent, args, context, info) {
+      return await Event.findById(args.id).populate('admin');
+
     }
   },
   Mutation: {
