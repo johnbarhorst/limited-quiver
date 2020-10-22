@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import styled from 'styled-components';
-import { GiArcher } from 'react-icons/gi';
+import { useAppContext } from 'state';
 
 // TODO: If we use styled components for the anchor tags, be sure to add the passHref to each Link.
 // This is a requirement with HOCs within Link tags, for SEO purposes.
 
 export const Navigation = () => {
+  const { user } = useAppContext()
   return (
     <Nav>
       <Link href="/">
@@ -26,7 +27,7 @@ export const Navigation = () => {
           <a>Contact</a>
         </Link>
         <Link href="/profiles">
-          <a><GiArcher /></a>
+          <a>{user ? user.username : "Login"}</a>
         </Link>
       </div>
     </Nav>
