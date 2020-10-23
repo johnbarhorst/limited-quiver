@@ -18,7 +18,8 @@ export const eventTypeDefs = gql`
    }
 
    input EventInput {
-     name: String!
+     name: String
+     createdBy: ID
      admin: [ID]
      rounds: Int!
      shotsPer: Int!
