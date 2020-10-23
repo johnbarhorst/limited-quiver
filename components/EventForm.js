@@ -30,7 +30,7 @@ const CREATE_INSTANT_EVENT = gql`
   }
 `;
 
-export const EventInstantForm = () => {
+export const EventForm = () => {
   const router = useRouter();
   const { user, addToast } = useAppContext();
   const [createEvent, { data, loading, error }] = useMutation(CREATE_INSTANT_EVENT, {
@@ -56,6 +56,7 @@ export const EventInstantForm = () => {
     e.preventDefault();
     const eventData = {
       name: eventName.value,
+      createdBy: user.id,
       admin: [user.id],
       rounds: parseInt(rounds.value),
       shotsPer: parseInt(shotsPer.value),
