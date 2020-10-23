@@ -8,7 +8,7 @@ mutation LogoutUser {
 }`;
 
 const ProfilesHome = () => {
-  const { user, setUser, setIsLoginOpen } = useAppContext();
+  const { user, setUser, setIsLoginOpen, setIsSignUpOpen } = useAppContext();
   const [logout, { data, error, loading }] = useMutation(LOGOUT_USER);
 
   const handleLogout = () => {
@@ -20,10 +20,16 @@ const ProfilesHome = () => {
       <h1>
         {user ? user.username : "User Profiles"}
       </h1>
-      {user ?
-        <button onClick={() => handleLogout()} >Logout!</button>
-        :
-        <button onClick={() => setIsLoginOpen(true)} >Login</button>}
+      <div>
+        {user ?
+          <button onClick={() => handleLogout()} >Logout!</button>
+          :
+          <>
+            <button onClick={() => setIsLoginOpen(true)} >Login</button>
+            <button onClick={() => setIsSignUpOpen(true)}>Sign Up</button>
+          </>
+        }
+      </div>
     </main>
   )
 }
