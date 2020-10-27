@@ -1,5 +1,6 @@
 // Components Index
 
+export * from './ActiveLink';
 export * from './Calendar';
 export * from './CalendarDay';
 export * from './EventForm';
