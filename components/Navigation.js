@@ -1,12 +1,11 @@
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import {
   HiOutlineHome,
   HiOutlineCalendar,
   HiOutlineChatAlt,
   HiOutlineDotsHorizontal,
-  HiOutlineUserCircle
+  // Leaving this in just in case I change my mind again.
+  // HiOutlineUserCircle
 } from 'react-icons/hi';
 import { GiArcher } from 'react-icons/gi';
 import { ActiveLink } from 'components';
@@ -15,7 +14,6 @@ import { ActiveLink } from 'components';
 // This is a requirement with HOCs within Link tags, for SEO purposes.
 
 export const Navigation = () => {
-  const router = useRouter();
   return (
     <Nav>
       <div>
