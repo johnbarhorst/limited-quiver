@@ -18,7 +18,8 @@ export const eventTypeDefs = gql`
    }
 
    input EventInput {
-     name: String!
+     name: String
+     createdBy: ID
      admin: [ID]
      rounds: Int!
      shotsPer: Int!
@@ -31,6 +32,7 @@ export const eventTypeDefs = gql`
    extend type Query {
      findEvent(name: String!): [Event]
      allEvents: [Event]
+     eventById(id: ID): Event
    }
 
    extend type Mutation {

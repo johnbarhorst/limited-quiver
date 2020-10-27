@@ -1,6 +1,14 @@
-import Link from 'next/link';
 import styled from 'styled-components';
+import {
+  HiOutlineHome,
+  HiOutlineCalendar,
+  HiOutlineChatAlt,
+  HiOutlineDotsHorizontal,
+  // Leaving this in just in case I change my mind again.
+  // HiOutlineUserCircle
+} from 'react-icons/hi';
 import { GiArcher } from 'react-icons/gi';
+import { ActiveLink } from 'components';
 
 // TODO: If we use styled components for the anchor tags, be sure to add the passHref to each Link.
 // This is a requirement with HOCs within Link tags, for SEO purposes.
@@ -8,26 +16,35 @@ import { GiArcher } from 'react-icons/gi';
 export const Navigation = () => {
   return (
     <Nav>
-      <Link href="/">
-        <h3>Limited Quiver</h3>
-      </Link>
       <div>
-        <Link href="/">
-          <a>Home</a>
-        </Link>
-        {/* TODO: add leagues later */}
-        {/* <Link href="/leagues" >
-          <a>Leagues</a>
-        </Link> */}
-        <Link href="/events">
-          <a>Events</a>
-        </Link>
-        <Link href="/contact">
-          <a>Contact</a>
-        </Link>
-        <Link href="/profiles">
-          <a><GiArcher /></a>
-        </Link>
+        <ActiveLink href={"/"} >
+          <HiOutlineHome />
+          <span className="visible-hidden">Home</span>
+        </ActiveLink>
+      </div>
+      <div>
+        <ActiveLink href={"/events"} >
+          <HiOutlineCalendar />
+          <span className="visible-hidden">Events</span>
+        </ActiveLink>
+      </div>
+      <div>
+        <ActiveLink href={"/contact"} >
+          <HiOutlineChatAlt />
+          <span className="visible-hidden">Contact</span>
+        </ActiveLink>
+      </div>
+      <div>
+        <ActiveLink href={"/profiles"} >
+          <GiArcher />
+          <span className="visible-hidden">User</span>
+        </ActiveLink>
+      </div>
+      <div>
+        <a>
+          <HiOutlineDotsHorizontal />
+          <span className="visible-hidden">More</span>
+        </a>
       </div>
     </Nav>
   )
@@ -35,17 +52,20 @@ export const Navigation = () => {
 
 const Nav = styled.nav`
   display: flex;
-  position: relative;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0 2rem;
+  justify-content: space-evenly;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  font-size: 2rem;
+  height: 50px;
+
   a {
     cursor: pointer;
+    flex-grow: 1;
   }
-  a:not(:last-child) {
-    padding: 0 2rem;
-  }
-  a:last-child {
-    padding-left: 2rem;
-  }
+
+
+
 `;

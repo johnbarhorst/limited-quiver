@@ -1,8 +1,9 @@
 // Components Index
 
+export * from './ActiveLink';
 export * from './Calendar';
 export * from './CalendarDay';
-export * from './EventInstantForm';
+export * from './EventForm';
 export * from './ErrorDisplay';
 export * from './Footer';
 export * from './LoginForm';

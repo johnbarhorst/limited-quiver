@@ -64,7 +64,6 @@ const userResolvers = {
 
     // User Login:
     async loginUser(parents, { credentials }, context, info) {
-
       // case insensitive exact search criteria
       const regex = new RegExp(`^${credentials.email}$`, "i");
       // By default, we don't send the password along with user data from DB. .select() to get it for this use.
@@ -133,8 +132,9 @@ const userResolvers = {
     fullname: (parent, args, context, info) => {
       const { first, last } = parent.name;
       return first + ' ' + last;
-    }
-  }
+    },
+    events: async ({ id }) => (await User.findById(id).populate("events")).events,
+  },
 }
 
 export default userResolvers;

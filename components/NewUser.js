@@ -13,16 +13,30 @@ import { useAppContext } from 'state';
 // Naming operations is helpful for debugging, and necessary if you're going to do more than
 //  one of the same operation
 const CREATE_USER = gql`
-mutation CreateUser($user: UserInput) {
+mutation CreateUser($user: NewUserInput) {
   newUser(user: $user) {
-    id
-    username
-  }
+      id
+      username
+      name {
+        first
+        last
+      }
+      events {
+        id
+      }
+    }
 }`;
 
 export const NewUser = () => {
-  const [createUser, { data, error, loading }] = useMutation(CREATE_USER, { onError: err => console.log(err) });
-  const { setUser } = useAppContext();
+  const { setUser, setIsSignUpOpen } = useAppContext();
+  const [createUser, { data, error, loading }] = useMutation(CREATE_USER,
+    {
+      onError: err => console.log(err),
+      onCompleted: data => {
+        setUser(data.newUser);
+        setIsSignUpOpen(false);
+      }
+    });
   const [username, resetUserName] = useInput('');
   const [email, resetEmail] = useInput('');
   const [firstname, resetFirstName] = useInput('');

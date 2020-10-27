@@ -24,7 +24,17 @@ export const AppContextWrapper = ({ children }) => {
         user: user,
         setUser: data => setUser(data),
         toasts,
-        addToast: newToast => setToasts([newToast, ...toasts])
+        addToast: newToast => {
+          const createdToast = {
+            id: Date.now(),
+            ...newToast
+          }
+          setToasts([createdToast, ...toasts])
+        },
+        removeToast: id => {
+          const newList = toasts.filter(toast => toast.id !== id);
+          setToasts(newList);
+        }
       }}
     >
       {children}
