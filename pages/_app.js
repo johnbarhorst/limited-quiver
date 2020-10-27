@@ -28,7 +28,7 @@ const REFRESH_USER = gql`
       events {
         id
       }
-    }
+    } 
   }
 `;
 
@@ -62,11 +62,9 @@ const AppToWrap = ({ Component, pageProps }) => {
       <LoginModal />
       <SignUpModal />
       <ToastModule toastList={toasts} removeToast={removeToast} position={"BOTTOM_RIGHT"} />
-      <LayoutWrapper>
-        <Navigation />
-        <Component {...pageProps} />
-        <FooterComponent />
-      </LayoutWrapper>
+
+      <Navigation />
+      <Component {...pageProps} />
     </>
   )
 }
