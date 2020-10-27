@@ -68,7 +68,4 @@ const Nav = styled.nav`
     cursor: pointer;
     flex-grow: 1;
   }
-
-
-
 `;
