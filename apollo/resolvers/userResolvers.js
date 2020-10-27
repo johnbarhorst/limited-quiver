@@ -133,7 +133,10 @@ const userResolvers = {
       const { first, last } = parent.name;
       return first + ' ' + last;
     },
-    events: async ({ id }) => (await User.findById(id).populate("events")).events,
+    events: async ({ id }) => {
+      const populatedEvents = await User.findById(id).populate("events");
+      return populatedEvents || [];
+    }
   },
 }
 
