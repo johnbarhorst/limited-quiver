@@ -25,9 +25,6 @@ const REFRESH_USER = gql`
         first
         last
       }
-      events {
-        id
-      }
     } 
   }
 `;
@@ -51,7 +48,7 @@ const AppToWrap = ({ Component, pageProps }) => {
       getUser({ variables: { id: COOKIES.LQ_USER } });
 
     }
-  }, [])
+  }, []);
   return (
     <>
       <Head>
