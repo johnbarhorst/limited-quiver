@@ -135,7 +135,7 @@ const userResolvers = {
     },
     events: async ({ id }) => {
       const populatedEvents = await User.findById(id).populate("events");
-      return populatedEvents || [];
+      return populatedEvents.events || [];
     }
   },
 }
