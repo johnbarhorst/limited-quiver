@@ -14,8 +14,25 @@ mutation LoginUser($credentials: CredentialsInput) {
       last
     }
     events {
-      id 
-    }
+        id
+        name
+        admin {
+          id
+          username
+        }
+        participants {
+          id
+          username
+        }
+        active
+        private
+        rounds
+        shotsPer
+        scores
+        participantCap
+        startDate
+        endDate
+      }
   }
 }
 `;
