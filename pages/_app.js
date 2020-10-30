@@ -1,33 +1,19 @@
 import { useEffect } from 'react';
-import cookie from 'cookie';
 import Head from 'next/head';
-import { ApolloClient, InMemoryCache, ApolloProvider, gql, useLazyQuery } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider, useLazyQuery } from '@apollo/client';
 import { AppContextWrapper, useAppContext } from 'state';
 import {
   Navigation,
   LoginModal,
   SignUpModal,
-  FooterComponent,
   ToastModule
 } from 'components';
-import { LayoutWrapper } from 'elements'
 import 'styles/normalize.css';
 import 'styles/globals.css';
 
 const cache = new InMemoryCache();
 
-const REFRESH_USER = gql`
-  query getUser($id: ID) {
-    userById(id: $id) {
-      id
-      username
-      name {
-        first
-        last
-      }
-    } 
-  }
-`;
+
 
 const client = new ApolloClient({
   uri: '/api/graphql',
@@ -38,17 +24,7 @@ const client = new ApolloClient({
 // the app that Next is going to render, before I decided it wasn't worth the time.
 const AppToWrap = ({ Component, pageProps }) => {
   const { user, setUser, toasts, addToast, removeToast } = useAppContext();
-  const [getUser, { data, loading, error }] = useLazyQuery(REFRESH_USER, {
-    onError: err => console.log(err),
-    onCompleted: () => setUser(data.userById)
-  });
-  useEffect(() => {
-    const COOKIES = cookie.parse(document.cookie);
-    if (!user && COOKIES.LQ_USER) {
-      getUser({ variables: { id: COOKIES.LQ_USER } });
 
-    }
-  }, []);
   return (
     <>
       <Head>

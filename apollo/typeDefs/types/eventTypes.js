@@ -11,7 +11,7 @@ export const eventTypeDefs = gql`
      rounds: Int
      shotsPer: Int
     #  TODO: Scores as int for now, will be a type in the future
-     scores: Int
+     scores: [Int]
      participantCap: Int
      startDate: Date
      endDate: Date
@@ -27,6 +27,21 @@ export const eventTypeDefs = gql`
      private: Boolean
      startDate: Date
      endDate: Date
+   }
+
+   fragment FullEvent on Event {
+    id
+    name
+    admin
+    participants
+    active
+    private
+    rounds
+    shotsPer
+    scores
+    participantCap
+    startDate
+    endDate
    }
 
    extend type Query {
