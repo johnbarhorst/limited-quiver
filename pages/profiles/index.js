@@ -1,18 +1,11 @@
 import { useAppContext } from 'state';
-import { useMutation, gql } from '@apollo/client';
 
-
-const LOGOUT_USER = gql`
-mutation LogoutUser {
-  logoutUser 
-}`;
 
 const ProfilesHome = () => {
   const { user, setUser, setIsLoginOpen, setIsSignUpOpen } = useAppContext();
-  const [logout, { data, error, loading }] = useMutation(LOGOUT_USER);
 
   const handleLogout = () => {
-    logout();
+    //  Log out user
     setUser(null);
   }
   return (

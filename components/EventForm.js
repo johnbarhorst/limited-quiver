@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { gql, useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { useAppContext } from 'state';
 import { useInput } from 'hooks';
@@ -7,44 +6,10 @@ import { ErrorDisplay } from 'components'
 import { Form, TextInput, Button, CheckboxLabel } from 'elements';
 
 
-// type Event {
-//   id: String
-//   name: String
-//   admin: [User]
-//   participants: [User]
-//   active: Boolean
-//   private: Boolean
-//   rounds: Int
-//   shotsPer: Int
-//   scores: Int
-//   participantCap: Int
-//   startDate: Date
-//   endDate: Date
-//   }
-
-const CREATE_INSTANT_EVENT = gql`
-  mutation createInstantEvent($event: EventInput) {
-    newEvent(event: $event) {
-      id
-    }
-  }
-`;
 
 export const EventForm = () => {
   const router = useRouter();
   const { user, addToast } = useAppContext();
-  const [createEvent, { data, loading, error }] = useMutation(CREATE_INSTANT_EVENT, {
-    onError: err => console.log(err),
-    onCompleted: data => {
-      console.log(data);
-      addToast({
-        title: "Event Created!",
-        message: `Event ${eventName.value} has been created.`
-      });
-      resetFormState();
-      router.push(`/events/${data.newEvent.id}`)
-    }
-  });
   const [date, setDate] = useState();
   const [isPrivateEvent, resetIsPrivateEvent] = useInput(true);
   const [eventName, resetEventName] = useInput('');
@@ -65,11 +30,6 @@ export const EventForm = () => {
       private: isPrivateEvent.value
 
     }
-    createEvent({
-      variables: {
-        event: eventData
-      }
-    })
   }
 
   function resetFormState() {

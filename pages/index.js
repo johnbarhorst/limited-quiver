@@ -1,6 +1,6 @@
+import dbConnect from 'utils/dbConnect';
 
-
-export default function Home() {
+export default function Home({ isConnected }) {
   return (
     <main>
       <h1>
@@ -29,3 +29,4 @@ export default function Home() {
     </main>
   )
 }
+

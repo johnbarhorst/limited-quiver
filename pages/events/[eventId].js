@@ -1,40 +1,11 @@
-import { gql, useQuery } from '@apollo/client';
+
 import { useRouter } from 'next/router';
 
-const EVENT_QUERY = gql`
-  query GetEvent($id: ID) {
-    eventById(id: $id) {
-      id
-     name
-     admin {
-       id
-       username
-     }
-     participants {
-       id
-       username
-     }
-     active
-     private
-     rounds
-     shotsPer
-    # TODO  Add scores here eventually
-     participantCap
-     startDate
-     endDate
-    }
-  }
-`;
+
 
 const EventPage = () => {
   const router = useRouter();
   const { eventId } = router.query;
-  const { data, loading, error } = useQuery(EVENT_QUERY, {
-    variables: {
-      id: eventId
-    }
-  });
-
 
   if (loading) return (
     <main>
