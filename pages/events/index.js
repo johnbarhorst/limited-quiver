@@ -1,5 +1,8 @@
-import styled from 'styled-components'; 1
+import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { UserEvents } from 'components';
+
+
 const EventsHome = () => (
   <Main_3_Col>
     <h1>Events!</h1>
@@ -7,7 +10,7 @@ const EventsHome = () => (
       <h3>Create an Event</h3>
     </section>
     <section>
-      <h3>Your Events</h3>
+      <UserEvents />
     </section>
     <section>
       <h3>Browse Events</h3>
