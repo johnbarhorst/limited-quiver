@@ -48,6 +48,16 @@ const eventResolvers = {
         return new ApolloError(error, "Caught err in event creation mutation")
       }
     }
+  },
+  Event: {
+    admin: async ({ id }) => {
+      const populatedAdmin = await Event.findById(id).populate('admin');
+      return populatedAdmin.admin || []
+    },
+    participants: async ({ id }) => {
+      const populatedParticipants = await Event.findById(id).populate('participants');
+      return populatedParticipants.participants || [];
+    }
   }
 }
 
