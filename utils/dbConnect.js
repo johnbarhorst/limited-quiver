@@ -5,6 +5,7 @@ const connection = {}; /* for caching db connection*/
 async function dbConnect() {
   /* check if we have connection to the DB */
   if (connection.isConnected) {
+    // Don't return the connection. Mongoose is magic.
     return
   }
 
