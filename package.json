@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
+    "connect-mongo": "^3.2.0",
     "cookie": "^0.4.1",
     "express-session": "^1.17.1",
     "framer-motion": "^2.4.1",
@@ -18,11 +19,13 @@
     "next": "9.5.2",
     "next-connect": "^0.9.1",
     "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-icons": "^3.11.0",
     "react-modal": "^3.11.2",
-    "styled-components": "^5.1.1"
+    "styled-components": "^5.1.1",
+    "swr": "^0.3.8"
   },
   "devDependencies": {
     "babel-plugin-styled-components": "^1.11.1"
