@@ -14,13 +14,17 @@ export const AppContextWrapper = ({ children }) => {
   const [isSignUpOpen, setIsSignUpOpen, toggleSignUp] = useToggle(false, true);
   const [toasts, setToasts] = useState([]);
 
-  // useEffect(() => {
-  //   const COOKIES = cookie.parse(document.cookie);
-  //   if (!user && COOKIES.LQ_USER) {
-  //     // getUser({ variables: { id: COOKIES.LQ_USER } });
-
-  //   }
-  // }, []);
+  useEffect(() => {
+    const refreshUser = async id => {
+      const data = await fetch(`/api/refreshUser/${id}`)
+      return data
+    }
+    const COOKIES = cookie.parse(document.cookie);
+    if (!user && COOKIES.LQ_USER) {
+      const refreshedUser = refreshUser(id);
+      return setUser(refreshedUser);
+    }
+  }, []);
 
   return (
     <AppContext.Provider
