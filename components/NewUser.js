@@ -27,6 +27,15 @@ export const NewUser = () => {
       },
       password: password.value
     }
+    const newUser = await fetch('/api/user', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    });
+    const response = await newUser.json();
+    console.log(response);
   }
 
   const formReset = () => {
