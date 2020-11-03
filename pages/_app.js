@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import { Provider } from 'next-auth/client';
 import { AppContextWrapper, useAppContext } from 'state';
 import {
   Navigation,
@@ -16,7 +15,7 @@ const AppToWrap = ({ Component, pageProps }) => {
   const { user, setUser, toasts, addToast, removeToast } = useAppContext();
 
   return (
-    <Provider session={pageProps.session}>
+    <>
       <Head>
         <title>Limited Quiver</title>
         <meta name="description" content="Score keeping resource for archery leagues of all skill levels." />
@@ -28,7 +27,7 @@ const AppToWrap = ({ Component, pageProps }) => {
 
       <Navigation />
       <Component {...pageProps} />
-    </Provider>
+    </>
   )
 }
 
