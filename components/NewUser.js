@@ -27,7 +27,7 @@ export const NewUser = () => {
       },
       password: password.value
     }
-    const newUser = await fetch('/api/user', {
+    const newUser = await fetch('/api/newuser', {
       method: "POST",
       headers: {
         'Content-Type': 'application/json'
