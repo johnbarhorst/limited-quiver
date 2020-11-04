@@ -1,7 +1,10 @@
 import nextConnect from 'next-connect';
-import passport from 'passport';
+import passport from 'lib/passport';
 import session from './session';
+import dbConnect from 'utils/dbConnect';
+
 const middleware = nextConnect();
+dbConnect("Middleware.js");
 
 middleware
   .use(session)
