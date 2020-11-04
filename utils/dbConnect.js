@@ -2,7 +2,12 @@ import mongoose from 'mongoose';
 
 const connection = {}; /* for caching db connection*/
 
-async function dbConnect() {
+async function dbConnect(logComment) {
+  // Debugging thing.
+  if (logComment) {
+    console.log(`dbConnect: ${logComment}`);
+  }
+
   /* check if we have connection to the DB */
   if (connection.isConnected) {
     // Don't return the connection. Mongoose is magic.
