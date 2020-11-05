@@ -16,6 +16,19 @@ export const LoginForm = () => {
       email: email.value,
       password: password.value
     }
+    const user = await fetch('/api/auth', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(credentials)
+    });
+
+    if (user.status === 200) {
+      const response = await user.json();
+      setUser(response);
+      setIsLoginOpen(false);
+    }
   }
 
   return (
