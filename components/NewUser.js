@@ -34,8 +34,11 @@ export const NewUser = () => {
       },
       body: JSON.stringify(formData)
     });
-    const response = await newUser.json();
-    console.log(response);
+    if (newUser.status === 201) {
+      const response = await newUser.json();
+      console.log(response);
+    }
+    // TODO add error handling
   }
 
   const formReset = () => {
