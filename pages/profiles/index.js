@@ -4,8 +4,10 @@ import { useAppContext } from 'state';
 const ProfilesHome = () => {
   const { user, setUser, setIsLoginOpen, setIsSignUpOpen } = useAppContext();
 
-  const handleLogout = () => {
-    //  Log out user
+  const handleLogout = async () => {
+    await fetch('/api/auth', {
+      method: 'DELETE',
+    });
     setUser(null);
   }
   return (
