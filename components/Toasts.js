@@ -59,9 +59,9 @@ const NotificationWrapper = styled(motion.ul)`
         return "top: 12px; left: 12px;"
 
       case "BOTTOM_LEFT":
-        return "bottom: 12px; left: 12px;"
+        return "bottom: 50px; left: 12px;"
 
-      default: return "bottom: 12px; right: 12px;"
+      default: return "bottom: 50px; right: 12px;"
         break;
     }
   }};
