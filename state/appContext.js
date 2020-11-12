@@ -9,20 +9,24 @@ const AppContext = createContext({
 });
 
 export const AppContextWrapper = ({ children }) => {
+
   const [user, setUser] = useState(null);
   const [isLoginOpen, setIsLoginOpen, toggleLogin] = useToggle(false, true);
   const [isSignUpOpen, setIsSignUpOpen, toggleSignUp] = useToggle(false, true);
   const [toasts, setToasts] = useState([]);
 
   useEffect(() => {
-    const refreshUser = async id => {
-      const data = await fetch(`/api/refreshUser/${id}`)
-      return data
+    const refreshUser = async () => {
+      const data = await fetch(`/api/user`);
+      if (data.status === 200) {
+        const refreshedUser = await data.json();
+        setUser(refreshedUser);
+      }
     }
     const COOKIES = cookie.parse(document.cookie);
+    console.log(COOKIES);
     if (!user && COOKIES.LQ_USER) {
-      const refreshedUser = refreshUser(id);
-      return setUser(refreshedUser);
+      refreshUser();
     }
   }, []);
 
