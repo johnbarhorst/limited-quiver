@@ -1,9 +1,12 @@
 import useSWR from 'swr';
+import { fetcher } from 'lib/api-helpers';
 
-const fetcher = (url) => fetch(url).then((r) => r.json());
+export const useUser = () => {
+  const { data, error } = useSWR('/api/user', fetcher);
 
-export function useUser() {
-  const { data, mutate } = useSWR('/api/user', fetcher);
-  const user = data && data.user;
-  return [user, { mutate }];
+  return {
+    user: data,
+    isLoading: !error && !data,
+    isError: error
+  }
 }
