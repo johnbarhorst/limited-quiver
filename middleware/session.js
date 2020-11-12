@@ -11,7 +11,7 @@ export default function sessionMiddleware(req, res, next) {
     secret: process.env.SESSION_SECRET,
     store: mongoStore,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
       httpOnly: false
     },
