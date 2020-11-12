@@ -17,17 +17,34 @@ export const EventForm = () => {
   const [rounds, resetRounds] = useInput(1);
   const [shotsPer, resetShotsPer] = useInput(1);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const eventData = {
       name: eventName.value,
-      createdBy: user.id,
-      admin: [user.id],
+      createdBy: user._id,
+      admin: [user._id],
       rounds: parseInt(rounds.value),
       shotsPer: parseInt(shotsPer.value),
       startDate: new Date(),
       participantCap: parseInt(participantCap.value),
       private: isPrivateEvent.value
+    }
+    const createEvent = await fetch(`/api/createevent`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(eventData),
+    });
+
+    if (createEvent.status === 201) {
+      const response = await createEvent.json();
+      console.log(response);
+      resetFormState();
+      addToast({
+        title: "Event Created!",
+        message: `YOU DID IT! YA!`
+      });
 
     }
   }
@@ -77,11 +94,11 @@ export const EventForm = () => {
           <span></span>
         </CheckboxLabel>
       </div>
-      <div>
+      {/* <div>
         {error && <ErrorDisplay message={error.message} />}
-      </div>
+      </div> */}
       <div>
-        <Button type="submit">{loading ? "Creating Event" : "Create Event"}</Button>
+        <Button type="submit">Create Event</Button>
       </div>
     </Form>
   )
