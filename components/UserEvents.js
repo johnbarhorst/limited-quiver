@@ -29,8 +29,7 @@ export const UserEvents = () => {
   return (
     <section>
       <h3>Your Events</h3>
-      {user.events.map(event => <p key={event.id}>{event.name}</p>)}
+      {user.events.map(event => <p key={event._id}>{event.name}</p>)}
     </section>
   )
 }
-
