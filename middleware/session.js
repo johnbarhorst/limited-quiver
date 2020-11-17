@@ -12,10 +12,6 @@ export default function sessionMiddleware(req, res, next) {
     store: mongoStore,
     resave: false,
     saveUninitialized: false,
-    cookie: {
-      httpOnly: false
-    },
-    name: "LQ_USER"
   })(req, res, next);
 }
 
