@@ -15,6 +15,9 @@ export const AppContextWrapper = ({ children }) => {
   const [isSignUpOpen, setIsSignUpOpen, toggleSignUp] = useToggle(false, true);
   const [toasts, setToasts] = useState([]);
 
+  // With Next, if a user navigates to a page via typing in the url, we lose our state in context.
+  // Logging back in would be annoying
+  // This effect is to check for our LQ_USER cookie, then refresh the user data from deserialized passport session
   useEffect(() => {
     const refreshUser = async () => {
       const data = await fetch(`/api/user`);
@@ -24,7 +27,6 @@ export const AppContextWrapper = ({ children }) => {
       }
     }
     const COOKIES = cookie.parse(document.cookie);
-    console.log(COOKIES);
     if (!user && COOKIES.LQ_USER) {
       refreshUser();
     }
