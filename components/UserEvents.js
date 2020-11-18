@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import { useAppContext } from 'state';
-
+import { useUser } from 'hooks';
 
 
 export const UserEvents = () => {
-  const { user, setIsLoginOpen } = useAppContext();
+  const { user, userIsLoading, userIsError } = useUser();
+  const { setIsLoginOpen } = useAppContext();
 
   if (!user) {
     return (

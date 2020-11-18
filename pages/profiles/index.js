@@ -1,14 +1,16 @@
 import { useAppContext } from 'state';
+import { useUser } from 'hooks';
 
 
 const ProfilesHome = () => {
-  const { user, setUser, setIsLoginOpen, setIsSignUpOpen } = useAppContext();
+  const { user, userIsLoading, userIsError, mutate } = useUser();
+  const { setIsLoginOpen, setIsSignUpOpen } = useAppContext();
 
   const handleLogout = async () => {
     await fetch('/api/auth', {
       method: 'DELETE',
     });
-    setUser(null);
+    mutate(null);
   }
   return (
     <main>

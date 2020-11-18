@@ -1,12 +1,22 @@
+import { useState, useEffect } from 'react';
 import useSWR from 'swr';
+import cookie from 'cookie';
 import { fetcher } from 'lib/api-helpers';
 
 export const useUser = () => {
-  const { data, error } = useSWR('/api/user', fetcher);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { data, error, mutate } = useSWR(isLoggedIn ? '/api/user' : null, fetcher);
+
+  useEffect(() => {
+    const COOKIES = cookie.parse(document.cookie);
+    setIsLoggedIn(COOKIES.LQ_USER ? true : false);
+  });
 
   return {
     user: data,
-    isLoading: !error && !data,
-    isError: error
+    userIsLoading: !error && !data,
+    userIsError: error,
+    mutate,
   }
 }
+

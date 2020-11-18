@@ -5,7 +5,7 @@ import { useInput } from 'hooks';
 
 
 export const LoginForm = () => {
-  const { setIsLoginOpen, setUser } = useAppContext();
+  const { setIsLoginOpen } = useAppContext();
   const [email, resetEmail] = useInput('');
   const [password, resetPassword] = useInput('');
 
@@ -26,9 +26,7 @@ export const LoginForm = () => {
 
     if (user.status === 200) {
       // if login is successful, get our user info and set it to the context
-      const userInfo = await fetch('/api/user');
-      const response = await userInfo.json();
-      setUser(response);
+      await fetch('/api/user');
       setIsLoginOpen(false);
     }
   }
