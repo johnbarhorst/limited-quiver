@@ -25,7 +25,9 @@ export const LoginForm = () => {
     });
 
     if (user.status === 200) {
-      const response = await user.json();
+      // if login is successful, get our user info and set it to the context
+      const userInfo = await fetch('/api/user');
+      const response = await userInfo.json();
       setUser(response);
       setIsLoginOpen(false);
     }
