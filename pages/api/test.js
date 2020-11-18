@@ -1,5 +1,5 @@
 import User from 'models/UserModel';
-import dbConnect from 'utils/dbConnect';
+import dbConnect from 'lib';
 
 const test = async (req, res) => {
   try {

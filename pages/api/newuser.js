@@ -2,9 +2,8 @@ import nextConnect from 'next-connect';
 import { hash } from 'bcrypt';
 import middleware from 'middleware/middleware';
 import User from 'models/UserModel';
-import logKeys from 'utils/logKeys';
-import dbConnect from 'utils/dbConnect';
-import { extractUser } from 'lib/api-helpers';
+import logKeys from 'lib';
+import { dbConnect, extractUser } from 'lib';
 
 
 const handler = nextConnect();

@@ -1,7 +1,7 @@
 import nextConnect from 'next-connect';
 import passport from 'lib/passport-config';
 import session from './session';
-import dbConnect from 'utils/dbConnect';
+import { dbConnect } from 'lib';
 
 // We aren't using these here. But it initializes the schemas into Mongoose.
 // Otherwise, we get an error doing things like user.populate()
