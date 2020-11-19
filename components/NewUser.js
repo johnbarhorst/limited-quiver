@@ -1,10 +1,10 @@
-import { useInput, useMatchingInput } from 'hooks';
-import { ErrorDisplay, Modal } from 'components'
+import { useInput, useMatchingInput, useUser } from 'hooks';
 import { TextInput, Form, Button } from 'elements';
 import { useAppContext } from 'state';
 
 export const NewUser = () => {
-  const { setUser, setIsSignUpOpen } = useAppContext();
+  const { mutate } = useUser();
+  const { setIsSignUpOpen } = useAppContext();
   const [username, resetUserName] = useInput('');
   const [email, resetEmail] = useInput('');
   const [firstname, resetFirstName] = useInput('');
@@ -35,8 +35,8 @@ export const NewUser = () => {
       body: JSON.stringify(formData)
     });
     if (newUser.status === 201) {
-      const response = await newUser.json();
-      console.log(response);
+      mutate('/api/user');
+      setIsSignUpOpen(false);
     }
     // TODO add error handling
   }
