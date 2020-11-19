@@ -2,8 +2,8 @@ import nextConnect from 'next-connect';
 import { hash } from 'bcrypt';
 import middleware from 'middleware/middleware';
 import User from 'models/UserModel';
-import logKeys from 'lib';
-import { dbConnect, extractUser } from 'lib';
+import { logKeys } from 'lib';
+import { dbConnect, setTokenCookie } from 'lib';
 
 
 const handler = nextConnect();
@@ -36,6 +36,7 @@ handler.post(async (req, res) => {
       res.status(500).json({ success: false, message: "Login Error", error });
       return;
     }
+    setTokenCookie(res, "logged in");
     res.status(201).json({ success: true, newUser });
     return;
   });
