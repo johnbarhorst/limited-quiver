@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAppContext } from 'state';
-import { useInput } from 'hooks';
+import { useInput, useUser } from 'hooks';
 import { ErrorDisplay } from 'components'
 import { Form, TextInput, Button, CheckboxLabel } from 'elements';
 
@@ -9,7 +9,8 @@ import { Form, TextInput, Button, CheckboxLabel } from 'elements';
 
 export const EventForm = () => {
   const router = useRouter();
-  const { user, addToast } = useAppContext();
+  const { user } = useUser();
+  const { addToast } = useAppContext();
   const [date, setDate] = useState();
   const [isPrivateEvent, resetIsPrivateEvent] = useInput(true);
   const [eventName, resetEventName] = useInput('');
@@ -39,13 +40,12 @@ export const EventForm = () => {
 
     if (createEvent.status === 201) {
       const response = await createEvent.json();
-      console.log(response);
       resetFormState();
       addToast({
-        title: "Event Created!",
-        message: `YOU DID IT! YA!`
+        title: "New Event Created!",
+        message: `${response.name} created.`
       });
-
+      router.push(`/events/${response._id}`);
     }
   }
 
