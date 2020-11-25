@@ -1,27 +1,29 @@
-
 import { useRouter } from 'next/router';
+import { useEvent } from 'hooks';
 
 
 
 const EventPage = () => {
   const router = useRouter();
-  const { eventId } = router.query;
+  console.log(router.query);
+  const { eventID } = router.query;
+  const { event, eventIsLoading, eventIsError } = useEvent(eventID);
 
-  if (loading) return (
+  if (eventIsLoading) return (
     <main>
-      <h3>Loading...</h3>
+      <h1>Loading</h1>
     </main>
   )
 
-  if (error) return (
+  if (eventIsError) return (
     <main>
-      <h3>We couldn't find that event.</h3>
-      {/* TODO: Link back to proper place, once proper place exists. Search? Event creation? */}
+      <h1>There is currently an error.</h1>
     </main>
   )
+
   return (
     <main>
-      <h1>{data.eventById.name}</h1>
+      <h1>{event.name}</h1>
     </main>
   )
 }
