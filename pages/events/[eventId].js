@@ -5,9 +5,8 @@ import { useEvent } from 'hooks';
 
 const EventPage = () => {
   const router = useRouter();
-  console.log(router.query);
-  const { eventID } = router.query;
-  const { event, eventIsLoading, eventIsError } = useEvent(eventID);
+  const { eventId } = router.query;
+  const { event, eventIsLoading, eventIsError } = useEvent(eventId);
 
   if (eventIsLoading) return (
     <main>
