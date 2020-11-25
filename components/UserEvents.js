@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import { useAppContext } from 'state';
-
+import { useUser } from 'hooks';
 
 
 export const UserEvents = () => {
-  const { user, setIsLoginOpen } = useAppContext();
+  const { user, userIsLoading, userIsError } = useUser();
+  const { setIsLoginOpen } = useAppContext();
 
   if (!user) {
     return (
@@ -29,8 +30,7 @@ export const UserEvents = () => {
   return (
     <section>
       <h3>Your Events</h3>
-      {user.events.map(event => <p key={event.id}>{event.name}</p>)}
+      {user.events.map(event => <p key={event._id}>{event.name}</p>)}
     </section>
   )
 }
-

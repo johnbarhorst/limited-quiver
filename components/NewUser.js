@@ -1,42 +1,10 @@
-import { useMutation, gql } from '@apollo/client';
-import { useInput, useMatchingInput } from 'hooks';
-import { ErrorDisplay, Modal } from 'components'
+import { useInput, useMatchingInput, useUser } from 'hooks';
 import { TextInput, Form, Button } from 'elements';
 import { useAppContext } from 'state';
 
-
-// Create queries/mutations as a string.
-// Declare variables in the string by naming the query/mutation
-// UserInput is declared in the GQL schema type for user,
-//  not just some willy nilly name
-// CreateUser though, is just the name we decided on here for this operation.
-// Naming operations is helpful for debugging, and necessary if you're going to do more than
-//  one of the same operation
-const CREATE_USER = gql`
-mutation CreateUser($user: NewUserInput) {
-  newUser(user: $user) {
-      id
-      username
-      name {
-        first
-        last
-      }
-      events {
-        id
-      }
-    }
-}`;
-
 export const NewUser = () => {
-  const { setUser, setIsSignUpOpen } = useAppContext();
-  const [createUser, { data, error, loading }] = useMutation(CREATE_USER,
-    {
-      onError: err => console.log(err),
-      onCompleted: data => {
-        setUser(data.newUser);
-        setIsSignUpOpen(false);
-      }
-    });
+  const { mutate } = useUser();
+  const { setIsSignUpOpen } = useAppContext();
   const [username, resetUserName] = useInput('');
   const [email, resetEmail] = useInput('');
   const [firstname, resetFirstName] = useInput('');
@@ -59,9 +27,18 @@ export const NewUser = () => {
       },
       password: password.value
     }
-    createUser({
-      variables: { user: formData }
+    const newUser = await fetch('/api/newuser', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
     });
+    if (newUser.status === 201) {
+      mutate('/api/user');
+      setIsSignUpOpen(false);
+    }
+    // TODO add error handling
   }
 
   const formReset = () => {
@@ -103,9 +80,6 @@ export const NewUser = () => {
       <div>
         {isMatching ? <p>Matches</p> : <p>Doesn't Match</p>}
 
-      </div>
-      <div>
-        {error && <ErrorDisplay message={error.message} />}
       </div>
       <div>
         <Button type="submit">Register</Button>

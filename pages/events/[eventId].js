@@ -1,56 +1,29 @@
-import { gql, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
+import { useEvent } from 'hooks';
 
-const EVENT_QUERY = gql`
-  query GetEvent($id: ID) {
-    eventById(id: $id) {
-      id
-     name
-     admin {
-       id
-       username
-     }
-     participants {
-       id
-       username
-     }
-     active
-     private
-     rounds
-     shotsPer
-    # TODO  Add scores here eventually
-     participantCap
-     startDate
-     endDate
-    }
-  }
-`;
+
 
 const EventPage = () => {
   const router = useRouter();
-  const { eventId } = router.query;
-  const { data, loading, error } = useQuery(EVENT_QUERY, {
-    variables: {
-      id: eventId
-    }
-  });
+  console.log(router.query);
+  const { eventID } = router.query;
+  const { event, eventIsLoading, eventIsError } = useEvent(eventID);
 
-
-  if (loading) return (
+  if (eventIsLoading) return (
     <main>
-      <h3>Loading...</h3>
+      <h1>Loading</h1>
     </main>
   )
 
-  if (error) return (
+  if (eventIsError) return (
     <main>
-      <h3>We couldn't find that event.</h3>
-      {/* TODO: Link back to proper place, once proper place exists. Search? Event creation? */}
+      <h1>There is currently an error.</h1>
     </main>
   )
+
   return (
     <main>
-      <h1>{data.eventById.name}</h1>
+      <h1>{event.name}</h1>
     </main>
   )
 }

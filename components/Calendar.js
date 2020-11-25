@@ -11,7 +11,7 @@ import {
   WEEK_DAYS_SHORT,
   CALENDAR_MONTHS_FULL,
   calendarBuilder
-} from 'utils/dateHelpers';
+} from 'lib';
 
 export const Calendar = () => {
   // Remember: Values from and Date.getDay() and .getMonth() are array style.

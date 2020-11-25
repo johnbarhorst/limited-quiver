@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { UserEvents } from 'components';
 
@@ -7,7 +8,9 @@ const EventsHome = () => (
   <Main_3_Col>
     <h1>Events!</h1>
     <section>
-      <h3>Create an Event</h3>
+      <Link href="/events/createevent">
+        <h3>Create an Event</h3>
+      </Link>
     </section>
     <section>
       <UserEvents />

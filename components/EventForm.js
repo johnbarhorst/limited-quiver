@@ -1,50 +1,16 @@
 import { useState } from 'react';
-import { gql, useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { useAppContext } from 'state';
-import { useInput } from 'hooks';
+import { useInput, useUser } from 'hooks';
 import { ErrorDisplay } from 'components'
 import { Form, TextInput, Button, CheckboxLabel } from 'elements';
 
 
-// type Event {
-//   id: String
-//   name: String
-//   admin: [User]
-//   participants: [User]
-//   active: Boolean
-//   private: Boolean
-//   rounds: Int
-//   shotsPer: Int
-//   scores: Int
-//   participantCap: Int
-//   startDate: Date
-//   endDate: Date
-//   }
-
-const CREATE_INSTANT_EVENT = gql`
-  mutation createInstantEvent($event: EventInput) {
-    newEvent(event: $event) {
-      id
-    }
-  }
-`;
 
 export const EventForm = () => {
   const router = useRouter();
-  const { user, addToast } = useAppContext();
-  const [createEvent, { data, loading, error }] = useMutation(CREATE_INSTANT_EVENT, {
-    onError: err => console.log(err),
-    onCompleted: data => {
-      console.log(data);
-      addToast({
-        title: "Event Created!",
-        message: `Event ${eventName.value} has been created.`
-      });
-      resetFormState();
-      router.push(`/events/${data.newEvent.id}`)
-    }
-  });
+  const { user } = useUser();
+  const { addToast } = useAppContext();
   const [date, setDate] = useState();
   const [isPrivateEvent, resetIsPrivateEvent] = useInput(true);
   const [eventName, resetEventName] = useInput('');
@@ -52,24 +18,35 @@ export const EventForm = () => {
   const [rounds, resetRounds] = useInput(1);
   const [shotsPer, resetShotsPer] = useInput(1);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const eventData = {
       name: eventName.value,
-      createdBy: user.id,
-      admin: [user.id],
+      createdBy: user._id,
+      admin: [user._id],
       rounds: parseInt(rounds.value),
       shotsPer: parseInt(shotsPer.value),
       startDate: new Date(),
       participantCap: parseInt(participantCap.value),
       private: isPrivateEvent.value
-
     }
-    createEvent({
-      variables: {
-        event: eventData
-      }
-    })
+    const createEvent = await fetch(`/api/createevent`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(eventData),
+    });
+
+    if (createEvent.status === 201) {
+      const response = await createEvent.json();
+      resetFormState();
+      addToast({
+        title: "New Event Created!",
+        message: `${response.name} created.`
+      });
+      router.push(`/events/${response._id}`);
+    }
   }
 
   function resetFormState() {
@@ -117,11 +94,11 @@ export const EventForm = () => {
           <span></span>
         </CheckboxLabel>
       </div>
-      <div>
+      {/* <div>
         {error && <ErrorDisplay message={error.message} />}
-      </div>
+      </div> */}
       <div>
-        <Button type="submit">{loading ? "Creating Event" : "Create Event"}</Button>
+        <Button type="submit">Create Event</Button>
       </div>
     </Form>
   )
