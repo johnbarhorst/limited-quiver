@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react';
 import useSWR from 'swr';
-import cookie from 'cookie';
 import { fetcher } from 'lib/api-helpers';
 
 
@@ -10,14 +8,7 @@ import { fetcher } from 'lib/api-helpers';
 // Some other option? 
 
 export const useUser = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const { data, error, mutate } = useSWR(isLoggedIn ? '/api/user' : null, fetcher);
-
-  // checking for our cookie set in /api/auth.js.
-  useEffect(() => {
-    const COOKIES = cookie.parse(document.cookie);
-    setIsLoggedIn(COOKIES.LQ_USER ? true : false);
-  });
+  const { data, error, mutate } = useSWR('/api/user', fetcher);
 
   return {
     user: data,
