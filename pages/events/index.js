@@ -5,20 +5,9 @@ import { UserEvents } from 'components';
 
 
 const EventsHome = () => (
-  <Main_3_Col>
-    <h1>Events!</h1>
-    <section>
-      <Link href="/events/createevent">
-        <h3>Create an Event</h3>
-      </Link>
-    </section>
-    <section>
-      <UserEvents />
-    </section>
-    <section>
-      <h3>Browse Events</h3>
-    </section>
-  </Main_3_Col>
+  <main>
+    <UserEvents />
+  </main>
 );
 
 export default EventsHome;
