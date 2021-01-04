@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useAppContext } from 'state';
 import { useUser } from 'hooks';
+import { EventDisplay, Login } from 'components';
 
 
 export const UserEvents = () => {
@@ -11,7 +12,7 @@ export const UserEvents = () => {
     return (
       <section>
         <h3>You must be logged in to view your events.</h3>
-        <button onClick={() => setIsLoginOpen(true)} >Login</button>
+        <Login />
       </section>
     )
   }
@@ -19,7 +20,7 @@ export const UserEvents = () => {
   if (user.events.length < 1) {
     return (
       <section>
-        <h3>Looks like you don't have any events yet!</h3>
+        <h3>Looks like you don't have any events yet.</h3>
         <Link href="/events/createevent">
           <a>Create an Event</a>
         </Link>
@@ -30,7 +31,7 @@ export const UserEvents = () => {
   return (
     <section>
       <h3>Your Events</h3>
-      {user.events.map(event => <p key={event._id}>{event.name}</p>)}
+      {user.events.map(event => <EventDisplay event={event} key={event._id} />)}
     </section>
   )
 }

@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import { useEvent } from 'hooks';
 
 
-
 const EventPage = () => {
   const router = useRouter();
   const { eventId } = router.query;

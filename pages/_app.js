@@ -2,7 +2,6 @@ import Head from 'next/head';
 import { AppContextWrapper, useAppContext } from 'state';
 import {
   Navigation,
-  LoginModal,
   SignUpModal,
   ToastModule
 } from 'components';
@@ -21,7 +20,6 @@ const AppToWrap = ({ Component, pageProps }) => {
         <meta name="description" content="Score keeping resource for archery leagues of all skill levels." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <LoginModal />
       <SignUpModal />
       <ToastModule toastList={toasts} removeToast={removeToast} position={"BOTTOM_RIGHT"} />
 
