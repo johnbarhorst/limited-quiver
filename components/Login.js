@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import ReactModal from 'react-modal';
 import { CloseButton, Form, TextInput, Button } from 'elements';
-import { useInput, useUser } from 'hooks';
+import { useInput, useUser, useLoadingState, loadingStateActionTypes } from 'hooks';
 
 ReactModal.setAppElement("#__next");
 
-export const Login = () => {
+export const Login = ({ LoginButton = Button }) => {
   const { mutate } = useUser();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [{ loading: loggingIn, error: loginError, success: loginSuccess }, loginDispatch] = useLoadingState();
   const [email, resetEmail] = useInput('');
   const [password, resetPassword] = useInput('');
 
@@ -17,6 +18,10 @@ export const Login = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    // loading state for the log in, disabling the button below
+    //TODO: check accessibility protocol for disabling buttons
+    loginDispatch({ type: loadingStateActionTypes.loading });
+
     const credentials = {
       email: email.value,
       password: password.value
@@ -30,8 +35,15 @@ export const Login = () => {
     });
 
     if (user.status === 200) {
+      loginDispatch({ type: loadingStateActionTypes.success });
+      // use the mutate function from the SWR hook to refresh user data from our user endpoint once we have a session
       mutate();
       closeModal();
+      // TODO what if server down? might need a bigger over all solution
+      // This only really accounts for incorrect credentials
+    } else if (user.status === 401) {
+      loginDispatch({ type: loadingStateActionTypes.error });
+      resetPassword();
     }
   }
   return (
@@ -57,11 +69,12 @@ export const Login = () => {
             <TextInput type="password" name="password" {...password} />
           </div>
           <div>
-            <Button type="submit">Sign in</Button>
+            {loginError && <p>Invalid log in credentials, please try again.</p>}
+            <Button type="submit" disabled={loggingIn} >Sign in</Button>
           </div>
         </Form>
       </ReactModal>
-      <Button onClick={openModal}>Login</Button>
+      <LoginButton onClick={openModal}>Log in</LoginButton>
     </>
   )
 }
