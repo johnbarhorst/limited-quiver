@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useToastContext } from 'state';
 import { CloseButton } from 'elements';
 
 const Toast = ({ title = "Toast!", message = "Message", closeToast = f => f, id }) => {
@@ -21,8 +22,8 @@ const Toast = ({ title = "Toast!", message = "Message", closeToast = f => f, id 
 }
 
 
-export const ToastModule = ({ position = "BOTTOM_RIGHT", toastList = [], removeToast = f => f }) => {
-
+export const ToastModule = ({ position = "BOTTOM_RIGHT" }) => {
+  const { toastList, removeToast, closeAllToasts } = useToastContext();
   return (
     <NotificationWrapper position={position}>
       <AnimatePresence>
@@ -35,6 +36,14 @@ export const ToastModule = ({ position = "BOTTOM_RIGHT", toastList = [], removeT
             id={item.id}
           />
         )}
+        {toastList.length > 1 &&
+          <ClearToastsButton
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.2 } }}
+            onClick={() => closeAllToasts()}
+          >Clear All
+         </ClearToastsButton>}
       </AnimatePresence>
     </NotificationWrapper>
   )
@@ -47,6 +56,7 @@ const NotificationWrapper = styled(motion.ul)`
   flex-direction: column-reverse;
   list-style: none;
   padding: 0;
+  z-index: 1001;
   ${props => {
     switch (props.position) {
       case "CENTER":
@@ -69,6 +79,10 @@ const NotificationWrapper = styled(motion.ul)`
 
 const ToastContainer = styled(motion.li)`
   position: relative;
+`;
+
+const ClearToastsButton = styled(motion.button)`
+  order: -1;
 `;
 
 const TOAST_VARIANTS = {

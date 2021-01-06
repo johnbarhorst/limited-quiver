@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useAppContext } from 'state';
 import { useInput, useUser } from 'hooks';
+import { useToastContext } from 'state';
 import { ErrorDisplay } from 'components'
 import { Form, TextInput, Button, CheckboxLabel } from 'elements';
+import { useTapGesture } from 'framer-motion';
 
 
 
 export const EventForm = () => {
   const router = useRouter();
   const { user } = useUser();
-  const { addToast } = useAppContext();
+  const { addToast } = useToastContext();
   const [date, setDate] = useState();
   const [isPrivateEvent, resetIsPrivateEvent] = useInput(true);
   const [eventName, resetEventName] = useInput('');
@@ -45,7 +46,7 @@ export const EventForm = () => {
         title: "New Event Created!",
         message: `${response.name} created.`
       });
-      router.push(`/events/${response._id}`);
+      router.push(`/events/[eventId]`, `/events/${response._id}`);
     }
   }
 
