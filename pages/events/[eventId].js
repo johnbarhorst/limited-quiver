@@ -1,23 +1,8 @@
-import { useRouter } from 'next/router';
-import { useEvent } from 'hooks';
+import nextConnect from 'next-connect';
+import middleware from 'middleware/middleware';
+import Event from 'models/EventModel';
 
-
-const EventPage = () => {
-  const router = useRouter();
-  const { eventId } = router.query;
-  const { event, eventIsLoading, eventIsError } = useEvent(eventId);
-
-  if (eventIsLoading) return (
-    <main>
-      <h1>Loading</h1>
-    </main>
-  )
-
-  if (eventIsError) return (
-    <main>
-      <h1>There is currently an error.</h1>
-    </main>
-  )
+const EventPage = ({ event }) => {
 
   return (
     <main>
@@ -27,3 +12,19 @@ const EventPage = () => {
 }
 
 export default EventPage;
+
+export async function getServerSideProps({ req, res, params }) {
+  const handler = nextConnect();
+  handler.use(middleware);
+  try {
+    await handler.run(req, res);
+  } catch (error) {
+    console.log(error)
+  }
+  const event = await Event.findById(params.eventId);
+
+  return {
+    // Parse then stringify, because next doesn't coerse data like javascript will.
+    props: { event: JSON.parse(JSON.stringify(event)) }
+  }
+}
