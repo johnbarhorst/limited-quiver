@@ -10,7 +10,6 @@ export * from './Footer';
 export * from './Login';
 export * from './Modal';
 export * from './Navigation';
-export * from './NewUser';
 export * from './SignUpModal';
 export * from './Toasts';
 export * from './UserEvents';

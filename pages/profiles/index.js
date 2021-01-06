@@ -1,11 +1,9 @@
-import { useAppContext } from 'state';
 import { useUser } from 'hooks';
-import { Login } from 'components';
+import { Login, SignUpModal } from 'components';
 
 
 const ProfilesHome = () => {
   const { user, userIsLoading, userIsError, mutate } = useUser();
-  const { setIsSignUpOpen } = useAppContext();
 
   const handleLogout = async () => {
     await fetch('/api/auth', {
@@ -24,7 +22,7 @@ const ProfilesHome = () => {
           :
           <>
             <Login />
-            <button onClick={() => setIsSignUpOpen(true)}>Sign Up</button>
+            <SignUpModal />
           </>
         }
       </div>
