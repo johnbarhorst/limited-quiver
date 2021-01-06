@@ -7,7 +7,6 @@ export * from './EventDisplay';
 export * from './EventForm';
 export * from './ErrorDisplay';
 export * from './Footer';
-export * from './LoginForm';
 export * from './Login';
 export * from './Modal';
 export * from './Navigation';
