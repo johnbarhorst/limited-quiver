@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import ReactModal from 'react-modal';
 import { useToastContext } from 'state';
-import { useInput, useUser, useLoadingState } from 'hooks';
+import { useInput, useUser, useLoadingState, loadingStateActionTypes } from 'hooks';
 import { Form, TextInput, Button, CloseButton, CheckboxLabel } from 'elements';
 
 
@@ -14,7 +14,7 @@ export const CreateEvent = ({ CreateEventButton = Button }) => {
   const [{
     loading: createEventLoading,
     error: createEventError,
-    success: createEventSuccess }, signUpDispatch] = useLoadingState();
+    success: createEventSuccess }, createEventDispatch] = useLoadingState();
   const router = useRouter();
   const { user } = useUser();
   const { addToast } = useToastContext();
@@ -40,6 +40,7 @@ export const CreateEvent = ({ CreateEventButton = Button }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    createEventDispatch({ type: loadingStateActionTypes.loading });
     const eventData = {
       name: eventName.value,
       createdBy: user._id,
@@ -60,12 +61,13 @@ export const CreateEvent = ({ CreateEventButton = Button }) => {
 
     if (createEvent.status === 201) {
       const response = await createEvent.json();
+      createEventDispatch({ type: loadingStateActionTypes.success });
       resetFormState();
       addToast({
         title: "New Event Created!",
         message: `${response.name} created.`
       });
-      router.push(`/events/[eventId]`, `/events/${response._id}`);
+      router.push(`/events/${response._id}`);
     }
   }
 
