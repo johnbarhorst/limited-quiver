@@ -5,7 +5,7 @@ import { useInput, useMatchingInput, useUser, useLoadingState, loadingStateActio
 
 ReactModal.setAppElement("#__next");
 
-export const SignUpModal = ({ SignupButton = Button }) => {
+export const SignUp = ({ SignupButton = Button }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { mutate } = useUser();
   const [{ loading: signUpLoading, error: signUpError, success: signUpSuccess }, signUpDispatch] = useLoadingState();
