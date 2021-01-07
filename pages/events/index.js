@@ -1,12 +1,13 @@
 import styled from 'styled-components';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { UserEvents } from 'components';
+import { CreateEvent, UserEvents } from 'components';
+import { Button } from 'elements';
 
 
 const EventsHome = () => (
   <main>
     <UserEvents />
+    <CreateEvent />
   </main>
 );
 
