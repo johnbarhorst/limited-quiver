@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { CreateEvent, UserEvents } from 'components';
-import { Button } from 'elements';
+import { Button, MainContent } from 'elements';
 
 
 const EventsHome = () => (
-  <main>
+  <MainContent >
     <UserEvents />
     <CreateEvent />
-  </main>
+  </MainContent>
 );
 
 export default EventsHome;
