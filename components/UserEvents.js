@@ -1,6 +1,7 @@
-import Link from 'next/link';
+import useSWR from 'swr';
+import { fetcher } from 'lib/api-helpers';
 import { useUser } from 'hooks';
-import { EventDisplay, Login } from 'components';
+import { CreateEvent, EventSmallDisplay, Login } from 'components';
 
 
 export const UserEvents = () => {
@@ -19,9 +20,7 @@ export const UserEvents = () => {
     return (
       <section>
         <h3>Looks like you don't have any events yet.</h3>
-        <Link href="/events/createevent">
-          <a>Create an Event</a>
-        </Link>
+        <CreateEvent />
       </section>
     )
   }
@@ -29,7 +28,7 @@ export const UserEvents = () => {
   return (
     <section>
       <h3>Your Events</h3>
-      {user.events.map(event => <EventDisplay event={event} key={event._id} />)}
+      {user.events.map(event => <EventSmallDisplay event={event} key={event._id} />)}
     </section>
   )
 }
