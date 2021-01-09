@@ -1,14 +1,14 @@
 import nextConnect from 'next-connect';
 import middleware from 'middleware/middleware';
 import { useUser } from 'hooks';
-import { Login, SignUp, LogoutButton } from 'components';
+import { Layout, Login, SignUp, LogoutButton } from 'components';
 
 
 const ProfilesHome = (props) => {
   const { user, userIsLoading, userIsError, mutate } = useUser(props.user);
 
   return (
-    <main>
+    <Layout>
       <h1>
         {user ? user.username : "User Profiles"}
       </h1>
@@ -22,7 +22,7 @@ const ProfilesHome = (props) => {
           </>
         }
       </div>
-    </main>
+    </Layout>
   )
 }
 

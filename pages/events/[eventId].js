@@ -1,16 +1,16 @@
 import nextConnect from 'next-connect';
 import middleware from 'middleware/middleware';
 import Event from 'models/EventModel';
-import { UserDisplay } from 'components';
+import { Layout, UserDisplay } from 'components';
 
 const EventPage = ({ event }) => {
 
   return (
-    <main>
+    <Layout>
       <h1>{event.name}</h1>
       {event.admin.map(user => <UserDisplay user={user} key={user._id} />)}
 
-    </main>
+    </Layout>
   )
 }
 
