@@ -5,4 +5,4 @@ export * from './Utilities';
 export * from './EventFullDisplay';
 export * from './EventSmallDisplay';
 export * from './UserDisplay';
-export * from './UserEvents';
+export * from './EventList';
