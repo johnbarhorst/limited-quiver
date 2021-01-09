@@ -7,8 +7,8 @@ import { fetcher } from 'lib/api-helpers';
 // manual refresh button?
 // Some other option? 
 
-export const useUser = () => {
-  const { data, error, mutate } = useSWR('/api/user', fetcher);
+export const useUser = (initialData) => {
+  const { data, error, mutate } = useSWR('/api/user', fetcher, initialData ? { initialData } : null);
 
   return {
     user: data,
