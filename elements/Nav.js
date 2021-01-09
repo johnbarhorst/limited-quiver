@@ -12,8 +12,7 @@ export const Nav = styled.nav`
   background: ${props => props.theme.colors.bgPrimary};
   padding: 1.25rem 0;
 
-  will-change: transform;
-	transform: translateZ(0);
+	/* transform: translateZ(0); */
   a {
     cursor: pointer;
     flex-grow: 1;
