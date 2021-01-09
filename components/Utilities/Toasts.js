@@ -13,10 +13,8 @@ const Toast = ({ title = "Toast!", message = "Message", closeToast = f => f, id 
       key={id}
     >
       <CloseButton clickHandler={closeToast} />
-      <div>
-        <p>{title}</p>
-        <p>{message}</p>
-      </div>
+      <p>{title}</p>
+      <p>{message}</p>
     </ToastContainer>
   )
 }
@@ -57,6 +55,9 @@ const NotificationWrapper = styled(motion.ul)`
   list-style: none;
   padding: 0;
   z-index: 1001;
+  li {
+    margin: 1px;
+  }
   ${props => {
     switch (props.position) {
       case "CENTER":
@@ -79,6 +80,10 @@ const NotificationWrapper = styled(motion.ul)`
 
 const ToastContainer = styled(motion.li)`
   position: relative;
+  background: ${props => props.theme.colors.red};
+  padding: .5em 1em;
+  border: 1px solid black;
+  border-radius: 10px;
 `;
 
 const ClearToastsButton = styled(motion.button)`
