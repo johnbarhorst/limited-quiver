@@ -1,28 +1,42 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { CreateEvent, UserEvents, Layout } from 'components';
-import { Button, MainContent } from 'elements';
+import { useUser } from 'hooks';
+import { CreateEvent, Layout, Login, EventList, CreateToast } from 'components';
 
+const EventsHome = () => {
+  const { user, userIsLoading, userIsError } = useUser();
 
-const EventsHome = () => (
-  <Layout>
-    <UserEvents />
-    <CreateEvent />
-  </Layout>
-);
+  return (
+    <Layout>
+      <h1>Events</h1>
+      <Wrapper>
+        <EventContainer>
+          {user && <EventList events={user.events} />}
+          {userIsLoading && <h3>Loading user data...</h3>}
+          {!user && !userIsLoading && (
+            <section>
+              <h3>You must be logged in to see your events.</h3>
+              <Login />
+            </section>
+          )}
+        </EventContainer>
+        <section>
+          <CreateEvent />
+          <CreateToast />
+        </section>
+      </Wrapper>
+    </Layout>
+  )
+};
 
 export default EventsHome;
 
-const Main_3_Col = styled(motion.main)`
+const Wrapper = styled(motion.div)`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 5px;
-  section {
-    border: 1px solid black;
-  }
-  h1,
-  h3 {
-    text-align: center;
-    grid-column: 1/-1;
-  }
+  gap: 2em;
+`;
+
+const EventContainer = styled(motion.div)`
+  max-width: 30em;
 `;
