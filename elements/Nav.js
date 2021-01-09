@@ -9,7 +9,7 @@ export const Nav = styled.nav`
   bottom: 0;
   z-index: 1000;
   font-size: 2rem;
-  background: #fff;
+  background: ${props => props.theme.colors.bgPrimary};
   padding: 1.25rem 0;
 
   will-change: transform;
