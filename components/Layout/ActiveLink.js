@@ -24,7 +24,7 @@ export const ActiveLink = ({ href, children }) => {
 }
 
 const A = styled.a`
-  color: ${props => props.isActive ? props.theme.colors.red : "black"};
+  color: ${props => props.isActive ? props.theme.colors.red : props.theme.colors.fontPrimary};
 `;
 
 

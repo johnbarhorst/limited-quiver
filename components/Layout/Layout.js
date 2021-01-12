@@ -1,4 +1,8 @@
 import Head from 'next/head';
+import styled from 'styled-components';
+import { motion } from 'framer-motion';
+
+
 import { Navigation, ToastModule } from 'components';
 
 export const Layout = ({ children }) => {
@@ -11,9 +15,15 @@ export const Layout = ({ children }) => {
       </Head>
       <ToastModule position={"BOTTOM_RIGHT"} />
       <Navigation />
-      <main>
+      <Wrapper>
         {children}
-      </main>
+      </Wrapper>
     </>
   )
 }
+
+const Wrapper = styled(motion.main)`
+  background: ${props => props.theme.colors.bgPrimary};
+  height: calc(100vh - ${props => props.theme.sizes.navHeightMobile});
+  color: ${props => props.theme.colors.fontPrimary};
+`;

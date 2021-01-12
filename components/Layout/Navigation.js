@@ -40,10 +40,10 @@ export const Navigation = () => {
         </ActiveLink>
       </div>
       <div>
-        <a>
+        <ActiveLink href={"/"}>
           <HiOutlineDotsHorizontal />
           <span className="visible-hidden">More</span>
-        </a>
+        </ActiveLink>
       </div>
     </Nav>
   )

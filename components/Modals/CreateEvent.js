@@ -3,13 +3,13 @@ import { useRouter } from 'next/router';
 import ReactModal from 'react-modal';
 import { useToastContext } from 'state';
 import { useInput, useUser, useLoadingState, loadingStateActionTypes } from 'hooks';
-import { Form, TextInput, Button, CloseButton, CheckboxLabel } from 'elements';
+import { Form, TextInput, Button_LG, Button, CloseButton, CheckboxLabel } from 'elements';
 
 
 ReactModal.setAppElement("#__next");
 
 
-export const CreateEvent = ({ CreateEventButton = Button }) => {
+export const CreateEvent = ({ CreateEventButton = Button_LG }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [{
     loading: createEventLoading,
