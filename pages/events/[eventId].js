@@ -1,15 +1,15 @@
 import nextConnect from 'next-connect';
 import middleware from 'middleware/middleware';
 import Event from 'models/EventModel';
-import { Layout, UserDisplay } from 'components';
+import { Layout, UserDisplay, TopBar } from 'components';
 
 const EventPage = ({ event }) => {
 
   return (
     <Layout>
+      <TopBar title={"Event Details"} />
       <h1>{event.name}</h1>
       {event.admin.map(user => <UserDisplay user={user} key={user._id} />)}
-
     </Layout>
   )
 }
@@ -26,6 +26,12 @@ export async function getServerSideProps({ req, res, params }) {
     console.log(error)
   }
   const event = await Event.findById(params.eventId).populate('admin');
+
+  if (!event) {
+    return {
+      notFound: true
+    }
+  }
 
   return {
     // Parse then stringify, because next doesn't coerse data like javascript will.
