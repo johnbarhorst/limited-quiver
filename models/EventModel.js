@@ -17,7 +17,7 @@ const EventSchema = {
   shotsPer: Number,
   participantCap: Number,
   scores: [{ type: Schema.Types.ObjectId, ref: "Scores" }],
-  startDate: Number,
+  startDate: Date,
   endDate: Number
 }
 

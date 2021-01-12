@@ -1,37 +1,53 @@
-import { useAppContext } from 'state';
-import { useMutation, gql } from '@apollo/client';
+import nextConnect from 'next-connect';
+import middleware from 'middleware/middleware';
+import { useUser } from 'hooks';
+import { Layout, Login, SignUp, LogoutButton } from 'components';
 
 
-const LOGOUT_USER = gql`
-mutation LogoutUser {
-  logoutUser 
-}`;
+const ProfilesHome = (props) => {
+  const { user, userIsLoading, userIsError, mutate } = useUser(props.user);
 
-const ProfilesHome = () => {
-  const { user, setUser, setIsLoginOpen, setIsSignUpOpen } = useAppContext();
-  const [logout, { data, error, loading }] = useMutation(LOGOUT_USER);
-
-  const handleLogout = () => {
-    logout();
-    setUser(null);
-  }
   return (
-    <main>
+    <Layout>
       <h1>
         {user ? user.username : "User Profiles"}
       </h1>
       <div>
         {user ?
-          <button onClick={() => handleLogout()} >Logout!</button>
+          <LogoutButton />
           :
           <>
-            <button onClick={() => setIsLoginOpen(true)} >Login</button>
-            <button onClick={() => setIsSignUpOpen(true)}>Sign Up</button>
+            <Login />
+            <SignUp />
           </>
         }
       </div>
-    </main>
+    </Layout>
   )
 }
 
 export default ProfilesHome;
+
+export async function getServerSideProps({ req, res }) {
+  // tap into the middleware
+  const handler = nextConnect();
+  handler.use(middleware);
+  try {
+    await handler.run(req, res);
+  } catch (error) {
+    // TODO Handle errors
+    console.log(error)
+  }
+  if (!req.user) {
+    return {
+      props: {
+        user: null
+      }
+    }
+  }
+  return {
+    props: {
+      user: JSON.parse(JSON.stringify(req.user))
+    }
+  }
+}

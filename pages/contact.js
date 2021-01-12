@@ -1,10 +1,11 @@
+import { Layout } from 'components';
 
 const Contact = () => {
 
   return (
-    <main>
+    <Layout>
       <h1>Contact Us</h1>
-    </main>
+    </Layout>
   )
 }
 

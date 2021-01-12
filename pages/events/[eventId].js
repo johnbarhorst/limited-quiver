@@ -1,58 +1,40 @@
-import { gql, useQuery } from '@apollo/client';
-import { useRouter } from 'next/router';
+import nextConnect from 'next-connect';
+import middleware from 'middleware/middleware';
+import Event from 'models/EventModel';
+import { Layout, UserDisplay, TopBar } from 'components';
 
-const EVENT_QUERY = gql`
-  query GetEvent($id: ID) {
-    eventById(id: $id) {
-      id
-     name
-     admin {
-       id
-       username
-     }
-     participants {
-       id
-       username
-     }
-     active
-     private
-     rounds
-     shotsPer
-    # TODO  Add scores here eventually
-     participantCap
-     startDate
-     endDate
-    }
-  }
-`;
+const EventPage = ({ event }) => {
 
-const EventPage = () => {
-  const router = useRouter();
-  const { eventId } = router.query;
-  const { data, loading, error } = useQuery(EVENT_QUERY, {
-    variables: {
-      id: eventId
-    }
-  });
-
-
-  if (loading) return (
-    <main>
-      <h3>Loading...</h3>
-    </main>
-  )
-
-  if (error) return (
-    <main>
-      <h3>We couldn't find that event.</h3>
-      {/* TODO: Link back to proper place, once proper place exists. Search? Event creation? */}
-    </main>
-  )
   return (
-    <main>
-      <h1>{data.eventById.name}</h1>
-    </main>
+    <Layout>
+      <TopBar title={"Event Details"} />
+      <h1>{event.name}</h1>
+      {event.admin.map(user => <UserDisplay user={user} key={user._id} />)}
+    </Layout>
   )
 }
 
 export default EventPage;
+
+export async function getServerSideProps({ req, res, params }) {
+  const handler = nextConnect();
+  handler.use(middleware);
+  try {
+    await handler.run(req, res);
+  } catch (error) {
+    // TODO Handle errors
+    console.log(error)
+  }
+  const event = await Event.findById(params.eventId).populate('admin');
+
+  if (!event) {
+    return {
+      notFound: true
+    }
+  }
+
+  return {
+    // Parse then stringify, because next doesn't coerse data like javascript will.
+    props: { event: JSON.parse(JSON.stringify(event)) }
+  }
+}

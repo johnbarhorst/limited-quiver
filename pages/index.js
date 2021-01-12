@@ -1,31 +1,35 @@
-
+import Head from 'next/head';
+import styled from 'styled-components';
+import { motion } from 'framer-motion';
+import { Layout } from 'components';
 
 export default function Home() {
   return (
-    <main>
-      <h1>
-        Limited Quiver Archery League
-        </h1>
-      <section style={
-        { fontSize: "30px" }
-      }>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odit quasi fuga voluptatum repudiandae in id eius quis earum consectetur debitis delectus, pariatur nihil nobis quaerat tempore eum dolor aliquam perspiciatis?
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea quas quis delectus commodi beatae nemo itaque obcaecati modi, tenetur, consequatur nesciunt earum quasi. Exercitationem necessitatibus incidunt maiores hic quasi alias.</section>
-      <section style={
-        { fontSize: "30px" }
-      }>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odit quasi fuga voluptatum repudiandae in id eius quis earum consectetur debitis delectus, pariatur nihil nobis quaerat tempore eum dolor aliquam perspiciatis?
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea quas quis delectus commodi beatae nemo itaque obcaecati modi, tenetur, consequatur nesciunt earum quasi. Exercitationem necessitatibus incidunt maiores hic quasi alias.</section>
-      <section style={
-        { fontSize: "30px" }
-      }>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odit quasi fuga voluptatum repudiandae in id eius quis earum consectetur debitis delectus, pariatur nihil nobis quaerat tempore eum dolor aliquam perspiciatis?
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea quas quis delectus commodi beatae nemo itaque obcaecati modi, tenetur, consequatur nesciunt earum quasi. Exercitationem necessitatibus incidunt maiores hic quasi alias.</section>
-      <section style={
-        { fontSize: "30px" }
-      }>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odit quasi fuga voluptatum repudiandae in id eius quis earum consectetur debitis delectus, pariatur nihil nobis quaerat tempore eum dolor aliquam perspiciatis?
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea quas quis delectus commodi beatae nemo itaque obcaecati modi, tenetur, consequatur nesciunt earum quasi. Exercitationem necessitatibus incidunt maiores hic quasi alias.</section>
-    </main>
+    <>
+      {/* <Head>
+        <title>Limited Quiver</title>
+        <meta name="description" content="Score keeping resource for archery leagues of all skill levels." />
+        <link rel="icon" href="/favicon.ico" />
+      </Head> */}
+      <Layout>
+        <Wrapper>
+          <section>
+            <h1>Limited Quiver</h1>
+            <p>Score keeping for archers of all skill levels</p>
+          </section>
+        </Wrapper>
+      </Layout>
+    </>
   )
 }
+
+const Wrapper = styled(motion.div)`
+  text-align: center;
+  display: grid;
+  height: calc(100vh - ${props => props.theme.sizes.navHeightMobile});
+  align-items: center;
+  section {
+    padding: 3em;
+  }
+`;
+

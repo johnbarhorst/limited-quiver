@@ -3,9 +3,23 @@ import { MdClear } from 'react-icons/md';
 import styled from 'styled-components';
 
 export const Button = styled(motion.button)`
-  width: 7rem;
-  padding: 4px 6px;
-  border-radius: 5px;
+  border: 0;
+  border-radius: 0.25rem;
+  background: ${props => props.theme.colors.darkBlue};
+  color: white;
+  font-family: -system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  margin: 0.25rem;
+  cursor: pointer;
+`;
+
+export const Button_LG = styled(Button)`
+  border-radius: 1.25rem;
+  padding: 1.25rem 1.5rem;
 `;
 
 const CloseButtonStyle = styled(motion.button)`
