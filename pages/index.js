@@ -29,7 +29,6 @@ const Wrapper = styled(motion.div)`
   height: calc(100vh - ${props => props.theme.sizes.navHeightMobile});
   align-items: center;
   section {
-    background: linear-gradient(${props => props.theme.colors.bgPrimary}, ${props => props.theme.colors.red}, ${props => props.theme.colors.bgPrimary});
     padding: 3em;
   }
 `;

@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 export const ScrollBox = ({ children, height }) => {
   return (
-    <Box>
+    <Box height={height}>
       <BoxWrapper>
         {children}
       </BoxWrapper>
@@ -14,7 +14,7 @@ export const ScrollBox = ({ children, height }) => {
 const Box = styled(motion.section)`
   position: relative;
   overflow: hidden;
-  height: ${props => props.height ? height : '20em;'}
+  height: ${props => props.height ? height : '100%'}
 `;
 
 const BoxWrapper = styled(motion.div)`

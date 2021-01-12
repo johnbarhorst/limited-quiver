@@ -18,31 +18,31 @@ export const Navigation = () => {
       <div>
         <ActiveLink href={"/"} >
           <HiOutlineHome />
-          <span className="visible-hidden">Home</span>
+          <span>Home</span>
         </ActiveLink>
       </div>
       <div>
         <ActiveLink href={"/events"} >
           <HiOutlineCalendar />
-          <span className="visible-hidden">Events</span>
+          <span>Events</span>
         </ActiveLink>
       </div>
       <div>
         <ActiveLink href={"/contact"} >
           <HiOutlineChatAlt />
-          <span className="visible-hidden">Contact</span>
+          <span>Contact</span>
         </ActiveLink>
       </div>
       <div>
         <ActiveLink href={"/profiles"} >
           <GiArcher />
-          <span className="visible-hidden">User</span>
+          <span>User</span>
         </ActiveLink>
       </div>
       <div>
         <ActiveLink href={"/"}>
           <HiOutlineDotsHorizontal />
-          <span className="visible-hidden">More</span>
+          <span>More</span>
         </ActiveLink>
       </div>
     </Nav>

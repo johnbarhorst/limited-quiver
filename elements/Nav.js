@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 export const Nav = styled.nav`
   display: flex;
+  align-items: center;
+  text-align: center;
   justify-content: space-evenly;
   position: fixed;
   left: 0;
@@ -9,12 +11,17 @@ export const Nav = styled.nav`
   bottom: 0;
   z-index: 1000;
   font-size: 2rem;
-  background: ${props => props.theme.colors.bgElement};
-  padding: 1.25rem 0;
+  background: ${props => props.theme.bg.primary};
+  height: ${props => props.theme.sizes.navHeightMobile};
+  color: ${props => props.theme.fonts.navIcon};
 
+  
 	/* transform: translateZ(0); */
   a {
+    span {
+      display: block;
+      font-size: 10px;
+    }
     cursor: pointer;
-    flex-grow: 1;
   }
 `;
