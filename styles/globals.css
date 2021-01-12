@@ -1,13 +1,20 @@
 /* Variables, Custom Properties if ya nasty */
 
+/* I have these here right now for easier time trying out styles in dev tools. */
+
+/* TODO: Delete these for prod */
+
 :root {
   --elevate_1: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   --elevate_2: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --bgPrimary: #ffffff22;
   --darkGrey: #5C5F58;
-  --brown: #591C0B;
+  --orange: #FF9F1C;
   --darkBlue: #004E7C;
-  --orange: #B73225;
+  --red: #BF1A2F;
+  --apricot: #FFBF69;
+  --persianGreen: #339989;
+  --white: #ffffff;
+  --black: #121212;
 }
 
 /* Reset stuff */

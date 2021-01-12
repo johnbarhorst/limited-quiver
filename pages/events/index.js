@@ -4,7 +4,15 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useUser } from 'hooks';
-import { CreateEvent, Layout, Login, EventList, EventFullDisplay, CreateToast } from 'components';
+import {
+  CreateEvent,
+  Layout,
+  Login,
+  EventList,
+  EventFullDisplay,
+  CreateToast,
+  ScrollBox,
+} from 'components';
 
 const EventsHome = () => {
   const { user, userIsLoading, userIsError } = useUser();
@@ -14,7 +22,11 @@ const EventsHome = () => {
       <h1>Events</h1>
       <Wrapper>
         <EventContainer>
-          {user && <EventList events={user.events} />}
+          {user && (
+            <ScrollBox height={'11rem'}>
+              <EventList events={user.events} />
+            </ScrollBox>
+          )}
           {userIsLoading && <h3>Loading user data...</h3>}
           {!user && !userIsLoading && (
             <section>
@@ -36,7 +48,7 @@ const EventsHome = () => {
 export default EventsHome;
 
 const Wrapper = styled(motion.div)`
-  @media screen and (min-width: 780px) {
+  @media screen and (min-width: 640px) {
     display: grid;
     grid-template-columns: 1fr 2fr;
     gap: 2em;

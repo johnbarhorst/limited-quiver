@@ -1,4 +1,4 @@
-import { EventSmallDisplay, ScrollBox } from 'components';
+import { EventSmallDisplay } from 'components';
 
 export const EventList = ({ events }) => {
 
@@ -11,8 +11,8 @@ export const EventList = ({ events }) => {
   }
 
   return (
-    <ScrollBox>
+    <>
       {events.map(event => <EventSmallDisplay event={event} key={event._id} />)}
-    </ScrollBox>
+    </>
   )
 }
