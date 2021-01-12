@@ -1,11 +1,14 @@
+import nextConnect from 'next-connect';
+import middleware from 'middleware/middleware';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useUser } from 'hooks';
-import { CreateEvent, Layout, Login, EventList, CreateToast } from 'components';
+import { CreateEvent, Layout, Login, EventList, EventFullDisplay, CreateToast } from 'components';
 
 const EventsHome = () => {
   const { user, userIsLoading, userIsError } = useUser();
-
+  const [selectedEvent, setSelectedEvent] = useState();
   return (
     <Layout>
       <h1>Events</h1>
@@ -19,10 +22,11 @@ const EventsHome = () => {
               <Login />
             </section>
           )}
-        </EventContainer>
-        <section>
           <CreateEvent />
           <CreateToast />
+        </EventContainer>
+        <section>
+          {selectedEvent && <EventFullDisplay eventId={selectedEvent.id} />}
         </section>
       </Wrapper>
     </Layout>
@@ -32,11 +36,37 @@ const EventsHome = () => {
 export default EventsHome;
 
 const Wrapper = styled(motion.div)`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 2em;
+  @media screen and (min-width: 780px) {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2em;
+  }
 `;
 
 const EventContainer = styled(motion.div)`
-  max-width: 30em;
+  /* max-width: 30em; */
 `;
+
+export async function getServerSideProps({ req, res }) {
+  // tap into the middleware
+  const handler = nextConnect();
+  handler.use(middleware);
+  try {
+    await handler.run(req, res);
+  } catch (error) {
+    // TODO Handle errors
+    console.log(error)
+  }
+  if (!req.user) {
+    return {
+      props: {
+        user: null
+      }
+    }
+  }
+  return {
+    props: {
+      user: JSON.parse(JSON.stringify(req.user))
+    }
+  }
+}
