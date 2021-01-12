@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { EventCard_Small } from 'elements';
-import { convertISODate } from 'lib'
+import { convertISODate } from 'lib';
 
 export const EventSmallDisplay = ({ event }) => {
   const eventDate = convertISODate(event.startDate)
@@ -15,7 +15,7 @@ export const EventSmallDisplay = ({ event }) => {
           <div>
             <p>Rounds: {event.rounds}</p>
             <p>SPR: {event.shotsPer}</p>
-            <p>{eventDate}</p>
+            <p>Event Date: {eventDate}</p>
           </div>
         </EventCard_Small>
       </a>
