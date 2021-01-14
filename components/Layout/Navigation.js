@@ -28,9 +28,9 @@ export const Navigation = () => {
         </ActiveLink>
       </div>
       <div>
-        <ActiveLink href={"/contact"} >
+        <ActiveLink href={"/messages"} >
           <HiOutlineChatAlt />
-          <span>Contact</span>
+          <span>Messages</span>
         </ActiveLink>
       </div>
       <div>
