@@ -11,13 +11,20 @@ import styled from 'styled-components';
 
 export const ActiveLink = ({ href, children }) => {
   const router = useRouter();
+
+  const isCurrentPath = (href, pathname) => {
+    if (href === '/' && pathname === '/') return true;
+    if (href !== '/') return pathname.includes(href);
+    return false;
+  }
+
   const handleClick = (e) => {
     e.preventDefault();
     router.push(href);
   }
 
   return (
-    <A href={href} onClick={handleClick} isActive={href === router.pathname ? true : false}>
+    <A href={href} onClick={handleClick} isActive={isCurrentPath(href, router.pathname) ? true : false}>
       {children}
     </A>
   )
