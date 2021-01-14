@@ -9,6 +9,14 @@ const colors = {
   black: '#121212'
 };
 
+const breakpoints = {
+  sm: '640px',
+  md: '768px',
+  lg: '1024px',
+  xl: '1280px',
+  xxl: '1536px',
+}
+
 const bg = {
   primary: colors.darkBlue,
   secondary: colors.persianGreen
@@ -32,6 +40,7 @@ const sizes = {
 
 const theme = {
   bg,
+  breakpoints,
   colors,
   fonts,
   shadows,
