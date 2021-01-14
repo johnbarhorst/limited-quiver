@@ -20,10 +20,14 @@ const Box = styled(motion.section)`
 const BoxWrapper = styled(motion.div)`
   display: flex;
   align-items: center;
-  width: 100%;
+  max-width: 100vw;
   height: 100%;
   overflow-x: scroll;
   overflow-y: hidden;
+
+  > * + * {
+    margin: 0 0 0 2em;
+  }
 
   ::-webkit-scrollbar {
     display: none;
