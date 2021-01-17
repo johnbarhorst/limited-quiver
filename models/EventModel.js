@@ -18,7 +18,15 @@ const EventSchema = {
   participantCap: Number,
   scores: [{ type: Schema.Types.ObjectId, ref: "Scores" }],
   startDate: Date,
-  endDate: Number
+  endDate: Date,
+  joinCode: {
+    type: String,
+    minLength: 4,
+    maxLength: 4,
+    required: [
+      function () { return this.private },
+      "Private events must have a 'Join Event' code."]
+  },
 }
 
 const Event = mongoose.models.Event || mongoose.model('Event', EventSchema);
