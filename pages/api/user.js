@@ -1,16 +1,11 @@
 import nextConnect from 'next-connect';
 import middleware from 'middleware/middleware';
+import { getUser, createUser } from 'lib';
 
 const handler = nextConnect();
 handler.use(middleware);
 
-handler.get((req, res) => {
-  if (!req.user) {
-    const error = new Error("Not authorized!");
-    error.status = 403;
-    throw error;
-  }
-  res.json(req.user)
-});
+handler.get(getUser);
+// handler.post(createUser);
 
 export default handler;
