@@ -8,6 +8,14 @@ import { Form, TextInput, Button_LG, Button, CloseButton, CheckboxLabel } from '
 
 ReactModal.setAppElement("#__next");
 
+const generateJoinCode = (length = 4) => {
+  const alphabet = 'ABCDEFGHIJKLMONPQRSTUVWXYZ';
+  let joinCode = '';
+  for (let i = 0; i < length; i++) {
+    joinCode += alphabet.charAt(Math.floor(Math.random() * 26))
+  }
+  return joinCode;
+}
 
 export const CreateEvent = ({ CreateEventButton = Button_LG }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,15 +27,18 @@ export const CreateEvent = ({ CreateEventButton = Button_LG }) => {
   const { user } = useUser();
   const { addToast } = useToastContext();
   const [date, setDate] = useState();
+  const [joinCode, resetJoinCode] = useInput(generateJoinCode());
   const [isPrivateEvent, resetIsPrivateEvent] = useInput(true);
   const [eventName, resetEventName] = useInput('');
   const [participantCap, resetParticipantCap] = useInput(1);
   const [rounds, resetRounds] = useInput(1);
   const [shotsPer, resetShotsPer] = useInput(1);
+  const [participantList, setParticipantList] = useState([user]);
 
   // Modal Controls
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
 
   // Form Handlers
   const resetFormState = () => {
@@ -49,7 +60,9 @@ export const CreateEvent = ({ CreateEventButton = Button_LG }) => {
       shotsPer: parseInt(shotsPer.value),
       startDate: new Date(),
       participantCap: parseInt(participantCap.value),
-      private: isPrivateEvent.value
+      private: isPrivateEvent.value,
+      participants: participantList,
+      joinCode: isPrivateEvent.value ? joinCode.value : null,
     }
     const createEvent = await fetch(`/api/events/createevent`, {
       method: "POST",
@@ -112,6 +125,12 @@ export const CreateEvent = ({ CreateEventButton = Button_LG }) => {
               <span></span>
             </CheckboxLabel>
           </div>
+          {isPrivateEvent.value && (
+            <div>
+              <label htmlFor="joinCode">Join Code:</label>
+              <TextInput type="text" name="joinCode" {...joinCode} />
+            </div>
+          )}
           {/* <div>
         {createEventError && <ErrorDisplay message={createEventError.message} />}
       </div> */}
