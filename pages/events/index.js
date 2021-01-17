@@ -8,23 +8,27 @@ import {
   CreateEvent,
   Layout,
   Login,
-  EventList,
   EventFullDisplay,
-  CreateToast,
+  EventSmallDisplay,
   ScrollBox,
 } from 'components';
+import { H1 } from 'elements';
 
 const EventsHome = () => {
   const { user, userIsLoading, userIsError } = useUser();
   const [selectedEvent, setSelectedEvent] = useState();
   return (
     <Layout>
-      <h1>Events</h1>
+      <H1
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >Events</H1>
       <Wrapper>
         <EventContainer>
           {user && (
             <ScrollBox height={'11rem'}>
-              <EventList events={user.events} />
+              {user.events.map(event => <EventSmallDisplay event={event} key={event._id} clickHandler={() => setSelectedEvent(event)} />)}
+
             </ScrollBox>
           )}
           {userIsLoading && <h3>Loading user data...</h3>}
@@ -35,10 +39,9 @@ const EventsHome = () => {
             </section>
           )}
           <CreateEvent />
-          <CreateToast />
         </EventContainer>
         <section>
-          {selectedEvent && <EventFullDisplay eventId={selectedEvent.id} />}
+          {selectedEvent && <EventFullDisplay eventId={selectedEvent._id} />}
         </section>
       </Wrapper>
     </Layout>
