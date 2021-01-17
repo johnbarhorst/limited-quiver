@@ -20,6 +20,11 @@ export const Form = styled(motion.form)`
     display: block;
     margin-bottom: .25rem;
   }
+
+  input[type=checkbox] {
+    display: inline;
+  }
+
   input {
     border-radius: 5px;
     padding: 4px 6px;

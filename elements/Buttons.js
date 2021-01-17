@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 export const Button = styled(motion.button)`
   border: 0;
-  border-radius: 0.25rem;
   background: ${props => props.theme.colors.darkBlue};
   color: white;
   font-family: -system-ui, sans-serif;
@@ -18,7 +17,6 @@ export const Button = styled(motion.button)`
 `;
 
 export const Button_LG = styled(Button)`
-  border-radius: 1.25rem;
   padding: 1.25rem 1.5rem;
 `;
 
