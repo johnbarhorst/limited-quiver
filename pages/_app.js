@@ -3,6 +3,7 @@ import theme from 'styles/theme';
 import { ToastContextWrapper } from 'state';
 import 'styles/normalize.css';
 import 'styles/globals.css';
+import 'styles/style.css';
 
 
 
