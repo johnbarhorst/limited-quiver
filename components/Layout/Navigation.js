@@ -39,12 +39,6 @@ export const Navigation = () => {
           <span>User</span>
         </ActiveLink>
       </div>
-      <div>
-        <ActiveLink href={"/"}>
-          <HiOutlineDotsHorizontal />
-          <span>More</span>
-        </ActiveLink>
-      </div>
     </Nav>
   )
 }
