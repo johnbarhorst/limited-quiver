@@ -14,8 +14,6 @@ export const EventSmallDisplay = ({ event, clickHandler = f => f }) => {
           <p>Created by: {event.createdBy.username}</p>
         </div>
         <div>
-          <p>Rounds: {event.rounds}</p>
-          <p>SPR: {event.shotsPer}</p>
           <p>Event Date: {eventDate}</p>
         </div>
       </EventCard_Small>
