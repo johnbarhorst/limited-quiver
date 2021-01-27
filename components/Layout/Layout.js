@@ -24,6 +24,6 @@ export const Layout = ({ children }) => {
 
 const Wrapper = styled(motion.main)`
   background: ${props => props.theme.colors.bgPrimary};
-  height: calc(100vh - ${props => props.theme.sizes.navHeightMobile});
+  padding-bottom: ${props => props.theme.sizes.navHeightMobile}; 
   color: ${props => props.theme.colors.fontPrimary};
 `;
