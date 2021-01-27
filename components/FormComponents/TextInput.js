@@ -1,13 +1,11 @@
 
-export const TextInput = ({ children, controls, name }) => {
+export const TextInput = ({ children, controls, ...props }) => {
   return (
-    <label htmlFor={name}>
+    <label htmlFor={props.id || null}>
       {children}
       <input
         {...controls}
-        type="text"
-        name={name}
-        id={name} />
+        {...props} />
     </label>
   )
 }

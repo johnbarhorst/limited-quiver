@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import ReactModal from 'react-modal';
-import { Form, TextInput, Button, CloseButton } from 'elements';
+import { Form, Button, CloseButton } from 'elements';
+import { TextInput } from 'components';
 import { useInput, useMatchingInput, useUser, useLoadingState, loadingStateActionTypes } from 'hooks';
 
 ReactModal.setAppElement("#__next");
@@ -34,7 +35,7 @@ export const SignUp = ({ SignupButton = Button }) => {
       },
       password: password.value
     }
-    const newUser = await fetch('/api/newuser', {
+    const newUser = await fetch('/api/user', {
       method: "POST",
       headers: {
         'Content-Type': 'application/json'
@@ -75,28 +76,34 @@ export const SignUp = ({ SignupButton = Button }) => {
         <CloseButton clickHandler={closeModal} />
         <Form onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="username">User Name:</label>
-            <TextInput type="text" placeholder="User Name" name="username" {...username} required />
+            <TextInput type="text" placeholder="User Name" name="username" controls={username} id="username" required >
+              Username:
+            </TextInput>
           </div>
           <div>
-            <label htmlFor="email">Email:</label>
-            <TextInput type="email" placeholder="myEmail@dontspammebro.net" name="email" {...email} />
+            <TextInput type="email" placeholder="myEmail@dontspammebro.net" name="email" id="email" controls={email} >
+              Email:
+            </TextInput>
           </div>
           <div>
-            <label htmlFor="firstname">First Name:</label>
-            <TextInput type="text" name="firstname" {...firstname} />
+            <TextInput type="text" name="firstname" controls={firstname} id="firstname">
+              First Name:
+            </TextInput>
           </div>
           <div>
-            <label htmlFor="lastname">Last Name:</label>
-            <TextInput type="text" name="lastname" {...lastname} />
+            <TextInput type="text" name="lastname" controls={lastname} id="lastname" >
+              Last Name:
+              </TextInput>
           </div>
           <div>
-            <label htmlFor="password">Password:</label>
-            <TextInput type="password" name="password" {...password} />
+            <TextInput type="password" name="password" controls={password} id="password" >
+              Password:
+            </TextInput>
           </div>
           <div>
-            <label htmlFor="password">Verify Password:</label>
-            <TextInput type="password" name="password" {...passwordMatch} />
+            <TextInput type="password" name="password" controls={passwordMatch} id="passwordmatch" >
+              Verify Password:
+            </TextInput>
           </div>
           <div>
             {isMatching ? <p>Matches</p> : <p>Doesn't Match</p>}
