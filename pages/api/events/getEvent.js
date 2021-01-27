@@ -7,7 +7,7 @@ handler.use(middleware);
 
 handler.get(async (req, res) => {
   const { eventId } = req.query;
-  const event = await Event.findById(eventId);
+  const event = await Event.findById(eventId).populate("admin participants createdBy");
 
   if (event) {
     res.json(event);
