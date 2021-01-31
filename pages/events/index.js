@@ -10,6 +10,7 @@ import {
   Login,
   EventFullDisplay,
   EventSmallDisplay,
+  EventList,
   ScrollBox,
 } from 'components';
 import { H1 } from 'elements';
@@ -25,20 +26,23 @@ const EventsHome = () => {
       >Events</H1>
       <Wrapper>
         <EventContainer>
-          {user && (
-            <ScrollBox height={'11rem'}>
-              {user.events.map(event => <EventSmallDisplay event={event} key={event._id} clickHandler={() => setSelectedEvent(event)} />)}
-
-            </ScrollBox>
-          )}
           {userIsLoading && <h3>Loading user data...</h3>}
+
           {!user && !userIsLoading && (
-            <section>
+            <>
               <h3>You must be logged in to see your events.</h3>
               <Login />
-            </section>
+            </>
           )}
-          <CreateEvent />
+
+          {user && (
+            <>
+              <ScrollBox height="30rem">
+                <EventList events={user.events} clickHandler={setSelectedEvent} />
+              </ScrollBox>
+              <CreateEvent />
+            </>
+          )}
         </EventContainer>
         <section>
           {selectedEvent && <EventFullDisplay eventId={selectedEvent._id} />}
@@ -51,15 +55,16 @@ const EventsHome = () => {
 export default EventsHome;
 
 const Wrapper = styled(motion.div)`
-  @media screen and (min-width: 640px) {
+  @media screen and (min-width: ${props => props.theme.breakpoints.sm}) {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 1fr;
     gap: 2em;
+
   }
 `;
 
-const EventContainer = styled(motion.div)`
-  /* max-width: 30em; */
+const EventContainer = styled(motion.section)`
+  max-width: 30rem;
 `;
 
 export async function getServerSideProps({ req, res }) {
