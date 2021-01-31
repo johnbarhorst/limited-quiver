@@ -23,6 +23,7 @@ const EventSchema = {
     type: String,
     minLength: 4,
     maxLength: 4,
+    select: false,
     required: [
       function () { return this.private },
       "Private events must have a 'Join Event' code."]
