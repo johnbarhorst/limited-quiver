@@ -1,10 +1,14 @@
 import { useEvent } from 'hooks';
 
-export const EventFullDisplay = ({ eventId }) => {
-  const { event, eventIsError, eventIsLoading } = useEvent(eventId);
+export const EventFullDisplay = ({ eventId, initialData }) => {
+  const { event, eventIsError, eventIsLoading } = useEvent(eventId, initialData);
 
-  if (eventIsLoading) return (<h3>Loading event...</h3>)
-  if (eventIsError) return (<h3>We encountered an error while loading this event.</h3>)
+  if (eventIsLoading) return (
+    <>
+      <h5>Loading event...</h5>
+    </>
+  )
+  if (eventIsError) return (<h5>We encountered an error while loading this event.</h5>)
   return (
     <>
       <h5>{event.name}</h5>
