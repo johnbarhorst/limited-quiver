@@ -73,14 +73,14 @@ export const Calendar = () => {
     <CalendarContainer>
       <ControlsContainer>
         <Controls>
-          <button onClick={() => goToPrevMonth()}>&#9664;</button>
+          <button type="button" onClick={() => goToPrevMonth()}>&#9664;</button>
           <h3>{CALENDAR_MONTHS_FULL[month]}</h3>
-          <button onClick={() => goToNextMonth()}>&#9654;</button>
+          <button type="button" onClick={() => goToNextMonth()}>&#9654;</button>
         </Controls>
         <Controls>
-          <button onClick={() => goToPrevYear()}>&#9664;</button>
+          <button type="button" onClick={() => goToPrevYear()}>&#9664;</button>
           <h3>{year}</h3>
-          <button onClick={() => goToNextYear()}>&#9654;</button>
+          <button type="button" onClick={() => goToNextYear()}>&#9654;</button>
         </Controls>
       </ControlsContainer>
       <DaysContainer>

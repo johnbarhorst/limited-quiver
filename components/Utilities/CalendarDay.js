@@ -10,7 +10,8 @@ export const CalendarDay = ({ date, index, inSameMonth, isToday, isCurrent, hand
       ${isCurrent ? 'isCurrent' : ''} 
       ${inSameMonth ? '' : 'diff-month'}
       `}
-      onClick={(e) => { e.preventDefault(); handleClick(date) }}
+      type="button"
+      onClick={(e) => handleClick(date)}
     ><b>{day}</b></Day>
   )
 }
