@@ -11,9 +11,8 @@ export const Form = styled(motion.form)`
   margin: 0 auto;
   box-shadow: var(--elevate_1);
 
-  div {
-    margin: 0 auto;
-    margin-bottom: .75rem;
+  > div {
+    margin: 0 auto .75rem;
   }
 
   input, label {
