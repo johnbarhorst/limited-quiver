@@ -12,7 +12,7 @@ export const EventList = ({ events, clickHandler }) => {
 
   return (
     <>
-      {events.map(event => <EventSmallDisplay event={event} key={event._id} clickHandler={() => clickHandler(event)} />)}
+      {events.map(event => <EventSmallDisplay event={event} key={event._id} clickHandler={() => clickHandler(event._id)} />)}
     </>
   )
 }
