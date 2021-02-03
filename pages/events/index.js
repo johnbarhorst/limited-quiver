@@ -1,6 +1,6 @@
 import nextConnect from 'next-connect';
 import middleware from 'middleware/middleware';
-import { useState } from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useUser } from 'hooks';
@@ -9,7 +9,6 @@ import {
   Layout,
   Login,
   EventFullDisplay,
-  EventSmallDisplay,
   EventList,
   ScrollBox,
 } from 'components';
@@ -17,7 +16,11 @@ import { H1 } from 'elements';
 
 const EventsHome = () => {
   const { user, userIsLoading, userIsError } = useUser();
-  const [selectedEvent, setSelectedEvent] = useState();
+  const router = useRouter();
+
+  const changeURL = eventId => {
+    router.push(`/events/?eventId=${eventId}`, undefined, { shallow: true });
+  }
   return (
     <Layout>
       <H1
@@ -38,14 +41,14 @@ const EventsHome = () => {
           {user && (
             <>
               <ScrollBox height="30rem">
-                <EventList events={user.events} clickHandler={setSelectedEvent} />
+                <EventList events={user.events} clickHandler={changeURL} />
               </ScrollBox>
               <CreateEvent />
             </>
           )}
         </EventContainer>
         <section>
-          {selectedEvent && <EventFullDisplay eventId={selectedEvent._id} />}
+          {router.query.eventId && <EventFullDisplay eventId={router.query.eventId} />}
         </section>
       </Wrapper>
     </Layout>
