@@ -4,6 +4,7 @@ import ReactModal from 'react-modal';
 import { useToastContext } from 'state';
 import { useInput, useUser, useLoadingState, loadingStateActionTypes } from 'hooks';
 import { Form, TextInput, Button_LG, Button, CloseButton, CheckboxLabel } from 'elements';
+import { Calendar } from 'components';
 
 
 ReactModal.setAppElement("#__next");
@@ -104,7 +105,7 @@ export const CreateEvent = ({ CreateEventButton = Button_LG }) => {
           </div>
           <div>
             <label htmlFor="eventDate">Event Date:</label>
-            <TextInput type="date" name="eventDate" value={date} onChange={e => setDate(e.target.value)} />
+            <Calendar exportDate={(newDate) => setDate(newDate)} />
           </div>
           <div>
             <label htmlFor="participantCap">Maximum Participants</label>
