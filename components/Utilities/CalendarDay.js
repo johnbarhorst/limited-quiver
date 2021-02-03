@@ -18,8 +18,8 @@ export const CalendarDay = ({ date, index, inSameMonth, isToday, isCurrent, hand
 
 const Day = styled.button`
   color: black;
-  height: 4rem;
-  width: 4rem;
+  height: 3rem;
+  width: 3rem;
   background: none;
   border: none;
   &.isToday {
