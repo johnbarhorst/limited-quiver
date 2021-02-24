@@ -29,6 +29,14 @@ export const Form = styled(motion.form)`
     padding: 4px 6px;
     font-size: 1.25rem;
   }
+  fieldset {
+    border: 0;
+    padding: 0;
+
+    &[disabled] {
+      opacity: 0.5;
+    }
+  }
 `;
 
 export const CheckboxLabel = styled(motion.label)`
