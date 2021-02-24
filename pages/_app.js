@@ -8,6 +8,7 @@ import 'styles/globals.css';
 import 'styles/style.css';
 import 'styles/nprogress.css';
 
+// Loading indicator on page transitions
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
