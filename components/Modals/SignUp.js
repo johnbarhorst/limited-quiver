@@ -2,17 +2,15 @@ import { useState } from 'react';
 import ReactModal from 'react-modal';
 import { Form, Button, CloseButton } from 'elements';
 import { useInput, useMatchingInput, useUser, useLoadingState, loadingStateActionTypes } from 'hooks';
+import { useToastContext } from 'state';
 
 ReactModal.setAppElement("#__next");
 
 export const SignUp = ({ SignupButton = Button }) => {
+  const {addToast} = useToastContext()
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { mutate } = useUser();
-  const [{ 
-    loading: signUpLoading,
-    error: signUpError,
-    success: signUpSuccess }, 
-    signUpDispatch] = useLoadingState();
+  const [{ loading }, signUpDispatch] = useLoadingState();
   const [username, resetUserName] = useInput('');
   const [email, resetEmail] = useInput('');
   const [password, resetPassword] = useInput('');
@@ -23,6 +21,8 @@ export const SignUp = ({ SignupButton = Button }) => {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    // Since this isn't using SWR, we manually set a loading state.
+    signUpDispatch({type: loadingStateActionTypes.loading});
     // TODO: UI for password match, and actual pw regex reqs
     if (password.value !== passwordMatch.value) {
       return console.log('Passwords need to match');
@@ -41,7 +41,12 @@ export const SignUp = ({ SignupButton = Button }) => {
       body: JSON.stringify(formData)
     });
     if (newUser.status === 201) {
-      mutate('/api/user');
+      await mutate('/api/user');
+      signUpDispatch({type: loadingStateActionTypes.success});
+      addToast({
+        title: `Account Created`,
+        message: `Welcome to Limited Quiver, ${username.value}!`
+      })
       closeModal();
     } else {
       // TODO add error handling
@@ -70,7 +75,7 @@ export const SignUp = ({ SignupButton = Button }) => {
         <CloseButton clickHandler={closeModal} />
         <Form onSubmit={handleSubmit}>
           <h2>Create an Account</h2>
-          <fieldset>
+          <fieldset disabled={loading} aria-busy={loading}>
             <label htmlFor="username">
               Username:
               <input type="text" id="username" {...username} required/>
@@ -83,7 +88,8 @@ export const SignUp = ({ SignupButton = Button }) => {
               Password:
               <input type="password" id="password" {...password} required/>
             </label>
-            {!isMatching && <p>Passwords do not match</p>}
+            {/* TODO: Less invasive/popping in sort of notification here */}
+            {!isMatching && <span>Passwords do not match</span>}
             <label htmlFor="password-match">
               Verify Password:
               <input type="password" id="password-match" {...passwordMatch} required/>
