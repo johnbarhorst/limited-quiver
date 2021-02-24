@@ -9,13 +9,10 @@ const UserSchema = new Schema({
     minlength: [4, 'User name must be between 4 and 16 characters'],
     maxlength: [16, 'User name must be between 4 and 16 characters']
   },
-  name: {
-    first: String,
-    last: String
-  },
   email: {
     type: String,
-    required: [true, "Email address must be provided"],
+    required: [true, "Email address must be provided."],
+    unique: [true, "That email address has already been registered."]
   },
   password: {
     type: String,
@@ -27,12 +24,6 @@ const UserSchema = new Schema({
   friends: [{ type: Schema.Types.ObjectId, ref: "User" }],
 
 }, { timestamps: { createdAt: 'created_at' } });
-
-
-// Just leaving this here so I remember about virtuals
-UserSchema.virtual('fullname').get(function () {
-  return `${this.name.first || ''} ${this.name.last || ''}`;
-});
 
 const User = mongoose.models.User || mongoose.model('User', UserSchema);
 
