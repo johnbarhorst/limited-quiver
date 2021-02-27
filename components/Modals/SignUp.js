@@ -9,8 +9,9 @@ ReactModal.setAppElement("#__next");
 export const SignUp = ({ SignupButton = Button }) => {
   const {addToast} = useToastContext()
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const { mutate } = useUser();
-  const [{ loading }, signUpDispatch] = useLoadingState();
   const [username, resetUserName] = useInput('');
   const [email, resetEmail] = useInput('');
   const [password, resetPassword] = useInput('');
@@ -18,14 +19,20 @@ export const SignUp = ({ SignupButton = Button }) => {
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-
+  
   const handleSubmit = async e => {
     e.preventDefault();
     // Since this isn't using SWR, we manually set a loading state.
-    signUpDispatch({type: loadingStateActionTypes.loading});
+    setLoading(true);
+    // Reset any previous error.
+    setError(null);
     // TODO: UI for password match, and actual pw regex reqs
     if (password.value !== passwordMatch.value) {
-      return console.log('Passwords need to match');
+      setLoading(false);
+      return setError({
+        message: 'Password Verification does not match.',
+        password: true,
+    });
     }
     // get user data from the form states
     const formData = {
@@ -42,22 +49,24 @@ export const SignUp = ({ SignupButton = Button }) => {
     });
     if (newUser.status === 201) {
       await mutate('/api/user');
-      signUpDispatch({type: loadingStateActionTypes.success});
       addToast({
         title: `Account Created`,
         message: `Welcome to Limited Quiver, ${username.value}!`
       })
+      setLoading(false);
       closeModal();
-    } else {
+    } else if(newUser.status === 400) {
       // TODO add error handling
-    }
-  }
+      const results = await newUser.json();
+      const [field, value] = Object.entries(results.error.keyValue)[0];
+      setError({
+        message: `${field} ${value} has already been registered!`,
+        [field]: true,
+      });
+      console.log(`${field} ${value} already registered!`);
 
-  const formReset = () => {
-    resetUserName();
-    resetEmail();
-    resetPassword();
-    resetPasswordMatch();
+      setLoading(false);
+    }
   }
 
   return (
@@ -76,10 +85,12 @@ export const SignUp = ({ SignupButton = Button }) => {
         <Form onSubmit={handleSubmit}>
           <h2>Create an Account</h2>
           <fieldset disabled={loading} aria-busy={loading}>
+            {error?.username && <span>{error.message}</span>}
             <label htmlFor="username">
               Username:
               <input type="text" id="username" {...username} required/>
             </label>
+            {error?.email && <span>{error.message}</span>}
             <label htmlFor="email">
               Email:
               <input type="email" id="email" {...email} required/>
@@ -89,7 +100,7 @@ export const SignUp = ({ SignupButton = Button }) => {
               <input type="password" id="password" {...password} required/>
             </label>
             {/* TODO: Less invasive/popping in sort of notification here */}
-            {!isMatching && <span>Passwords do not match</span>}
+            {(!isMatching || error?.password) && <span>Passwords do not match</span>}
             <label htmlFor="password-match">
               Verify Password:
               <input type="password" id="password-match" {...passwordMatch} required/>
