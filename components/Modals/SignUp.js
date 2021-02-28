@@ -53,15 +53,13 @@ export const SignUp = ({ SignupButton = Button }) => {
         title: `Account Created`,
         message: `Welcome to Limited Quiver, ${username.value}!`
       })
-      setLoading(false);
       closeModal();
     } else if(newUser.status === 400) {
-      // TODO add error handling
+      // TODO add more error handling.
       const results = await newUser.json();
       setError(results.message);
-      console.log(results);
-      setLoading(false);
     }
+    setLoading(false);
   }
 
   return (
