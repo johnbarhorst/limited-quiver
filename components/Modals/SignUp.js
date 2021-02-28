@@ -58,13 +58,8 @@ export const SignUp = ({ SignupButton = Button }) => {
     } else if(newUser.status === 400) {
       // TODO add error handling
       const results = await newUser.json();
-      const [field, value] = Object.entries(results.error.keyValue)[0];
-      setError({
-        message: `${field} ${value} has already been registered!`,
-        [field]: true,
-      });
-      console.log(`${field} ${value} already registered!`);
-
+      setError(results.message);
+      console.log(results);
       setLoading(false);
     }
   }
@@ -85,12 +80,11 @@ export const SignUp = ({ SignupButton = Button }) => {
         <Form onSubmit={handleSubmit}>
           <h2>Create an Account</h2>
           <fieldset disabled={loading} aria-busy={loading}>
-            {error?.username && <span>{error.message}</span>}
+            {error && <p>{error}</p>}
             <label htmlFor="username">
               Username:
               <input type="text" id="username" {...username} required/>
             </label>
-            {error?.email && <span>{error.message}</span>}
             <label htmlFor="email">
               Email:
               <input type="email" id="email" {...email} required/>
@@ -100,7 +94,7 @@ export const SignUp = ({ SignupButton = Button }) => {
               <input type="password" id="password" {...password} required/>
             </label>
             {/* TODO: Less invasive/popping in sort of notification here */}
-            {(!isMatching || error?.password) && <span>Passwords do not match</span>}
+            {!isMatching && <span>Passwords do not match</span>}
             <label htmlFor="password-match">
               Verify Password:
               <input type="password" id="password-match" {...passwordMatch} required/>
