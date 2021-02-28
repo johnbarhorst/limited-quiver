@@ -1,5 +1,4 @@
 import nextConnect from 'next-connect';
-import { setTokenCookie, removeTokenCookie } from 'lib';
 import passport from 'lib/passport-config';
 import middleware from 'middleware/middleware';
 
