@@ -1,34 +1,35 @@
 import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
-const EventSchema = {
+const EventSchema = new Schema({
   name: {
     required: [true, "One must name an event"],
     type: String,
-    minlength: [4, "Event name must be between 4 and 36 characters"],
-    maxlength: [36, "Event name must be between 4 and 36 characters"],
+    minlength: [3, "Event name must be between 3 and 36 characters"],
+    maxlength: [36, "Event name must be between 3 and 36 characters"],
   },
-  createdBy: { type: Schema.Types.ObjectId, ref: "User" },
+  createdBy: { 
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: [true, "createdBy needs a user id."] },
   admin: [{ type: Schema.Types.ObjectId, ref: "User" }],
   participants: [{ type: Schema.Types.ObjectId, ref: "User" }],
   active: Boolean,
   private: Boolean,
-  rounds: Number,
-  shotsPer: Number,
-  participantCap: Number,
-  scores: [{ type: Schema.Types.ObjectId, ref: "Scores" }],
-  startDate: Date,
-  endDate: Date,
-  joinCode: {
-    type: String,
-    minLength: 4,
-    maxLength: 4,
-    select: false,
-    required: [
-      function () { return this.private },
-      "Private events must have a 'Join Event' code."]
+  rounds: {
+    type: Number,
+    required: [true, "rounds field must have a number"],
   },
-}
+  shotsPerRound: {
+    type: Number,
+    required: [true, "shotsPerRound field must have a number"],
+  },
+  participantCap: {
+    type: Number,
+    required: [true, "participantCap field must have a number"],
+  },
+  scores: [{ type: Schema.Types.ObjectId, ref: "Scores" }],
+}, { timestamps: { createdAt: 'created_at' } });
 
 const Event = mongoose.models.Event || mongoose.model('Event', EventSchema);
 
