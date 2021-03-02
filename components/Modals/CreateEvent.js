@@ -20,10 +20,8 @@ const generateJoinCode = (length = 4) => {
 
 export const CreateEvent = ({ CreateEventButton = Button_LG }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [{
-    loading: createEventLoading,
-    error: createEventError,
-    success: createEventSuccess }, createEventDispatch] = useLoadingState();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const router = useRouter();
   const { user } = useUser();
   const { addToast } = useToastContext();
@@ -52,7 +50,7 @@ export const CreateEvent = ({ CreateEventButton = Button_LG }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    createEventDispatch({ type: loadingStateActionTypes.loading });
+    setLoading(true);
     const eventData = {
       name: eventName.value,
       createdBy: user._id,
@@ -63,7 +61,6 @@ export const CreateEvent = ({ CreateEventButton = Button_LG }) => {
       participantCap: parseInt(participantCap.value),
       private: isPrivateEvent.value,
       participants: participantList,
-      joinCode: isPrivateEvent.value ? joinCode.value : null,
     }
     const createEvent = await fetch(`/api/events/createevent`, {
       method: "POST",
@@ -75,8 +72,8 @@ export const CreateEvent = ({ CreateEventButton = Button_LG }) => {
 
     if (createEvent.status === 201) {
       const response = await createEvent.json();
-      createEventDispatch({ type: loadingStateActionTypes.success });
       resetFormState();
+      setLoading(false);
       addToast({
         title: "New Event Created!",
         message: `${response.name} created.`
@@ -99,45 +96,27 @@ export const CreateEvent = ({ CreateEventButton = Button_LG }) => {
       >
         <CloseButton clickHandler={closeModal} />
         <Form onSubmit={handleSubmit} >
-          <div>
-            <label htmlFor="eventName">Event Name:</label>
-            <TextInput type="text" name="eventName" {...eventName} />
-          </div>
-          <div>
-            <label htmlFor="eventDate">Event Date:</label>
-            <Calendar exportDate={(newDate) => setDate(newDate)} />
-          </div>
-          <div>
-            <label htmlFor="participantCap">Maximum Participants</label>
-            <TextInput type="number" name="participantCap" {...participantCap} />
-          </div>
-          <div>
-            <label htmlFor="rounds">Rounds:</label>
-            <TextInput type="number" name="rounds" {...rounds} />
-          </div>
-          <div>
-            <label htmlFor="shotsPer">Shots Per Round:</label>
-            <TextInput type="number" name="shotsPer" {...shotsPer} />
-          </div>
-          <div>
+          <h2>Create an Event</h2>
+          <fieldset disabled={loading} aria-busy={loading}>
+            <label htmlFor="eventName">Event Name:
+            <input type="text" name="eventName" {...eventName} />
+            </label>
+            <label htmlFor="participantCap">Maximum Participants
+            <input type="number" name="participantCap" {...participantCap} />
+            </label>
+            <label htmlFor="rounds">Rounds:
+            <input type="number" name="rounds" {...rounds} />
+            </label>
+            <label htmlFor="shotsPer">Shots Per Round:
+            <input type="number" name="shotsPer" {...shotsPer} />
+            </label>
             <span>Private Event</span>
             <CheckboxLabel>
               <input type="checkbox" name="privateEvent" onChange={isPrivateEvent.onChange} checked={isPrivateEvent.value} />
               <span></span>
             </CheckboxLabel>
-          </div>
-          {isPrivateEvent.value && (
-            <div>
-              <label htmlFor="joinCode">Join Code:</label>
-              <TextInput type="text" name="joinCode" {...joinCode} />
-            </div>
-          )}
-          {/* <div>
-        {createEventError && <ErrorDisplay message={createEventError.message} />}
-      </div> */}
-          <div>
             <Button type="submit" disabled={createEventLoading}>Create Event</Button>
-          </div>
+          </fieldset>
         </Form>
       </ReactModal>
       <CreateEventButton onClick={openModal}>Create an Event</CreateEventButton>

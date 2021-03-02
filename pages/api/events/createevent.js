@@ -11,6 +11,7 @@ handler.use(middleware);
 handler.post(async (req, res) => {
   const data = req.body;
   // TODO: data verification
+  console.log(req.user);
   const newEvent = new Event(data);
   newEvent.save(error => {
     if (error) {

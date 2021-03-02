@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import NProgress from 'nprogress';
 import Router from 'next/router';
 import { ThemeProvider } from 'styled-components';
@@ -16,13 +17,18 @@ Router.events.on('routeChangeError', () => NProgress.done());
 
 
 const MyApp = ({ Component, pageProps }) => {
-  return (
-    <ThemeProvider theme={theme}>
-      <ToastContextWrapper>
-        <Component {...pageProps} />
-      </ToastContextWrapper>
-    </ThemeProvider>
-  )
-}
+	return (
+		<ThemeProvider theme={theme}>
+			<ToastContextWrapper>
+				<Component {...pageProps} />
+			</ToastContextWrapper>
+		</ThemeProvider>
+	);
+};
 
 export default MyApp;
+
+MyApp.propTypes = {
+	Component: PropTypes.elementType,
+	pageProps: PropTypes.any
+};
