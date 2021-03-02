@@ -35,6 +35,7 @@ module.exports = {
       'error',
       'always'
     ],
+    'object-curly-spacing': ['error', 'always'],
     // NextJS doesn't need you to import react.
     'react/react-in-jsx-scope': 'off'
   }
