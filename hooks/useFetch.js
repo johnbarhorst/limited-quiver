@@ -1,34 +1,12 @@
-export const useFetch = uri => {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState();
-  const [data, setData] = useState();
+import useSWR from 'swr';
+import { fetcher } from 'lib/api-helpers';
 
-  const handleRequest = data => {
-    if (data.ok) return data.json();
-    throw Error(data.statusText);
-  }
-
-  const handleErrors = e => {
-    setError(e);
-    return setLoading(false);
-  }
-
-  useEffect(() => {
-    let isSubscribed = true;
-    if (isSubscribed) {
-      if (!uri) return;
-      fetch(uri)
-        .then(handleRequest)
-        .then(setData)
-        .then(() => setLoading(false))
-        .catch(handleErrors);
-    }
-    return () => isSubscribed = false;
-  }, [uri]);
-
+export const useFetch = ({ url, initialData }) => {
+  const { data, error, mutate } = useSWR(url, fetcher, initialData ? initialData : null);
   return {
-    loading,
-    error,
     data,
-  }
-}
+    error,
+    loading: !data && !error,
+    mutate
+  };
+};

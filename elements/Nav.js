@@ -11,6 +11,7 @@ export const Nav = styled.nav`
   bottom: 0;
   z-index: 1000;
   font-size: 2rem;
+  line-height: 1;
   background: ${props => props.theme.bg.primary};
   height: ${props => props.theme.sizes.navHeightMobile};
   color: ${props => props.theme.fonts.navIcon};

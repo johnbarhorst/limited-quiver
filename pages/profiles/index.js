@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import nextConnect from 'next-connect';
 import middleware from 'middleware/middleware';
 import { useUser } from 'hooks';
@@ -5,12 +6,12 @@ import { Layout, Login, SignUp, LogoutButton } from 'components';
 
 
 const ProfilesHome = (props) => {
-  const { user, userIsLoading, userIsError, mutate } = useUser(props.user);
+  const { user } = useUser(props.user);
 
   return (
-    <Layout>
+    <Layout title={user?.username}>
       <h1>
-        {user ? user.username : "User Profiles"}
+        {user ? user.username : 'User Profiles'}
       </h1>
       <div>
         {user ?
@@ -23,8 +24,8 @@ const ProfilesHome = (props) => {
         }
       </div>
     </Layout>
-  )
-}
+  );
+};
 
 export default ProfilesHome;
 
@@ -36,18 +37,22 @@ export async function getServerSideProps({ req, res }) {
     await handler.run(req, res);
   } catch (error) {
     // TODO Handle errors
-    console.log(error)
+    console.log(error);
   }
   if (!req.user) {
     return {
       props: {
         user: null
       }
-    }
+    };
   }
   return {
     props: {
       user: JSON.parse(JSON.stringify(req.user))
     }
-  }
+  };
 }
+
+ProfilesHome.propTypes = {
+  user: PropTypes.object
+};

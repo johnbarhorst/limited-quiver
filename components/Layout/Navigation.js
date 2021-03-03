@@ -2,9 +2,6 @@ import {
   HiOutlineHome,
   HiOutlineCalendar,
   HiOutlineChatAlt,
-  HiOutlineDotsHorizontal,
-  // Leaving this in just in case I change my mind again.
-  // HiOutlineUserCircle
 } from 'react-icons/hi';
 import { GiArcher } from 'react-icons/gi';
 import { ActiveLink } from 'components';
@@ -16,35 +13,29 @@ export const Navigation = () => {
   return (
     <Nav>
       <div>
-        <ActiveLink href={"/"} >
+        <ActiveLink href={'/'} >
           <HiOutlineHome />
           <span>Home</span>
         </ActiveLink>
       </div>
       <div>
-        <ActiveLink href={"/events"} >
+        <ActiveLink href={'/events'} >
           <HiOutlineCalendar />
           <span>Events</span>
         </ActiveLink>
       </div>
       <div>
-        <ActiveLink href={"/contact"} >
+        <ActiveLink href={'/messages'} >
           <HiOutlineChatAlt />
-          <span>Contact</span>
+          <span>Messages</span>
         </ActiveLink>
       </div>
       <div>
-        <ActiveLink href={"/profiles"} >
+        <ActiveLink href={'/profiles'} >
           <GiArcher />
           <span>User</span>
         </ActiveLink>
       </div>
-      <div>
-        <ActiveLink href={"/"}>
-          <HiOutlineDotsHorizontal />
-          <span>More</span>
-        </ActiveLink>
-      </div>
     </Nav>
-  )
-}
+  );
+};

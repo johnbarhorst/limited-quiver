@@ -13,7 +13,7 @@ import {
   calendarBuilder
 } from 'lib';
 
-export const Calendar = () => {
+export const Calendar = ({ exportDate = f => f }) => {
   // Remember: Values from and Date.getDay() and .getMonth() are array style.
   // Years are not. 
 
@@ -29,6 +29,8 @@ export const Calendar = () => {
 
   // Build calendar based on selected month/year (init w/ today)
   const [calendar, setCalendar] = useState(calendarBuilder(month, year));
+
+  // If month or day change, rebuild calandar and display.
   useEffect(() => {
     setCalendar(calendarBuilder(month, year));
   }, [month, year]);
@@ -42,7 +44,12 @@ export const Calendar = () => {
     return () => {
       clearTimeout(dayTimeout);
     }
-  })
+  });
+
+  // expose selected date to parent components with exportDate
+  useEffect(() => {
+    exportDate(current);
+  }, [current, exportDate])
 
   // Click handlers
   const goToPrevMonth = () => {
@@ -73,14 +80,14 @@ export const Calendar = () => {
     <CalendarContainer>
       <ControlsContainer>
         <Controls>
-          <button onClick={() => goToPrevMonth()}>&#9664;</button>
+          <button type="button" onClick={() => goToPrevMonth()}>&#9664;</button>
           <h3>{CALENDAR_MONTHS_FULL[month]}</h3>
-          <button onClick={() => goToNextMonth()}>&#9654;</button>
+          <button type="button" onClick={() => goToNextMonth()}>&#9654;</button>
         </Controls>
         <Controls>
-          <button onClick={() => goToPrevYear()}>&#9664;</button>
+          <button type="button" onClick={() => goToPrevYear()}>&#9664;</button>
           <h3>{year}</h3>
-          <button onClick={() => goToNextYear()}>&#9654;</button>
+          <button type="button" onClick={() => goToNextYear()}>&#9654;</button>
         </Controls>
       </ControlsContainer>
       <DaysContainer>
@@ -114,6 +121,7 @@ const ControlsContainer = styled.div`
 `;
 
 const Controls = styled.div`
+  line-height: 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -122,6 +130,9 @@ const Controls = styled.div`
     background: none;
   }
   p {
+    margin: 0;
+  }
+  h3 {
     margin: 0;
   }
 

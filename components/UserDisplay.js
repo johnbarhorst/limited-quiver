@@ -1,7 +1,7 @@
 export const UserDisplay = ({ user }) => {
   return (
-    <section>
+    <div>
       <h3>{user.username}</h3>
-    </section>
+    </div>
   )
 }

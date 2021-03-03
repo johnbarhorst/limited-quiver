@@ -11,19 +11,31 @@ export const Form = styled(motion.form)`
   margin: 0 auto;
   box-shadow: var(--elevate_1);
 
-  div {
-    margin: 0 auto;
-    margin-bottom: .75rem;
+  > div {
+    margin: 0 auto .75rem;
   }
 
   input, label {
     display: block;
     margin-bottom: .25rem;
   }
+
+  input[type=checkbox] {
+    display: inline;
+  }
+
   input {
     border-radius: 5px;
     padding: 4px 6px;
     font-size: 1.25rem;
+  }
+  fieldset {
+    border: 0;
+    padding: 0;
+
+    &[disabled] {
+      opacity: 0.5;
+    }
   }
 `;
 

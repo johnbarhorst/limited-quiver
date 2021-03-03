@@ -1,64 +1,68 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import ReactModal from 'react-modal';
-import { Form, TextInput, Button, CloseButton } from 'elements';
-import { useInput, useMatchingInput, useUser, useLoadingState, loadingStateActionTypes } from 'hooks';
+import { Form, Button, CloseButton } from 'elements';
+import { useInput, useMatchingInput, useUser } from 'hooks';
+import { useToastContext } from 'state';
 
-ReactModal.setAppElement("#__next");
+ReactModal.setAppElement('#__next');
 
 export const SignUp = ({ SignupButton = Button }) => {
+  const { addToast } = useToastContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const { mutate } = useUser();
-  const [{ loading: signUpLoading, error: signUpError, success: signUpSuccess }, signUpDispatch] = useLoadingState();
-  const [username, resetUserName] = useInput('');
-  const [email, resetEmail] = useInput('');
-  const [firstname, resetFirstName] = useInput('');
-  const [lastname, resetLastName] = useInput('');
-  const [password, resetPassword] = useInput('');
-  const [passwordMatch, resetPasswordMatch, isMatching] = useMatchingInput('', password.value);
+  const [username] = useInput('');
+  const [email] = useInput('');
+  const [password] = useInput('');
+  const [passwordMatch, isMatching] = useMatchingInput('', password.value);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-
+  
   const handleSubmit = async e => {
     e.preventDefault();
-    signUpDispatch({ type: loadingStateActionTypes.loading });
+    // Since this isn't using SWR, we manually set a loading state.
+    setLoading(true);
+    // Reset any previous error.
+    setError(null);
     // TODO: UI for password match, and actual pw regex reqs
-    if (password.value !== passwordMatch.value) return console.log('Passwords need to match');
+    if (password.value !== passwordMatch.value) {
+      setLoading(false);
+      return setError({
+        message: 'Password Verification does not match.',
+        password: true,
+      });
+    }
     // get user data from the form states
     const formData = {
       username: username.value,
       email: email.value,
-      name: {
-        first: firstname.value,
-        last: lastname.value
-      },
       password: password.value
-    }
-    const newUser = await fetch('/api/newuser', {
-      method: "POST",
+    };
+    const newUser = await fetch('/api/user', {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(formData)
     });
     if (newUser.status === 201) {
-      signUpDispatch({ type: loadingStateActionTypes.success });
-      mutate('/api/user');
+      await mutate('/api/user');
+      addToast({
+        title: 'Account Created',
+        message: `Welcome to Limited Quiver, ${username.value}!`
+      });
+      setLoading(false);
       closeModal();
-    } else {
-      signUpDispatch({ type: loadingStateActionTypes.error });
+    } else if(newUser.status === 400) {
+      // TODO add more error handling.
+      const results = await newUser.json();
+      setError(results.message);
+      setLoading(false);
     }
-    // TODO add error handling
-  }
-
-  const formReset = () => {
-    resetUserName();
-    resetEmail();
-    resetFirstName();
-    resetLastName();
-    resetPassword();
-    resetPasswordMatch();
-  }
+  };
 
   return (
     <>
@@ -73,42 +77,39 @@ export const SignUp = ({ SignupButton = Button }) => {
         onRequestClose={closeModal}
       >
         <CloseButton clickHandler={closeModal} />
-        <Form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="username">User Name:</label>
-            <TextInput type="text" placeholder="User Name" name="username" {...username} required />
-          </div>
-          <div>
-            <label htmlFor="email">Email:</label>
-            <TextInput type="email" placeholder="myEmail@dontspammebro.net" name="email" {...email} />
-          </div>
-          <div>
-            <label htmlFor="firstname">First Name:</label>
-            <TextInput type="text" name="firstname" {...firstname} />
-          </div>
-          <div>
-            <label htmlFor="lastname">Last Name:</label>
-            <TextInput type="text" name="lastname" {...lastname} />
-          </div>
-          <div>
-            <label htmlFor="password">Password:</label>
-            <TextInput type="password" name="password" {...password} />
-          </div>
-          <div>
-            <label htmlFor="password">Verify Password:</label>
-            <TextInput type="password" name="password" {...passwordMatch} />
-          </div>
-          <div>
-            {isMatching ? <p>Matches</p> : <p>Doesn't Match</p>}
 
-          </div>
-          <div>
-            <Button type="submit" disabled={signUpLoading}>Register</Button>
-          </div>
+        <Form onSubmit={handleSubmit}>
+          <h2>Create an Account</h2>
+          <fieldset disabled={loading} aria-busy={loading}>
+            {error && <p>{error}</p>}
+            <label htmlFor="username">
+              Username:
+              <input type="text" id="username" {...username} required/>
+            </label>
+            <label htmlFor="email">
+              Email:
+              <input type="email" id="email" {...email} required/>
+            </label>
+            <label htmlFor="password">
+              Password:
+              <input type="password" id="password" {...password} required/>
+            </label>
+            {/* TODO: Less invasive/popping in sort of notification here */}
+            {!isMatching && <span>Passwords do not match</span>}
+            <label htmlFor="password-match">
+              Verify Password:
+              <input type="password" id="password-match" {...passwordMatch} required/>
+            </label>
+            <Button type="submit">Sign Up!</Button>
+          </fieldset>
         </Form>
       </ReactModal>
       <SignupButton onClick={openModal}>Sign Up</SignupButton>
     </>
-  )
+  );
 
-}
+};
+
+SignUp.propTypes = {
+  SignupButton: PropTypes.elementType
+};
