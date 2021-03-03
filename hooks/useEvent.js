@@ -11,5 +11,5 @@ export const useEvent = (eventID, initialData) => {
     event: data,
     eventIsLoading: !error && !data,
     eventIsError: error
-  }
-}
+  };
+};
