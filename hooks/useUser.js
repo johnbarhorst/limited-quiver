@@ -15,6 +15,6 @@ export const useUser = (initialData) => {
     userIsLoading: !error && !data,
     userIsError: error,
     mutate,
-  }
-}
+  };
+};
 

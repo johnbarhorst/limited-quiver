@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types';
-import nextConnect from 'next-connect';
-import middleware from 'middleware/middleware';
+// import PropTypes from 'prop-types';
+// import nextConnect from 'next-connect';
+// import middleware from 'middleware/middleware';
 import { useUser } from 'hooks';
 import { Layout, Login, SignUp, LogoutButton } from 'components';
 
@@ -53,6 +53,6 @@ export default ProfilesHome;
 //   };
 // }
 
-ProfilesHome.propTypes = {
-  user: PropTypes.object
-};
+// ProfilesHome.propTypes = {
+//   user: PropTypes.object
+// };
