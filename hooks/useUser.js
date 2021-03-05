@@ -8,10 +8,7 @@ import { fetcher } from 'lib/api-helpers';
 // Some other option? 
 
 export const useUser = (initialData) => {
-  console.log('Hitting useUser');
   const { data, error, mutate } = useSWR('/api/user', fetcher, initialData ? { initialData } : null);
-  console.log('useUser data', data);
-  console.log('useUser error', error);
   return {
     user: data,
     userIsLoading: !error && !data,
