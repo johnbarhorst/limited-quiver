@@ -14,11 +14,11 @@ import League from 'models/LeagueModel';
 const middleware = nextConnect();
 
 middleware
-  .use(sessionMiddleware)
   .use(async (req, res, next) => {
     await dbConnect('Middleware.js');
     next();
   })
+  .use(sessionMiddleware)
   .use(passport.initialize()) // passport middleware handles authenthentication, which populates req.user
   .use(passport.session());
 
