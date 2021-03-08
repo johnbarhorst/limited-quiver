@@ -1,6 +1,6 @@
 import nextConnect from 'next-connect';
 import passport from 'lib/passport-config';
-import session from './session';
+import sessionMiddleware from './session';
 import { dbConnect } from 'lib';
 
 /* eslint-disable no-unused-vars */
@@ -14,7 +14,7 @@ import League from 'models/LeagueModel';
 const middleware = nextConnect();
 
 middleware
-  .use(session)
+  .use(sessionMiddleware)
   .use(async (req, res, next) => {
     await dbConnect('Middleware.js');
     next();
