@@ -9,12 +9,11 @@ import { fetcher } from 'lib/api-helpers';
 
 export const useUser = (initialData) => {
   const { data, error, mutate } = useSWR('/api/user', fetcher, initialData ? { initialData } : null);
-
   return {
     user: data,
     userIsLoading: !error && !data,
     userIsError: error,
     mutate,
-  }
-}
+  };
+};
 

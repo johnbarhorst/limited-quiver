@@ -3,6 +3,7 @@ import passport from 'lib/passport-config';
 import session from './session';
 import { dbConnect } from 'lib';
 
+/* eslint-disable no-unused-vars */
 // We aren't using these here. But it initializes the schemas into Mongoose.
 // Otherwise, we get an error doing things like user.populate()
 // Feels weird, there may be a 'better' way. But head + wall cure right now.
@@ -11,7 +12,7 @@ import User from 'models/UserModel';
 import League from 'models/LeagueModel';
 
 const middleware = nextConnect();
-dbConnect("Middleware.js");
+dbConnect('Middleware.js');
 
 middleware
   .use(session)
