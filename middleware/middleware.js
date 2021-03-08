@@ -1,6 +1,6 @@
 import nextConnect from 'next-connect';
 import passport from 'lib/passport-config';
-import session from './session';
+import sessionMiddleware from './session';
 import { dbConnect } from 'lib';
 
 /* eslint-disable no-unused-vars */
@@ -12,10 +12,13 @@ import User from 'models/UserModel';
 import League from 'models/LeagueModel';
 
 const middleware = nextConnect();
-dbConnect('Middleware.js');
 
 middleware
-  .use(session)
+  .use(async (req, res, next) => {
+    await dbConnect('Middleware.js');
+    next();
+  })
+  .use(sessionMiddleware)
   .use(passport.initialize()) // passport middleware handles authenthentication, which populates req.user
   .use(passport.session());
 
