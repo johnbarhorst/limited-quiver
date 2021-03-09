@@ -3,11 +3,15 @@ import nextConnect from 'next-connect';
 import middleware from 'middleware/middleware';
 import Event from 'models/EventModel';
 import { Layout, EventFullDisplay } from 'components';
+import { DeleteEventButton } from 'components/DeleteEventButton';
 
+// TODO Why am I passing the event here, and also fetching it in getServerSideProps?
+// I think original thought was live updates on the event. Re-explore this whole set up.
 const EventPage = ({ event }) => {
   return (
     <Layout>
       <EventFullDisplay eventId={event._id} initialData={event} />
+      <DeleteEventButton event={event} >Delete Event</DeleteEventButton>
     </Layout>
   );
 };

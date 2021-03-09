@@ -26,6 +26,7 @@ const EventsHome = () => {
           <UserEvents />
         </section>
         <section>
+          <h3>All Events</h3>
           <AllEventsList />
         </section>
       </Wrapper>
