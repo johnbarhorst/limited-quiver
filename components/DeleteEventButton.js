@@ -17,7 +17,6 @@ export const DeleteEventButton = ({ children, event, DeleteEventButton = Button_
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   
-
   const handleDelete = async () => {
     setIsLoading(true);
     const res = await fetch('/api/events/deleteEvent', {
@@ -35,6 +34,7 @@ export const DeleteEventButton = ({ children, event, DeleteEventButton = Button_
       closeModal();
       return router.push('/events');
     } else {
+      // TODO: Better error handling, once we have an idea of what all might happen.
       setIsLoading(false);
       const response = await res.json();
       console.log(response);
