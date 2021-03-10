@@ -1,13 +1,17 @@
 import { Button_LG, CloseButton } from 'elements';
+import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import ReactModal from 'react-modal';
+import { useToastContext } from 'state';
 
 ReactModal.setAppElement('#__next');
 
 export const DeleteEventButton = ({ children, event, DeleteEventButton = Button_LG }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { addToast } = useToastContext();
+  const router = useRouter();
 
   // Modal Controls
   const openModal = () => setIsModalOpen(true);
@@ -25,7 +29,12 @@ export const DeleteEventButton = ({ children, event, DeleteEventButton = Button_
       console.log(deletedEvent);
     }
     setIsLoading(false);
+    addToast({
+      title: 'Event Deleted',
+      message: `${event.name} has been removed from the database`
+    });
     closeModal();
+    router.push('/events');
   };
   return (
     <>
