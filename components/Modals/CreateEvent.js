@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import ReactModal from 'react-modal';
 import { useToastContext } from 'state';
-import { useInput, useUser} from 'hooks';
+import { useInput, useUser } from 'hooks';
 import { Form, Button_LG, Button, CloseButton, CheckboxLabel } from 'elements';
 
 
 ReactModal.setAppElement('#__next');
+// TODO: Create ability to add users as participants when creating the event? Or have that occur after event creation?
+/* eslint-disable no-unused-vars */
 
 export const CreateEvent = ({ CreateEventButton = Button_LG }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -65,9 +67,9 @@ export const CreateEvent = ({ CreateEventButton = Button_LG }) => {
       setLoading(false);
       addToast({
         title: 'New Event Created!',
-        message: `${response.name} created.`
+        message: `${response.newEvent.name} created.`
       });
-      router.push(`/events/${response._id}`);
+      router.push(`/events/${response.newEvent._id}`);
     }
     // TODO: Error handling
   };

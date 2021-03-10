@@ -11,16 +11,27 @@ const UserEvents = () => {
       <Login />
     </>
   );
-  const { events } = user;
+  const { participatingEvents, createdEvents } = user;
 
   return (
-    <div>
-      {events.length > 0 ? events.map(
-        event => <EventSmallDisplay event={event} key={event._id} />) 
-        : 
-        <p>Looks like you don&apos;t have any events yet!</p>
-      }
-    </div>
+    <>
+      <div>
+        <h3>Participating Events</h3>
+        {participatingEvents.length > 0 ? participatingEvents.map(
+          event => <EventSmallDisplay event={event} key={event._id} />) 
+          : 
+          <p>Looks like you don&apos;t have any events yet!</p>
+        }
+      </div>
+      <div>
+        <h3>Created Events</h3>
+        {createdEvents.length > 0 ? createdEvents.map(
+          event => <EventSmallDisplay event={event} key={event._id} />) 
+          : 
+          <p>Looks like you haven&apos;t created have any events yet!</p>
+        }
+      </div>
+    </>
   );
 };
 
