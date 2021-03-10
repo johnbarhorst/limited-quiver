@@ -23,7 +23,6 @@ export const CreateEvent = ({ CreateEventButton = Button_LG }) => {
   const [participantCap, resetParticipantCap] = useInput(1);
   const [rounds, resetRounds] = useInput(1);
   const [shotsPerRound, resetShotsPerRound] = useInput(1);
-  const [participantList, setParticipantList] = useState([user]);
 
   // Modal Controls
   const openModal = () => setIsModalOpen(true);
@@ -51,8 +50,7 @@ export const CreateEvent = ({ CreateEventButton = Button_LG }) => {
       startDate: new Date(),
       participantCap: parseInt(participantCap.value),
       private: isPrivateEvent.value,
-      participants: participantList,
-    };
+    }; 
     const createEvent = await fetch('/api/events/createevent', {
       method: 'POST',
       headers: {
