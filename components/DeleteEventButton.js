@@ -27,14 +27,18 @@ export const DeleteEventButton = ({ children, event, DeleteEventButton = Button_
     if(res.ok) {
       const deletedEvent = await res.json();
       console.log(deletedEvent);
+      setIsLoading(false);
+      addToast({
+        title: 'Event Deleted',
+        message: `${event.name} has been removed from the database`
+      });
+      closeModal();
+      return router.push('/events');
+    } else {
+      setIsLoading(false);
+      const response = await res.json();
+      console.log(response);
     }
-    setIsLoading(false);
-    addToast({
-      title: 'Event Deleted',
-      message: `${event.name} has been removed from the database`
-    });
-    closeModal();
-    router.push('/events');
   };
   return (
     <>
