@@ -8,8 +8,8 @@ export const BackButton = () => {
     <BTN onClick={() => router.back()} >
       &larr;
     </BTN>
-  )
-}
+  );
+};
 
 const BTN = styled.button`
   background: none;

@@ -15,7 +15,7 @@ handler.post(async (req, res) => {
   const newEvent = new Event(data);
   newEvent.save(error => {
     if (error) {
-      res.status(500).json({ message: "Error saving new event to database", error });
+      res.status(500).json({ message: 'Error saving new event to database', error });
       return;
     }
   });
@@ -25,7 +25,7 @@ handler.post(async (req, res) => {
   creator.events.push(newEvent.id);
   await creator.save((error) => {
     if (error) {
-      res.status(500).json({ message: "Error saving new event to the current user", error });
+      res.status(500).json({ message: 'Error saving new event to the current user', error });
       return;
     }
   });
