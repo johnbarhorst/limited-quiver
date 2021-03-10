@@ -9,7 +9,6 @@ import { dbConnect } from 'lib';
 // Feels weird, there may be a 'better' way. But head + wall cure right now.
 import Event from 'models/EventModel';
 import User from 'models/UserModel';
-import League from 'models/LeagueModel';
 import Participant from 'models/ParticipantModel';
 
 const middleware = nextConnect();
