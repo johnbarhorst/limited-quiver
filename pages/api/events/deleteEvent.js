@@ -6,6 +6,8 @@ import Event from 'models/EventModel';
 const handler = nextConnect();
 handler.use(middleware);
 
+
+// TODO: Only allowed for owners, maybe admins?
 handler.delete(async (req, res) => { 
   const eventData = JSON.parse(req.body);
   try {
