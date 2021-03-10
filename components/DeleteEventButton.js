@@ -7,7 +7,7 @@ import { useToastContext } from 'state';
 
 ReactModal.setAppElement('#__next');
 
-export const DeleteEventButton = ({ children, event, DeleteEventButton = Button_LG }) => {
+export const DeleteEventButton = ({ children, event, Button = Button_LG }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { addToast } = useToastContext();
@@ -56,15 +56,15 @@ export const DeleteEventButton = ({ children, event, DeleteEventButton = Button_
         <h3>Are you sure you want to delete event</h3>
         <button disabled={isLoading} type="button" onClick={handleDelete}>{isLoading ? 'Deleting' : 'YES!'}</button><button type="button" onClick={closeModal}>NO WAY!</button>
       </ReactModal>
-      <DeleteEventButton onClick={openModal}>
+      <Button onClick={openModal}>
         {children}
-      </DeleteEventButton>
+      </Button>
     </>
   );
 };
 
 DeleteEventButton.propTypes = {
   children: PropTypes.elementType,
-  DeleteEventButton: PropTypes.elementType,
+  Button: PropTypes.elementType,
   event: PropTypes.object
 };
