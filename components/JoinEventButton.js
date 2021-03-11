@@ -6,7 +6,7 @@ import { Button_LG, CloseButton } from 'elements';
 
 ReactModal.setAppElement('#__next');
 
-export const JoinEventButton = ({ Button = Button_LG, children, eventId }) => {
+export const JoinEventButton = ({ Button = Button_LG, children, event }) => {
   const { addToast } = useToastContext();
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -25,16 +25,17 @@ export const JoinEventButton = ({ Button = Button_LG, children, eventId }) => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(eventId)
+      body: JSON.stringify(event._id)
     });
     if(joinEvent.ok) {
       // on success, toast and do ui stuff
       const res = await joinEvent.json();
-      console.log(res);
       addToast({
         title: 'Success!',
         message: `You have succesfully joined ${res.event.name}`
       });
+      setIsLoading(false);
+      closeModal();
     } else if(joinEvent.status === 422) {
       // on failure notify as to why
       const res = await joinEvent.json();
@@ -55,8 +56,14 @@ export const JoinEventButton = ({ Button = Button_LG, children, eventId }) => {
         onRequestClose={closeModal}
       >
         <CloseButton clickHandler={closeModal} />
+        <div>
+          <h3>Join {event.name}</h3>
+          {errorMessage && <p>{errorMessage}</p>}
+          <Button onClick={addParticipant} disabled={isLoading}>Join!</Button>
+        </div>
       </ReactModal>
-      <Button disabled={isLoading} onClick={addParticipant} >
+
+      <Button onClick={openModal}>
         {children}
       </Button>
     </>
@@ -66,5 +73,8 @@ export const JoinEventButton = ({ Button = Button_LG, children, eventId }) => {
 JoinEventButton.propTypes = {
   Button: PropTypes.elementType,
   children: PropTypes.any,
-  eventId: PropTypes.string
+  event: PropTypes.shape({
+    _id: PropTypes.string,
+    name: PropTypes.string
+  })
 };

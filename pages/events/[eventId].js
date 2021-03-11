@@ -15,7 +15,7 @@ const EventPage = ({ event }) => {
       <EventFullDisplay eventId={event._id} initialData={event} />
       {/* Make sure user has permissions to be deleting.
       */}
-      <JoinEventButton eventId={event._id}>Join This Event</JoinEventButton>
+      <JoinEventButton event={event}>Join This Event</JoinEventButton>
       {user._id === event.createdBy._id && <DeleteEventButton event={event} >Delete Event</DeleteEventButton>}
     </Layout>
   );
