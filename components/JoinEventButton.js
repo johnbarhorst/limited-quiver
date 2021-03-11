@@ -6,6 +6,8 @@ import { Button_LG, CloseButton } from 'elements';
 
 ReactModal.setAppElement('#__next');
 
+// Using a modal for this. If later I want to add more to the process of joining and such, it can be displayed more easily.
+
 export const JoinEventButton = ({ Button = Button_LG, children, event }) => {
   const { addToast } = useToastContext();
   const [isLoading, setIsLoading] = useState(false);
@@ -19,29 +21,33 @@ export const JoinEventButton = ({ Button = Button_LG, children, event }) => {
   const addParticipant = async () => {
     setIsLoading(true);
     setErrorMessage(null);
-    // send event to server for processing
-    const joinEvent = await fetch('/api/events/addParticipant', {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(event._id)
-    });
-    if(joinEvent.ok) {
-      // on success, toast and do ui stuff
-      const res = await joinEvent.json();
-      addToast({
-        title: 'Success!',
-        message: `You have succesfully joined ${res.event.name}`
+    try {
+      const joinEvent = await fetch('/api/events/addParticipant', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(event._id)
       });
-      setIsLoading(false);
-      closeModal();
-    } else if(joinEvent.status === 422) {
-      // on failure notify as to why
       const res = await joinEvent.json();
-      setErrorMessage(res.message);
+      // send event to server for processing
+      if(joinEvent.ok) {
+        // on success, toast and do ui stuff
+        addToast({
+          title: 'Success!',
+          message: `You have succesfully joined ${res.event.name}`
+        });
+        setIsLoading(false);
+        closeModal();
+      } else if(joinEvent.status === 422) {
+        // on failure notify as to why
+        setErrorMessage(res.message);
+      }
+      setIsLoading(false);
+
+    } catch(error) {
+      setErrorMessage(error.message);
     }
-    setIsLoading(false);
   };
   return (
     <>
@@ -55,14 +61,16 @@ export const JoinEventButton = ({ Button = Button_LG, children, event }) => {
         }}
         onRequestClose={closeModal}
       >
-        <CloseButton clickHandler={closeModal} />
+        <CloseButton clickHandler={() => { 
+          setErrorMessage(null);
+          closeModal(); 
+        }} />
         <div>
           <h3>Join {event.name}</h3>
           {errorMessage && <p>{errorMessage}</p>}
           <Button onClick={addParticipant} disabled={isLoading}>Join!</Button>
         </div>
       </ReactModal>
-
       <Button onClick={openModal}>
         {children}
       </Button>
