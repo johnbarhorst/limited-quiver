@@ -10,9 +10,9 @@ export const LogoutButton = () => {
       method: 'DELETE',
     });
     mutate(null);
-  }
+  };
 
   return (
     <Button onClick={() => handleLogout()}>Logout</Button>
-  )
-}
+  );
+};
