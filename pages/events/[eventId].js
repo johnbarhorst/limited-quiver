@@ -2,35 +2,20 @@ import PropTypes from 'prop-types';
 import nextConnect from 'next-connect';
 import middleware from 'middleware/middleware';
 import Event from 'models/EventModel';
-import { Layout, EventFullDisplay } from 'components';
-import { DeleteEventButton } from 'components/DeleteEventButton';
+import { Layout, EventFullDisplay, DeleteEventButton, JoinEventButton } from 'components';
 import { useUser } from 'hooks';
 
 const EventPage = ({ event }) => {
   const { user } = useUser();
-  const addParticipant = async () => {
-    // send event to server for processing
-    console.log(event._id);
-    const joinEvent = await fetch('/api/events/addParticipant', {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(event._id)
-    });
-    const res = await joinEvent.json();
-    console.log(res);
-    // on success, toast and do ui stuff
-    // on failure notify as to why
-  };
+
+  // TODO: Different views depending on user state and permissions
   return (
     <Layout>
       {/* TODO: Should EventFullDisplay be querying for events as well? Or do we just need the initial data here? */}
       <EventFullDisplay eventId={event._id} initialData={event} />
       {/* Make sure user has permissions to be deleting.
-        TODO: Set up roles and permissions, have multiple event views, depending on role
       */}
-      <button type="button" onClick={addParticipant} >Join This Event</button>
+      <JoinEventButton eventId={event._id}>Join This Event</JoinEventButton>
       {user._id === event.createdBy._id && <DeleteEventButton event={event} >Delete Event</DeleteEventButton>}
     </Layout>
   );

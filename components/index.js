@@ -1,4 +1,6 @@
 // Components Index
+export * from './DeleteEventButton';
+export * from './JoinEventButton';
 export * from './Layout';
 export * from './Modals';
 export * from './Utilities';
