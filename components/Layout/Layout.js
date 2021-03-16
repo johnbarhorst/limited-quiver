@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import PropTypes from 'prop-types';
 import { Navigation, ToastModule } from 'components';
-import { MainLayout } from 'components/styles/MainLayout';
+import { MainLayoutStyles } from 'components/styles/MainLayoutStyles';
 
 export const Layout = ({ children, title }) => {
   return (
@@ -13,9 +13,9 @@ export const Layout = ({ children, title }) => {
       </Head>
       <ToastModule position={'BOTTOM_RIGHT'} />
       <Navigation />
-      <MainLayout>
+      <MainLayoutStyles>
         {children}
-      </MainLayout>
+      </MainLayoutStyles>
     </>
   );
 };
