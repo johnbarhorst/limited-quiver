@@ -2,28 +2,11 @@ import PropTypes from 'prop-types';
 import nextConnect from 'next-connect';
 import middleware from 'middleware/middleware';
 import Event from 'models/EventModel';
-import { Layout, EventFullDisplay, DeleteEventButton, JoinEventButton } from 'components';
-import { useUser } from 'hooks';
+import { SingleEventPage } from 'components';
+
 
 const EventPage = ({ event }) => {
-  const { user } = useUser();
-
-  if(!user) return (
-    <Layout title={`Events | ${event.name}`}>
-      <EventFullDisplay eventId={event._id} initialData={event} />
-    </Layout>
-  );
-
-  // TODO: Different views depending on user state and permissions
-  return (
-    <Layout title={`Events | ${event.name}`}>
-      {/* TODO: Should EventFullDisplay be querying for events as well? Or do we just need the initial data here? */}
-      <EventFullDisplay eventId={event._id} initialData={event} />
-      {/* Make sure user has permissions to delete. */}
-      <JoinEventButton event={event}>Join This Event</JoinEventButton>
-      {user._id === event.createdBy._id && <DeleteEventButton event={event} >Delete Event</DeleteEventButton>}
-    </Layout>
-  );
+  return <SingleEventPage event={event} />;
 };
 
 EventPage.propTypes = {

@@ -2,29 +2,13 @@
 // import nextConnect from 'next-connect';
 // import middleware from 'middleware/middleware';
 import { useUser } from 'hooks';
-import { Layout, Login, SignUp, LogoutButton } from 'components';
+import { LoggedInUserPage, LoggedOutUserPage } from 'components';
 
 
 const ProfilesHome = () => {
   const { user } = useUser();
-
-  return (
-    <Layout title={user?.username}>
-      <h1>
-        {user ? user.username : 'User Profiles'}
-      </h1>
-      <div>
-        {user ?
-          <LogoutButton />
-          :
-          <>
-            <Login />
-            <SignUp />
-          </>
-        }
-      </div>
-    </Layout>
-  );
+  if(user) return <LoggedInUserPage user={user} />;
+  return <LoggedOutUserPage />;
 };
 
 export default ProfilesHome;

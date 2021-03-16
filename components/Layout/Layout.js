@@ -1,10 +1,7 @@
 import Head from 'next/head';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
-
-
 import { Navigation, ToastModule } from 'components';
+import { MainLayout } from 'components/styles/MainLayout';
 
 export const Layout = ({ children, title }) => {
   return (
@@ -16,9 +13,9 @@ export const Layout = ({ children, title }) => {
       </Head>
       <ToastModule position={'BOTTOM_RIGHT'} />
       <Navigation />
-      <Wrapper>
+      <MainLayout>
         {children}
-      </Wrapper>
+      </MainLayout>
     </>
   );
 };
@@ -28,9 +25,5 @@ Layout.propTypes = {
   title: PropTypes.string
 };
 
-const Wrapper = styled(motion.main)`
-  background: ${props => props.theme.colors.bgPrimary};
-  padding-bottom: ${props => props.theme.sizes.navHeightMobile}; 
-  color: ${props => props.theme.colors.fontPrimary};
-`;
+
 
