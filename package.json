@@ -27,7 +27,8 @@
     "react-icons": "^3.11.0",
     "react-modal": "^3.11.2",
     "styled-components": "^5.1.1",
-    "swr": "^0.3.8"
+    "swr": "^0.3.8",
+    "validator": "^13.5.2"
   },
   "devDependencies": {
     "babel-plugin-styled-components": "^1.11.1",
