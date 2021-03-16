@@ -4,11 +4,12 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import {
   CreateEvent,
+  EventSmallDisplay,
   Layout,
 } from 'components';
 import { H2 } from 'elements';
-import UserEvents from 'components/UserEvents';
 import { AllEventsList } from 'components/AllEventsList';
+import WithUser from 'components/WithUser';
 
 const EventsHome = () => {
   return (
@@ -23,7 +24,16 @@ const EventsHome = () => {
       <Wrapper>
         <section>
           <h3>Your Events</h3>
-          <UserEvents />
+          <WithUser render={(user) => (
+            <div>
+              <h4>Participating Events</h4>
+              {user.participatingEvents.length > 0 ? user.participatingEvents.map(
+                event => <EventSmallDisplay event={event} key={event._id} />) 
+                : 
+                <p>Looks like you don&apos;t have any events yet!</p>
+              }
+            </div>
+          )} /> 
         </section>
         <section>
           <h3>All Events</h3>

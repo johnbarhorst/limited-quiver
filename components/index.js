@@ -8,3 +8,4 @@ export * from './EventFullDisplay';
 export * from './EventSmallDisplay';
 export * from './UserDisplay';
 export * from './EventList';
+export * from './WithUser';
