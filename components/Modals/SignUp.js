@@ -38,7 +38,10 @@ export const SignUp = ({ SignupButton = Button }) => {
     // get user data from the form states
     const formData = {
       username: username.value,
-      email: email.value,
+      email: {
+        address: email.value,
+        verified: false,
+      },
       password: password.value
     };
     const newUser = await fetch('/api/user', {

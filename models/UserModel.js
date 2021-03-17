@@ -10,9 +10,10 @@ const UserSchema = new Schema({
     maxlength: [16, 'User name must be between 3 and 16 characters']
   },
   email: {
-    type: String,
-    required: [true, 'Email address must be provided.'],
-    unique: [true, 'That email address has already been registered.']
+    address: {    type: String,
+      required: [true, 'Email address must be provided.'],
+      unique: [true, 'That email address has already been registered.'] },
+    verified: Boolean
   },
   password: {
     type: String,
