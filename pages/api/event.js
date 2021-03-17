@@ -1,10 +1,11 @@
 import nextConnect from 'next-connect';
 import middleware from 'middleware/middleware';
-import { getEvent } from 'lib/eventHandlers';
+import { deleteEvent, getEvent } from 'lib/eventHandlers';
 
 const handler = nextConnect();
 handler.use(middleware);
 
 handler.get(getEvent);
+handler.delete(deleteEvent);
 
 export default handler;

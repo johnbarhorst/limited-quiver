@@ -19,8 +19,11 @@ export const DeleteEventButton = ({ children, event, Button = Button_LG }) => {
   
   const handleDelete = async () => {
     setIsLoading(true);
-    const res = await fetch('/api/events/deleteEvent', {
+    const res = await fetch('/api/event', {
       method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(event)
     });
     if(res.ok) {
