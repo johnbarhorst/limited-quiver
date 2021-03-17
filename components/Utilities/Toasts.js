@@ -23,7 +23,7 @@ const Toast = ({ title = 'Toast!', message = 'Message', id, closeToast = f => f 
 Toast.propTypes = {
   title: PropTypes.string,
   message: PropTypes.string,
-  id: PropTypes.string,
+  id: PropTypes.number,
   closeToast: PropTypes.func,
 };
 
