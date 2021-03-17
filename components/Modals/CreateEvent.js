@@ -51,7 +51,7 @@ export const CreateEvent = ({ CreateEventButton = Button_LG }) => {
       participantCap: parseInt(participantCap.value),
       private: isPrivateEvent.value,
     }; 
-    const createEvent = await fetch('/api/events/createevent', {
+    const createEvent = await fetch('/api/event', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
