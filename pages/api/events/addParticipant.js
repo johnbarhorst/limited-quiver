@@ -17,10 +17,10 @@ handler.patch(async (req, res) => {
   try {
     // Get event by ID
     const event = await Event.findById(eventId);
-
+    console.log('Event', event);
     // get up to date user data.
     const currentUser = await User.findById(req.user._id);
-
+    console.log('Current user', currentUser);
     // findById will return 'falsey' if there isn't any item in the db with that id.
     if (!event) {
       return res.status(404).json({ success: false, message: `No event found with the id of ${eventId}` });

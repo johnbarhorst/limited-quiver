@@ -6,7 +6,8 @@ import { SingleEventPage } from 'components';
 
 
 const EventPage = ({ event }) => {
-  return <SingleEventPage event={event} />;
+  console.log(event);
+  return <SingleEventPage eventId={event._id} initialData={event} />;
 };
 
 EventPage.propTypes = {
