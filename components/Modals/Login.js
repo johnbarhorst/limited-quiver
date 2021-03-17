@@ -1,11 +1,12 @@
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 import ReactModal from 'react-modal';
 import { CloseButton, Form, TextInput, Button } from 'elements';
 import { useInput, useUser, useLoadingState, loadingStateActionTypes } from 'hooks';
 
-ReactModal.setAppElement("#__next");
+ReactModal.setAppElement('#__next');
 
-export const Login = ({ LoginButton = Button }) => {
+export function Login({ LoginButton = Button }) {
   const { mutate } = useUser();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [{ loading: loggingIn, error: loginError, success: loginSuccess }, loginDispatch] = useLoadingState();
@@ -19,15 +20,15 @@ export const Login = ({ LoginButton = Button }) => {
   const handleSubmit = async e => {
     e.preventDefault();
     // loading state for the log in, disabling the button below
-    //TODO: check accessibility protocol for disabling buttons
+    //TODO: check accessibility rules for disabling buttons
     loginDispatch({ type: loadingStateActionTypes.loading });
 
     const credentials = {
       email: email.value,
       password: password.value
-    }
+    };
     const user = await fetch('/api/auth', {
-      method: "POST",
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -45,7 +46,7 @@ export const Login = ({ LoginButton = Button }) => {
       loginDispatch({ type: loadingStateActionTypes.error });
       resetPassword();
     }
-  }
+  };
   return (
     <>
       <ReactModal
@@ -76,5 +77,9 @@ export const Login = ({ LoginButton = Button }) => {
       </ReactModal>
       <LoginButton onClick={openModal}>Log in</LoginButton>
     </>
-  )
+  );
 }
+
+Login.propTypes = {
+  LoginButton: PropTypes.elementType
+};
