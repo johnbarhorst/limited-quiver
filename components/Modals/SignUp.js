@@ -49,13 +49,12 @@ export const SignUp = ({ SignupButton = Button }) => {
       body: JSON.stringify(formData)
     });
     if (newUser.status === 201) {
-      await mutate('/api/user');
       addToast({
         title: 'Account Created',
         message: `Welcome to Limited Quiver, ${username.value}!`
       });
       setLoading(false);
-      closeModal();
+      await mutate('/api/user');
     } else if(newUser.status === 400) {
       // TODO add more error handling.
       const results = await newUser.json();
