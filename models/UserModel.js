@@ -21,10 +21,25 @@ const UserSchema = new Schema({
     select: false
   },
   participatingEvents: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
-  createdEvents: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
   friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 
-}, { timestamps: { createdAt: 'created_at' } });
+}, { 
+  timestamps: { 
+    createdAt: 'created_at' 
+  },
+  toJSON: {
+    virtuals: true
+  },
+  toObject: {
+    virtuals: true
+  }
+});
+
+UserSchema.virtual('createdEvents', {
+  ref: 'Event',
+  foreignField: 'createdBy',
+  localField: '_id',
+});
 
 const User = mongoose.models.User || mongoose.model('User', UserSchema);
 
