@@ -38,8 +38,7 @@ export function Login({ LoginButton = Button }) {
     if (user.status === 200) {
       loginDispatch({ type: loadingStateActionTypes.success });
       // use the mutate function from the SWR hook to refresh user data from our user endpoint once we have a session
-      mutate();
-      closeModal();
+      await mutate();
       // TODO what if server down? might need a bigger over all solution
       // This only really accounts for incorrect credentials
     } else if (user.status === 401) {

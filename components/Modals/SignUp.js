@@ -57,7 +57,7 @@ export const SignUp = ({ SignupButton = Button }) => {
         message: `Welcome to Limited Quiver, ${username.value}!`
       });
       setLoading(false);
-      await mutate('/api/user');
+      await mutate();
     } else if(newUser.status === 400) {
       // TODO add more error handling.
       const results = await newUser.json();
