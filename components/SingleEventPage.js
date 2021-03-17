@@ -1,38 +1,53 @@
 import PropTypes from 'prop-types';
-import { useUser } from 'hooks';
+import { useEvent, useUser } from 'hooks';
 import { Layout } from './Layout';
-import { 
-  EventFullDisplay,
-  JoinEventButton,
-  DeleteEventButton } from 'components';
+import styled from 'styled-components';
+import { motion } from 'framer-motion';
+import { JoinEventButton } from './JoinEventButton';
+import { DeleteEventButton } from './DeleteEventButton';
 
-export function SingleEventPage({ event }) {
-  const { user } = useUser();
+export const SingleEventPage = ({ eventId, initialData }) => {
+  const user = useUser();
+  const { event, eventIsError, eventIsLoading } = useEvent(eventId, initialData);
 
-  if(!user) return (
-    <Layout title={`Events | ${event.name}`}>
-      <EventFullDisplay eventId={event._id} initialData={event} />
+  if (eventIsLoading) return (
+    <Layout>
+      <h5>Loading event...</h5>
     </Layout>
   );
-
-  // TODO: Different views depending on user state and permissions
+  if (eventIsError) return (
+    <Layout>
+      <h5>We encountered an error while loading this event.</h5>
+    </Layout>
+  );
+  if(!event) return null;
   return (
-    <Layout title={`Events | ${event.name}`}>
-      {/* TODO: Should EventFullDisplay be querying for events as well? Or do we just need the initial data here? */}
-      <EventFullDisplay eventId={event._id} initialData={event} />
-      {/* Make sure user has permissions to delete. */}
-      <JoinEventButton event={event}>Join This Event</JoinEventButton>
-      {user._id === event.createdBy._id && <DeleteEventButton event={event} >Delete Event</DeleteEventButton>}
+    <Layout title={`${event.name}`}>
+      <h5>{event.name}</h5>
+      <EventStyles>
+        <ul>
+          <li>Created by: {event.createdBy.username}</li>
+          <li>Rounds: {event.rounds}</li>
+          <li>Shots Per Round: {event.shotsPerRound}</li>
+          <li>{event.private ? 'This is a private event' : 'This event is open to everyone'}</li>
+          <li>Participants: {event.participants.length}/{event.participantCap}</li>
+        </ul>
+        <JoinEventButton event={event}>Join This Event</JoinEventButton>
+        <DeleteEventButton event={event}>Delete Event</DeleteEventButton>
+      </EventStyles>
     </Layout>
   );
-}
+};
+
+const EventStyles = styled(motion.section)`
+  ul {
+    list-style: none;
+    
+  }
+`;
+
 
 SingleEventPage.propTypes = {
-  event: PropTypes.shape({
-    _id: PropTypes.string,
-    name: PropTypes.string,
-    createdBy: PropTypes.shape({
-      _id: PropTypes.string
-    })
-  })
+  eventId: PropTypes.string,
+  initialData: PropTypes.object
 };
