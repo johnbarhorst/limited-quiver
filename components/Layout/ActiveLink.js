@@ -33,7 +33,7 @@ export function ActiveLink({ href, children }) {
 
 ActiveLink.propTypes = {
   href: PropTypes.string,
-  children: PropTypes.elementType
+  children: PropTypes.any
 };
 
 const A = styled.a`
