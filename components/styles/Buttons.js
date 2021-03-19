@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { MdClear } from 'react-icons/md';
 import styled from 'styled-components';
 
 export const Button = styled(motion.button)`
@@ -20,7 +19,7 @@ export const Button_LG = styled(Button)`
   padding: 1.25rem 1.5rem;
 `;
 
-const CloseButtonStyle = styled(motion.button)`
+export const CloseButtonStyle = styled(motion.button)`
   position: absolute;
   top: 10px;
   right: 10px;
@@ -34,10 +33,3 @@ const CloseButtonStyle = styled(motion.button)`
   justify-content: center;
 `;
 
-export const CloseButton = ({ clickHandler = f => f }) => {
-  return (
-    <CloseButtonStyle onClick={clickHandler} >
-      <MdClear />
-    </CloseButtonStyle>
-  )
-}

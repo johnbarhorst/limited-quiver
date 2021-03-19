@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
@@ -9,26 +10,31 @@ import styled from 'styled-components';
 
 // Since this is basically a custom Link component itself, I think we're good.
 
-export const ActiveLink = ({ href, children }) => {
+export function ActiveLink({ href, children }) {
   const router = useRouter();
 
   const isCurrentPath = (href, pathname) => {
     if (href === '/' && pathname === '/') return true;
     if (href !== '/') return pathname.includes(href);
     return false;
-  }
+  };
 
   const handleClick = (e) => {
     e.preventDefault();
     router.push(href);
-  }
+  };
 
   return (
     <A href={href} onClick={handleClick} isActive={isCurrentPath(href, router.pathname) ? true : false}>
       {children}
     </A>
-  )
+  );
 }
+
+ActiveLink.propTypes = {
+  href: PropTypes.string,
+  children: PropTypes.elementType
+};
 
 const A = styled.a`
   color: ${props => props.isActive ? props.theme.fonts.activeColor : props.theme.fonts.navIcon};

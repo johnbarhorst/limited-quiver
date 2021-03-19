@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { EventSmallDisplay } from 'components';
 
-export const EventList = ({ events, clickHandler }) => {
+export const EventList = ({ events }) => {
 
   if (events.length < 1) {
     return (
@@ -13,7 +13,7 @@ export const EventList = ({ events, clickHandler }) => {
 
   return (
     <>
-      {events.map(event => <EventSmallDisplay event={event} key={event._id} clickHandler={() => clickHandler(event._id)} />)}
+      {events.map(event => <EventSmallDisplay event={event} key={event._id} />)}
     </>
   );
 };
@@ -26,5 +26,4 @@ EventList.propTypes = {
       _id: PropTypes.string
     })
   })),
-  clickHandler: PropTypes.func
 };

@@ -4,7 +4,9 @@ import { useRouter } from 'next/router';
 import ReactModal from 'react-modal';
 import { useToastContext } from 'state';
 import { useInput, useUser } from 'hooks';
-import { Form, Button_LG, Button, CloseButton, CheckboxLabel } from 'elements';
+import { Button, Button_LG } from 'components/styles/Buttons';
+import { CloseButton } from 'components/CloseButton';
+import { CheckboxLabel, Form } from 'components/styles/FormElements';
 
 
 ReactModal.setAppElement('#__next');

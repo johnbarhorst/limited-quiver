@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import ReactModal from 'react-modal';
-import { CloseButton, Form, TextInput, Button } from 'elements';
 import { useInput, useUser, useLoadingState, loadingStateActionTypes } from 'hooks';
+import { CloseButton } from 'components/CloseButton';
+import { Form, TextInput } from 'components/styles/FormElements';
+import { Button } from 'components/styles/Buttons';
 
 ReactModal.setAppElement('#__next');
 

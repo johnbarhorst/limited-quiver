@@ -17,6 +17,7 @@ const ParticipantSchema = new Schema({
     ref: 'Score'
   }],
   // TODO: Permissions and or roles
+  // permissions: array of enum values? canEdit, canAddParticipant, etc?
 });
 
 const Participant = mongoose.models.Participant || mongoose.model('Participant', ParticipantSchema);

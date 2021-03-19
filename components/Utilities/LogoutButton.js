@@ -1,4 +1,4 @@
-import { Button } from 'elements';
+import { Button } from 'components/styles/Buttons';
 import { useUser } from 'hooks';
 
 

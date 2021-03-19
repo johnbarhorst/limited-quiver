@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import Link from 'next/link';
-import { EventCard_Small } from 'elements';
 import { GiArcher } from 'react-icons/gi';
+import { EventCard_Small } from './styles/Cards';
 
 export const EventSmallDisplay = ({ event }) => {
   return (

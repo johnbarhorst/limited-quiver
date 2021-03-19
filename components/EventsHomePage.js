@@ -1,15 +1,14 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import {
+  AllEventsList,
   CreateEvent,
-  EventSmallDisplay,
+  EventList,
   Layout,
 } from 'components';
-import { H2 } from 'elements';
-import { AllEventsList } from 'components/AllEventsList';
-import { WithUser } from 'components/WithUser';
 import { useUser } from 'hooks';
 import { Login, SignUp } from './Modals';
+import { H2 } from './styles/Headings';
 
 export const EventsHomePage = () => {
   const { user } = useUser();
@@ -43,26 +42,14 @@ export const EventsHomePage = () => {
       <Wrapper>
         <section>
           <h3>Your Events</h3>
-          <WithUser render={(user) => (
-            <div>
-              <h4>Participating Events</h4>
-              {user.participatingEvents.length > 0 ? user.participatingEvents.map(
-                event => <EventSmallDisplay event={event} key={event._id} />) 
-                : 
-                <p>Looks like you don&apos;t have any events yet!</p>
-              }
-            </div>
-          )} /> 
-          <WithUser render={(user) => (
-            <div>
-              <h4>Created Events</h4>
-              {user.createdEvents.length > 0 ? user.createdEvents.map(
-                event => <EventSmallDisplay event={event} key={event._id} />) 
-                : 
-                <p>Looks like you don&apos;t have any events yet!</p>
-              }
-            </div>
-          )} /> 
+          <div>
+            <h4>Events You&apos;re Participating In</h4>
+            <EventList events={user.participatingEvents} />
+          </div>
+          <div>
+            <h4>Your Created Events</h4>
+            <EventList events={user.createdEvents} />
+          </div>
         </section>
         <section>
           <h3>All Events</h3>

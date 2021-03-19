@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useToastContext } from 'state';
-import { CloseButton } from 'elements';
+import { CloseButton } from 'components/CloseButton';
 
 const Toast = ({ title = 'Toast!', message = 'Message', id, closeToast = f => f }) => {
   return (

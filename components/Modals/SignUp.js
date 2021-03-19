@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactModal from 'react-modal';
-import { Form, Button, CloseButton } from 'elements';
 import { useInput, useMatchingInput, useUser } from 'hooks';
 import { useToastContext } from 'state';
+import { CloseButton } from 'components';
+import { Form } from 'components/styles/FormElements';
+import { Button } from 'components/styles/Buttons';
 
 ReactModal.setAppElement('#__next');
 

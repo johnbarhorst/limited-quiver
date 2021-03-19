@@ -1,9 +1,10 @@
-import { Button_LG, CloseButton } from 'elements';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import ReactModal from 'react-modal';
 import { useToastContext } from 'state';
+import { CloseButton } from './CloseButton';
+import { Button_LG } from './styles/Buttons';
 
 ReactModal.setAppElement('#__next');
 

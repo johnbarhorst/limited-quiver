@@ -8,7 +8,7 @@ import {
 } from 'react-icons/hi';
 import { GiArcher } from 'react-icons/gi';
 import { ActiveLink } from 'components';
-import { Nav } from 'elements';
+import { Nav } from 'components/styles/Nav';
 
 //  If we use styled components for the anchor tags, be sure to add the passHref to each Link.
 // This is a requirement with HOCs within Link tags, for SEO purposes.
@@ -17,25 +17,25 @@ export const LoggedInNav = () => {
   return (
     <Nav>
       <div>
-        <ActiveLink href={"/"} >
+        <ActiveLink href={'/'} >
           <HiOutlineHome />
           <span className="visible-hidden">Home</span>
         </ActiveLink>
       </div>
       <div>
-        <ActiveLink href={"/events"} >
+        <ActiveLink href={'/events'} >
           <HiOutlineCalendar />
           <span className="visible-hidden">Events</span>
         </ActiveLink>
       </div>
       <div>
-        <ActiveLink href={"/contact"} >
+        <ActiveLink href={'/contact'} >
           <HiOutlineChatAlt />
           <span className="visible-hidden">Contact</span>
         </ActiveLink>
       </div>
       <div>
-        <ActiveLink href={"/profiles"} >
+        <ActiveLink href={'/profiles'} >
           <GiArcher />
           <span className="visible-hidden">User</span>
         </ActiveLink>
@@ -47,5 +47,5 @@ export const LoggedInNav = () => {
         </a>
       </div>
     </Nav>
-  )
-}
+  );
+};
